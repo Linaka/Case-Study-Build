@@ -1,0 +1,14 @@
+{
+  "name": "local-first-case-study-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js",
+    "export:md": "node scripts/export-md.js",
+    "export:pdf": "node scripts/export-pdf.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.53.0"
+  }
+}

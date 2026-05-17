@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Monochrome route-planning frame</title>
+  <desc id="desc">A restrained black and white route diagram in a landscape frame.</desc>
+  <rect width="1200" height="675" fill="#f6f6f6"/>
+  <rect x="84" y="72" width="1032" height="531" rx="28" fill="#ffffff" stroke="#d8d8d8" stroke-width="2"/>
+  <path d="M182 482C264 332 351 374 438 268C525 162 624 175 713 273C802 371 887 380 1018 213" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round"/>
+  <path d="M182 482C264 332 351 374 438 268C525 162 624 175 713 273C802 371 887 380 1018 213" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 34"/>
+  <circle cx="182" cy="482" r="42" fill="#000000"/>
+  <circle cx="1018" cy="213" r="42" fill="#000000"/>
+  <circle cx="182" cy="482" r="15" fill="#ffffff"/>
+  <circle cx="1018" cy="213" r="15" fill="#ffffff"/>
+  <rect x="184" y="136" width="274" height="54" rx="27" fill="#efefef"/>
+  <rect x="704" y="472" width="312" height="54" rx="27" fill="#000000"/>
+  <rect x="224" y="154" width="194" height="18" rx="9" fill="#000000"/>
+  <rect x="746" y="490" width="228" height="18" rx="9" fill="#ffffff"/>
+</svg>

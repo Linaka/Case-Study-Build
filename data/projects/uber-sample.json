@@ -1,0 +1,82 @@
+{
+  "title": "Ride request portfolio case study",
+  "subtitle": "A monochrome editorial system for turning a complex mobility product story into a clear portfolio narrative.",
+  "year": "2026",
+  "sector": "Transportation and delivery",
+  "clientType": "Enterprise product",
+  "role": "Product strategy, design direction, frontend prototyping",
+  "context": "The product surface needed to explain a familiar ride request journey without flattening the operational complexity behind pricing, pickup quality, reliability and trust. The case study reframes that complexity as a sequence of design decisions a portfolio reader can understand quickly.",
+  "challenge": "The main communication challenge was balancing confidence with restraint. The work needed to feel commercially mature, but not promotional; detailed, but not overloaded; visually designed, but still legible as a serious product case study.",
+  "audience": "Hiring managers, design leads, product partners and technically minded reviewers who want to understand the role, reasoning, constraints and measurable outcomes behind the work.",
+  "approach": "The story is structured as eight paced pages: a confident cover, a project snapshot, the communication challenge, the approach, key visual decisions, outputs, impact and reflection. The design system uses alternating polarity to create momentum while keeping the colour palette deliberately narrow.",
+  "reflection": "The strongest version of this system is intentionally narrow. By removing colour choices and decorative variation, the case study has to earn attention through structure, typography, image pacing and the quality of the writing.",
+  "confidentialityNotes": "Sample content only. Replace with project-specific confidentiality rules and hide sensitive assets by setting visibility to hidden.",
+  "collaborators": [
+    "Product design",
+    "Content strategy",
+    "Engineering",
+    "Research"
+  ],
+  "keyDecisions": [
+    {
+      "title": "Use polarity as the primary rhythm",
+      "description": "Alternating white pages and black feature-band pages creates a strong editorial cadence without introducing accent colours or decorative gradients."
+    },
+    {
+      "title": "Make metadata feel designed",
+      "description": "Year, sector, client type and role are rendered as pill chips so the reader can scan context before reading the body copy."
+    },
+    {
+      "title": "Keep image frames disciplined",
+      "description": "Assets are placed in 4:3 or 16:9 frames with flat monochrome treatment so visuals support the story without competing with the typography."
+    }
+  ],
+  "outputs": [
+    {
+      "title": "Structured source data",
+      "description": "A portable JSON file captures project narrative, metadata, collaborators, impact and asset visibility."
+    },
+    {
+      "title": "Markdown case study",
+      "description": "A clean Markdown export supports quick publishing, editing and version control."
+    },
+    {
+      "title": "Designed PDF case study",
+      "description": "A Playwright export renders the same project data as an A4 editorial PDF using CSS paged media."
+    }
+  ],
+  "impact": [
+    {
+      "metric": "Single source of truth",
+      "description": "Project details live in one JSON file and can be exported into multiple formats without rewriting the story."
+    },
+    {
+      "metric": "Faster portfolio updates",
+      "description": "A local editor and preview route make it practical to refine copy, metadata and asset visibility before export."
+    },
+    {
+      "metric": "Consistent presentation",
+      "description": "The PDF theme translates the brand reference into repeatable layout, spacing, type and page rhythm."
+    }
+  ],
+  "assets": [
+    {
+      "path": "/assets/uber/route-frame.svg",
+      "caption": "A route-planning frame used on the cover and project snapshot.",
+      "visibility": "public",
+      "slot": "cover"
+    },
+    {
+      "path": "/assets/uber/decision-grid.svg",
+      "caption": "A decision grid showing the system rhythm for chips, cards and image frames.",
+      "visibility": "public",
+      "slot": "decisions"
+    },
+    {
+      "path": "/assets/uber/output-suite.svg",
+      "caption": "Export suite showing JSON, Markdown and PDF outputs from the same source.",
+      "visibility": "public",
+      "slot": "outputs"
+    }
+  ]
+}

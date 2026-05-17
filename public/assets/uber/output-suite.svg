@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Monochrome export output suite</title>
+  <desc id="desc">Three document panels representing JSON, Markdown and PDF export.</desc>
+  <rect width="1200" height="675" fill="#000000"/>
+  <rect x="96" y="90" width="280" height="496" rx="24" fill="#ffffff"/>
+  <rect x="460" y="90" width="280" height="496" rx="24" fill="#ffffff"/>
+  <rect x="824" y="90" width="280" height="496" rx="24" fill="#ffffff"/>
+  <rect x="136" y="136" width="116" height="34" rx="17" fill="#000000"/>
+  <rect x="500" y="136" width="178" height="34" rx="17" fill="#000000"/>
+  <rect x="864" y="136" width="112" height="34" rx="17" fill="#000000"/>
+  <rect x="136" y="234" width="200" height="14" rx="7" fill="#5e5e5e"/>
+  <rect x="136" y="272" width="156" height="14" rx="7" fill="#afafaf"/>
+  <rect x="136" y="310" width="184" height="14" rx="7" fill="#5e5e5e"/>
+  <rect x="500" y="234" width="168" height="14" rx="7" fill="#5e5e5e"/>
+  <rect x="500" y="272" width="198" height="14" rx="7" fill="#afafaf"/>
+  <rect x="500" y="310" width="140" height="14" rx="7" fill="#5e5e5e"/>
+  <rect x="864" y="214" width="200" height="112" rx="16" fill="#efefef"/>
+  <rect x="888" y="356" width="152" height="14" rx="7" fill="#5e5e5e"/>
+  <rect x="888" y="394" width="188" height="14" rx="7" fill="#afafaf"/>
+  <path d="M376 338H460" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+  <path d="M740 338H824" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="418" cy="338" r="12" fill="#ffffff"/>
+  <circle cx="782" cy="338" r="12" fill="#ffffff"/>
+</svg>
