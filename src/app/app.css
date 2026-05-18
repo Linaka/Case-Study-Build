@@ -95,6 +95,28 @@ body {
   gap: 16px;
 }
 
+.dashboard-section {
+  display: grid;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.dashboard-section:first-of-type {
+  margin-top: 0;
+}
+
+.dashboard-section__header {
+  display: grid;
+  gap: 2px;
+}
+
+.dashboard-section__header h2 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0;
+}
+
 .project-card,
 .form-card {
   border: 1px solid var(--hairline);
@@ -157,6 +179,18 @@ body {
   color: var(--body);
   font-size: 14px;
   font-weight: 500;
+}
+
+.field__counter {
+  justify-self: end;
+  color: var(--mute);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.field__counter[data-state="full"] {
+  color: var(--ink);
 }
 
 input,
@@ -244,6 +278,10 @@ select:focus,
   border-radius: var(--radius-card);
   background: var(--canvas-softer);
   padding: 16px;
+}
+
+.bd-proof-editor .asset-loader {
+  background: var(--canvas);
 }
 
 .image-placement {

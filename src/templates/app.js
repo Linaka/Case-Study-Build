@@ -1,4 +1,5 @@
 import { html } from "../lib/html.js";
+import { PROJECT_FIELD_LIMITS } from "../lib/limits.js";
 import { renderDocument } from "./layout.js";
 
 function text(value) {
@@ -20,31 +21,46 @@ function renderProjectCard(project) {
   </article>`;
 }
 
-function field(label, name, value, type = "text") {
+function renderBdDocumentCard(document) {
+  return html`<article class="project-card">
+    <div>
+      <p class="eyebrow">${document.year || "Draft"} · ${document.audience || "Business development"}</p>
+      <h2>${document.title}</h2>
+      <p>${document.subtitle}</p>
+    </div>
+    <nav class="button-row" aria-label="${document.title} actions">
+      <a class="button button--subtle" href="/bd-builder/${document.slug}">Edit</a>
+      <a class="button button--subtle" href="/bd/${document.slug}">Preview</a>
+      <a class="button button--primary" href="/api/bd-documents/${document.slug}" download>JSON</a>
+    </nav>
+  </article>`;
+}
+
+function field(label, name, value, type = "text", maxLength = PROJECT_FIELD_LIMITS[name]) {
   return html`<label class="field">
     <span>${label}</span>
-    <input name="${name}" type="${type}" value="${text(value)}">
+    <input name="${name}" type="${type}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
 
-function textarea(label, name, value, rows = 5) {
+function textarea(label, name, value, rows = 5, maxLength = PROJECT_FIELD_LIMITS[name]) {
   return html`<label class="field field--wide">
     <span>${label}</span>
-    <textarea name="${name}" rows="${rows}">${text(value)}</textarea>
+    <textarea name="${name}" rows="${rows}" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
 
-function itemField(label, fieldName, value) {
+function itemField(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListTitle) {
   return html`<label class="field">
     <span>${label}</span>
-    <input type="text" data-field="${fieldName}" value="${text(value)}">
+    <input type="text" data-field="${fieldName}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
 
-function itemTextarea(label, fieldName, value) {
+function itemTextarea(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListDescription) {
   return html`<label class="field field--wide">
     <span>${label}</span>
-    <textarea data-field="${fieldName}" rows="3">${text(value)}</textarea>
+    <textarea data-field="${fieldName}" rows="3" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
 
@@ -94,9 +110,9 @@ function imagePlacement({ title, description, slot, item }) {
     </header>
     ${imageLoader(item?.path)}
     <div class="field-grid field-grid--item">
-      ${itemField("Image path", "path", item?.path)}
+      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath)}
       ${visibilitySelect(item?.visibility)}
-      ${itemTextarea("Caption", "caption", item?.caption)}
+      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption)}
     </div>
   </section>`;
 }
@@ -108,7 +124,7 @@ function renderTitleDescriptionItem(item, index, titleLabel = "Title") {
       <button class="icon-button" type="button" data-remove-item aria-label="Remove item">Remove</button>
     </header>
     <div class="field-grid field-grid--item">
-      ${itemField(titleLabel, titleLabel === "Metric" ? "metric" : "title", item?.[titleLabel === "Metric" ? "metric" : "title"])}
+      ${itemField(titleLabel, titleLabel === "Metric" ? "metric" : "title", item?.[titleLabel === "Metric" ? "metric" : "title"], titleLabel === "Metric" ? PROJECT_FIELD_LIMITS.impactMetric : PROJECT_FIELD_LIMITS.titleListTitle)}
       ${itemTextarea("Description", "description", item?.description)}
     </div>
   </article>`;
@@ -124,9 +140,9 @@ function renderAssetItem(item, index) {
     </header>
     ${imageLoader(imagePath)}
     <div class="field-grid field-grid--item">
-      ${itemField("Image path", "path", item?.path)}
+      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath)}
       ${visibilitySelect(item?.visibility)}
-      ${itemTextarea("Caption", "caption", item?.caption)}
+      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption)}
     </div>
   </article>`;
 }
@@ -143,20 +159,36 @@ function structuredList({ title, listName, addLabel, items, renderItem }) {
   </section>`;
 }
 
-export function renderDashboard(projects) {
+export function renderDashboard(projects, bdDocuments = []) {
   const body = html`<main class="app-shell">
     <header class="app-header">
       <div>
         <p class="eyebrow">Portfolio system</p>
-        <h1>Case studies</h1>
+        <h1>Case studies and business development docs</h1>
       </div>
       <nav class="button-row" aria-label="Project creation">
         <a class="button button--subtle" href="/builder/new-project">New project</a>
+        <a class="button button--subtle" href="/bd-builder/new-business-development-doc">New BD doc</a>
         <a class="button button--primary" href="/builder/${projects[0]?.slug || "uber-sample"}">Open builder</a>
       </nav>
     </header>
-    <section class="project-list" aria-label="Projects">
-      ${projects.map(renderProjectCard)}
+    <section class="dashboard-section" aria-labelledby="bd-documents-heading">
+      <div class="dashboard-section__header">
+        <p class="eyebrow">Sales documents</p>
+        <h2 id="bd-documents-heading">Business development PDFs</h2>
+      </div>
+      <div class="project-list">
+        ${bdDocuments.map(renderBdDocumentCard)}
+      </div>
+    </section>
+    <section class="dashboard-section" aria-labelledby="case-studies-heading">
+      <div class="dashboard-section__header">
+        <p class="eyebrow">Proof library</p>
+        <h2 id="case-studies-heading">Case studies</h2>
+      </div>
+      <div class="project-list">
+        ${projects.map(renderProjectCard)}
+      </div>
     </section>
   </main>`;
 
@@ -168,7 +200,7 @@ export function renderDashboard(projects) {
   });
 }
 
-export function renderBuilder(project, slug) {
+export function renderBuilder(project, slug, options = {}) {
   const coverAsset = assetForSlot(project.assets, "cover", 0);
   const decisionsAsset = assetForSlot(project.assets, "decisions", 1);
   const outputsAsset = assetForSlot(project.assets, "outputs", 2);
@@ -186,7 +218,7 @@ export function renderBuilder(project, slug) {
       </nav>
     </header>
 
-    <form class="builder-form" id="project-form" data-slug="${slug}">
+    <form class="builder-form" id="project-form" data-slug="${slug}" data-revision="${options.revision || "new"}">
       <section class="form-card">
         <h2>Metadata</h2>
         <div class="field-grid">

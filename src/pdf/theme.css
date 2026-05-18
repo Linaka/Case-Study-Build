@@ -223,6 +223,15 @@ p {
   align-items: start;
 }
 
+.bd-promise-grid,
+.bd-proof-layout,
+.bd-cta-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 28px;
+  align-items: start;
+}
+
 .two-column--balanced {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
@@ -305,6 +314,10 @@ p {
   min-height: 174px;
 }
 
+.bd-story-card {
+  min-height: 196px;
+}
+
 .story-card__index {
   width: max-content;
   border-radius: var(--radius-pill);
@@ -360,6 +373,95 @@ p {
   color: var(--mute);
 }
 
+.bd-process-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.bd-process-list {
+  display: grid;
+  gap: 14px;
+}
+
+.bd-process-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  border: 1px solid var(--hairline-mid);
+  border-radius: var(--radius-card);
+  padding: 18px;
+}
+
+.bd-process-step > span {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bd-process-step p {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.bd-mini-detail,
+.bd-proof-detail {
+  display: grid;
+  gap: 12px;
+}
+
+.bd-mini-detail div,
+.bd-proof-detail div {
+  display: grid;
+  gap: 5px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 12px;
+}
+
+.case-page--dark .bd-mini-detail div,
+.case-page--dark .bd-proof-detail div {
+  border-top-color: var(--hairline-mid);
+}
+
+.bd-mini-detail dt,
+.bd-proof-detail dt {
+  color: var(--body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.case-page--dark .bd-mini-detail dt,
+.case-page--dark .bd-proof-detail dt {
+  color: var(--mute);
+}
+
+.bd-mini-detail dd,
+.bd-proof-detail dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.case-page--dark .bd-mini-detail dd,
+.case-page--dark .bd-proof-detail dd {
+  color: var(--on-dark);
+}
+
+.bd-proof-copy {
+  display: grid;
+  gap: 22px;
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: 46px;
@@ -374,6 +476,10 @@ p {
   .snapshot-grid,
   .two-column,
   .reflection-layout,
+  .bd-promise-grid,
+  .bd-proof-layout,
+  .bd-cta-layout,
+  .bd-process-layout,
   .two-column--balanced,
   .card-grid {
     grid-template-columns: 1fr;
@@ -470,9 +576,46 @@ p {
     min-height: 112pt;
   }
 
+  .bd-story-card {
+    min-height: 124pt;
+  }
+
   .story-card p,
-  .asset-frame figcaption {
+  .asset-frame figcaption,
+  .bd-process-step p,
+  .bd-mini-detail dd,
+  .bd-proof-detail dd {
     font-size: 9pt;
     line-height: 14pt;
+  }
+
+  .bd-process-layout,
+  .bd-promise-grid,
+  .bd-proof-layout,
+  .bd-cta-layout {
+    gap: 8mm;
+  }
+
+  .bd-process-list,
+  .bd-mini-detail,
+  .bd-proof-detail {
+    gap: 8pt;
+  }
+
+  .bd-process-step {
+    gap: 10pt;
+    padding: 12pt;
+  }
+
+  .bd-process-step > span {
+    width: 26pt;
+    height: 26pt;
+    font-size: 9pt;
+  }
+
+  .bd-mini-detail dt,
+  .bd-proof-detail dt {
+    font-size: 8pt;
+    line-height: 11pt;
   }
 }

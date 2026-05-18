@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "passwordHash": "replace-with-output-from-node-scripts-create-user-js",
+      "roles": ["admin"]
+    },
+    {
+      "username": "editor",
+      "passwordHash": "replace-with-output-from-node-scripts-create-user-js",
+      "roles": ["editor"]
+    },
+    {
+      "username": "viewer",
+      "passwordHash": "replace-with-output-from-node-scripts-create-user-js",
+      "roles": ["viewer"]
+    }
+  ]
+}

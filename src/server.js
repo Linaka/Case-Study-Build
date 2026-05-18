@@ -1,10 +1,26 @@
 import http from "node:http";
+import crypto from "node:crypto";
+import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { assertImageSignature, MAX_IMAGE_BYTES, safeAssetFilename } from "./lib/assets.js";
+import { assertBackupConfigured, backupWrittenFile } from "./lib/backups.js";
+import { authenticateBasicAuth, hasRole, loadUserStore } from "./lib/auth.js";
+import {
+  assertBdDocumentSlug,
+  blankBdDocument,
+  listBdDocuments,
+  readBdDocument,
+  readBdDocumentRecord,
+  saveBdDocumentRecord
+} from "./lib/bd-documents.js";
 import { toHtml } from "./lib/html.js";
-import { assertProjectSlug, blankProject, listProjects, readProject, saveProject } from "./lib/projects.js";
+import { createJobQueue } from "./lib/job-queue.js";
+import { assertProjectSlug, blankProject, listProjects, readProject, readProjectRecord, saveProjectRecord } from "./lib/projects.js";
+import { renderBdBuilder } from "./templates/bd-app.js";
+import { renderBdDocument } from "./templates/bd-document.js";
 import { renderDashboard, renderBuilder } from "./templates/app.js";
 import { renderCaseStudy } from "./templates/case-study.js";
 
@@ -12,6 +28,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "127.0.0.1";
+const APP_USER = process.env.APP_USER || "admin";
+const APP_PASSWORD = process.env.APP_PASSWORD || "";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const TRUST_PROXY = process.env.TRUST_PROXY === "1";
+const REQUIRE_HTTPS = process.env.REQUIRE_HTTPS !== "0" && IS_PRODUCTION;
+const PDF_JOB_TIMEOUT_MS = Number(process.env.PDF_JOB_TIMEOUT_MS || 120000);
+const PDF_WORKERS = Math.max(1, Number(process.env.PDF_WORKERS || 1));
+const INTERNAL_RENDER_TOKEN = crypto.randomBytes(32).toString("hex");
+const PDF_QUEUE = createJobQueue({ concurrency: PDF_WORKERS });
+
+const USER_STORE = await loadUserStore({
+  usersFile: process.env.AUTH_USERS_FILE,
+  usersJson: process.env.AUTH_USERS,
+  legacyUser: APP_USER,
+  legacyPassword: APP_PASSWORD,
+  isProduction: IS_PRODUCTION
+});
+
+assertBackupConfigured({ isProduction: IS_PRODUCTION });
+assertProductionTransportConfig();
 
 const CONTENT_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -23,15 +59,6 @@ const CONTENT_TYPES = {
   ".jpeg": "image/jpeg",
   ".webp": "image/webp"
 };
-
-const IMAGE_TYPES = new Map([
-  ["image/svg+xml", ".svg"],
-  ["image/png", ".png"],
-  ["image/jpeg", ".jpg"],
-  ["image/webp", ".webp"]
-]);
-
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 class HttpError extends Error {
   constructor(status, message) {
@@ -45,18 +72,34 @@ function httpError(status, message) {
   return new HttpError(status, message);
 }
 
+function securityHeaders() {
+  return {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+  };
+}
+
 function sendHtml(response, fragment) {
-  response.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  response.writeHead(200, {
+    ...securityHeaders(),
+    "Content-Type": "text/html; charset=utf-8"
+  });
   response.end(toHtml(fragment));
 }
 
-function sendJson(response, data) {
-  response.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+function sendJson(response, data, headers = {}) {
+  response.writeHead(200, {
+    ...securityHeaders(),
+    "Content-Type": "application/json; charset=utf-8",
+    ...headers
+  });
   response.end(`${JSON.stringify(data, null, 2)}\n`);
 }
 
 function sendPdf(response, slug, file) {
   response.writeHead(200, {
+    ...securityHeaders(),
     "Content-Type": "application/pdf",
     "Content-Disposition": `attachment; filename="${slug}.pdf"`,
     "Content-Length": file.length
@@ -67,6 +110,97 @@ function sendPdf(response, slug, file) {
 function redirect(response, location) {
   response.writeHead(302, { Location: location });
   response.end();
+}
+
+function safeEqual(left, right) {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+
+  return leftBuffer.length === rightBuffer.length && crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function assertProductionTransportConfig() {
+  if (IS_PRODUCTION && REQUIRE_HTTPS && !TRUST_PROXY) {
+    throw new Error("Production HTTPS enforcement requires TRUST_PROXY=1 behind a TLS reverse proxy, or REQUIRE_HTTPS=0 for isolated local deployments.");
+  }
+}
+
+function isSecureRequest(request) {
+  if (request.socket.encrypted) {
+    return true;
+  }
+
+  if (!TRUST_PROXY) {
+    return false;
+  }
+
+  return String(request.headers["x-forwarded-proto"] || "")
+    .split(",")[0]
+    .trim()
+    .toLowerCase() === "https";
+}
+
+function rejectInsecureRequest(request, response) {
+  if (internalRenderUser(request)) {
+    return false;
+  }
+
+  if (!REQUIRE_HTTPS || isSecureRequest(request)) {
+    return false;
+  }
+
+  response.writeHead(426, {
+    ...securityHeaders(),
+    "Content-Type": "application/json; charset=utf-8"
+  });
+  response.end(`${JSON.stringify({ error: "HTTPS is required in production." })}\n`);
+  return true;
+}
+
+function internalRenderUser(request) {
+  const token = String(request.headers["x-internal-render-token"] || "");
+
+  if (token && safeEqual(token, INTERNAL_RENDER_TOKEN)) {
+    return {
+      username: "pdf-worker",
+      roles: ["admin"]
+    };
+  }
+
+  return null;
+}
+
+async function userForRequest(request) {
+  return internalRenderUser(request) || await authenticateBasicAuth(request.headers.authorization, USER_STORE);
+}
+
+function requiredRoleFor(request, pathname) {
+  if (pathname === "/health") {
+    return null;
+  }
+
+  if (request.method === "POST") {
+    return "editor";
+  }
+
+  return "viewer";
+}
+
+function requestAuth(response) {
+  response.writeHead(401, {
+    ...securityHeaders(),
+    "WWW-Authenticate": 'Basic realm="Case Study Builder"',
+    "Content-Type": "application/json; charset=utf-8"
+  });
+  response.end(`${JSON.stringify({ error: "Authentication required." })}\n`);
+}
+
+function rejectForbidden(response) {
+  response.writeHead(403, {
+    ...securityHeaders(),
+    "Content-Type": "application/json; charset=utf-8"
+  });
+  response.end(`${JSON.stringify({ error: "You do not have permission to perform this action." })}\n`);
 }
 
 function errorStatus(error) {
@@ -108,12 +242,18 @@ function fail(request, response, status, message) {
   }
 
   if (request.url?.startsWith("/api/")) {
-    response.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
+    response.writeHead(status, {
+      ...securityHeaders(),
+      "Content-Type": "application/json; charset=utf-8"
+    });
     response.end(`${JSON.stringify({ error: message })}\n`);
     return;
   }
 
-  response.writeHead(status, { "Content-Type": "text/plain; charset=utf-8" });
+  response.writeHead(status, {
+    ...securityHeaders(),
+    "Content-Type": "text/plain; charset=utf-8"
+  });
   response.end(message);
 }
 
@@ -141,6 +281,7 @@ async function serveStatic(response, baseDir, requestPath) {
   const extension = path.extname(filePath).toLowerCase();
 
   response.writeHead(200, {
+    ...securityHeaders(),
     "Content-Type": CONTENT_TYPES[extension] || "application/octet-stream"
   });
   response.end(file);
@@ -188,24 +329,6 @@ async function readBinaryRequest(request, maxBytes) {
   return Buffer.concat(chunks);
 }
 
-function safeAssetFilename(fileName, contentType) {
-  const parsed = path.parse(String(fileName || "case-study-image"));
-  const baseName = parsed.name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80) || "case-study-image";
-  const requestedExtension = parsed.ext.toLowerCase();
-  const expectedExtension = IMAGE_TYPES.get(contentType);
-  const extension = expectedExtension || requestedExtension;
-
-  if (!expectedExtension) {
-    throw httpError(415, "Unsupported image type. Use SVG, PNG, JPG or WebP.");
-  }
-
-  return `${baseName}-${Date.now()}${extension}`;
-}
-
 async function uploadAsset(request, slug) {
   const contentType = String(request.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
   const originalName = request.headers["x-file-name"];
@@ -216,11 +339,14 @@ async function uploadAsset(request, slug) {
     throw httpError(400, "Choose an image file before uploading.");
   }
 
+  assertImageSignature(file, contentType);
+
   const assetDir = path.join(ROOT, "public/assets/projects", slug);
   const filePath = path.join(assetDir, fileName);
 
   await fs.mkdir(assetDir, { recursive: true });
   await fs.writeFile(filePath, file);
+  await backupWrittenFile(filePath, path.join("public/assets/projects", slug, fileName));
 
   return {
     path: `/assets/projects/${slug}/${fileName}`,
@@ -230,65 +356,77 @@ async function uploadAsset(request, slug) {
   };
 }
 
-async function loadPlaywright() {
-  try {
-    return await import("playwright");
-  } catch {
-    throw httpError(500, "Playwright is not installed. Run npm install before exporting PDFs.");
-  }
+function localPreviewOrigin() {
+  const host = HOST === "0.0.0.0" ? "127.0.0.1" : HOST;
+  return `http://${host}:${PORT}`;
+}
+
+async function renderPdfWithWorker(previewPath, outputPath) {
+  await fs.mkdir(path.dirname(outputPath), { recursive: true });
+
+  await new Promise((resolve, reject) => {
+    const worker = spawn(process.execPath, ["scripts/render-pdf-worker.js"], {
+      env: {
+        ...process.env,
+        PREVIEW_URL: `${localPreviewOrigin()}${previewPath}`,
+        OUTPUT_PATH: outputPath,
+        INTERNAL_RENDER_TOKEN
+      },
+      stdio: ["ignore", "ignore", "pipe"]
+    });
+    const stderr = [];
+    const timeout = setTimeout(() => {
+      worker.kill("SIGTERM");
+      reject(httpError(504, "PDF export timed out."));
+    }, PDF_JOB_TIMEOUT_MS);
+
+    worker.stderr.on("data", chunk => stderr.push(chunk));
+    worker.on("error", error => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    worker.on("exit", code => {
+      clearTimeout(timeout);
+
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      const detail = Buffer.concat(stderr).toString("utf8").trim();
+      reject(httpError(500, detail || "PDF worker failed."));
+    });
+  });
+
+  await backupWrittenFile(outputPath, path.join("exports", path.basename(outputPath)));
+  return fs.readFile(outputPath);
 }
 
 async function exportProjectPdf(slug) {
   await readProject(slug);
-
-  const { chromium } = await loadPlaywright();
   const outputDir = path.join(ROOT, "exports");
   const outputPath = path.join(outputDir, `${slug}.pdf`);
-  let browser;
 
-  try {
-    browser = await chromium.launch();
-    const page = await browser.newPage({
-      viewport: {
-        width: 1440,
-        height: 1800
-      }
-    });
+  return renderPdfWithWorker(`/projects/${slug}`, outputPath);
+}
 
-    const previewUrl = `http://${HOST}:${PORT}/projects/${slug}`;
-    const pageResponse = await page.goto(previewUrl, { waitUntil: "networkidle" });
+async function exportBdDocumentPdf(slug) {
+  await readBdDocument(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-bd.pdf`);
 
-    if (!pageResponse?.ok()) {
-      throw httpError(502, `Preview route returned HTTP ${pageResponse?.status() || "unknown"}.`);
-    }
-
-    await page.emulateMedia({ media: "print" });
-
-    const file = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      preferCSSPageSize: true
-    });
-
-    await fs.mkdir(outputDir, { recursive: true });
-    await fs.writeFile(outputPath, file);
-
-    return file;
-  } finally {
-    if (browser) {
-      await browser.close().catch(error => {
-        console.error(`Could not close browser cleanly: ${error.message}`);
-      });
-    }
-  }
+  return renderPdfWithWorker(`/bd/${slug}`, outputPath);
 }
 
 async function readProjectForBuilder(slug) {
   try {
-    return await readProject(slug);
+    return await readProjectRecord(slug);
   } catch (error) {
     if (error.code === "ENOENT") {
-      return blankProject();
+      return {
+        project: blankProject(),
+        revision: "new"
+      };
     }
     throw error;
   }
@@ -308,13 +446,58 @@ async function readProjectForPreview(slug) {
   }
 }
 
+async function readBdDocumentForBuilder(slug) {
+  try {
+    return await readBdDocumentRecord(slug);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return {
+        document: blankBdDocument(),
+        revision: "new"
+      };
+    }
+    throw error;
+  }
+}
+
+async function readBdDocumentForPreview(slug) {
+  try {
+    return await readBdDocument(slug);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return blankBdDocument({
+        title: "Unsaved business development document",
+        subtitle: "This preview is using a draft shell because the document JSON has not been saved yet."
+      });
+    }
+    throw error;
+  }
+}
+
 async function handleRequest(request, response) {
   try {
     const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
     const pathname = url.pathname;
 
     if (pathname === "/health") {
-      sendJson(response, { ok: true });
+      sendJson(response, { ok: true, pdfQueue: PDF_QUEUE.stats() });
+      return;
+    }
+
+    if (rejectInsecureRequest(request, response)) {
+      return;
+    }
+
+    const requiredRole = requiredRoleFor(request, pathname);
+    const user = await userForRequest(request);
+
+    if (requiredRole && !user) {
+      requestAuth(response);
+      return;
+    }
+
+    if (requiredRole && !hasRole(user, requiredRole)) {
+      rejectForbidden(response);
       return;
     }
 
@@ -333,14 +516,20 @@ async function handleRequest(request, response) {
       return;
     }
 
+    if (request.method === "GET" && pathname.startsWith("/api/export/bd/pdf/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/api/export/bd/pdf/", ""));
+      sendPdf(response, `${slug}-bd`, await PDF_QUEUE.add(() => exportBdDocumentPdf(slug)));
+      return;
+    }
+
     if (request.method === "GET" && pathname.startsWith("/api/export/pdf/")) {
       const slug = assertProjectSlug(pathname.replace("/api/export/pdf/", ""));
-      sendPdf(response, slug, await exportProjectPdf(slug));
+      sendPdf(response, slug, await PDF_QUEUE.add(() => exportProjectPdf(slug)));
       return;
     }
 
     if (request.method === "GET" && pathname === "/") {
-      sendHtml(response, renderDashboard(await listProjects()));
+      sendHtml(response, renderDashboard(await listProjects(), await listBdDocuments()));
       return;
     }
 
@@ -352,7 +541,21 @@ async function handleRequest(request, response) {
 
     if (request.method === "GET" && pathname.startsWith("/builder/")) {
       const slug = assertProjectSlug(pathname.replace("/builder/", ""));
-      sendHtml(response, renderBuilder(await readProjectForBuilder(slug), slug));
+      const record = await readProjectForBuilder(slug);
+      sendHtml(response, renderBuilder(record.project, slug, { revision: record.revision }));
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/bd-builder") {
+      const documents = await listBdDocuments();
+      redirect(response, `/bd-builder/${documents[0]?.slug || "enterprise-build-support"}`);
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/bd-builder/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/bd-builder/", ""));
+      const record = await readBdDocumentForBuilder(slug);
+      sendHtml(response, renderBdBuilder(record.document, slug, { revision: record.revision }));
       return;
     }
 
@@ -362,16 +565,57 @@ async function handleRequest(request, response) {
       return;
     }
 
+    if (request.method === "GET" && pathname.startsWith("/bd/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/bd/", ""));
+      sendHtml(response, renderBdDocument(await readBdDocumentForPreview(slug), { slug }));
+      return;
+    }
+
     if (pathname.startsWith("/api/projects/")) {
       const slug = assertProjectSlug(pathname.replace("/api/projects/", ""));
 
       if (request.method === "GET") {
-        sendJson(response, await readProject(slug));
+        const record = await readProjectRecord(slug);
+        sendJson(response, record.project, { "ETag": `"${record.revision}"` });
         return;
       }
 
       if (request.method === "POST") {
-        sendJson(response, await saveProject(slug, await readJsonRequest(request)));
+        if (!request.headers["if-match"]) {
+          throw httpError(428, "Missing If-Match header. Reload the project before saving.");
+        }
+
+        const ifMatch = String(request.headers["if-match"]).replace(/^"|"$/g, "");
+        const record = await saveProjectRecord(slug, await readJsonRequest(request), ifMatch);
+        sendJson(response, record.project, { "ETag": `"${record.revision}"` });
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "GET, POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/bd-documents/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/api/bd-documents/", ""));
+
+      if (request.method === "GET") {
+        const record = await readBdDocumentRecord(slug);
+        sendJson(response, record.document, { "ETag": `"${record.revision}"` });
+        return;
+      }
+
+      if (request.method === "POST") {
+        if (!request.headers["if-match"]) {
+          throw httpError(428, "Missing If-Match header. Reload the business development document before saving.");
+        }
+
+        const ifMatch = String(request.headers["if-match"]).replace(/^"|"$/g, "");
+        const record = await saveBdDocumentRecord(slug, await readJsonRequest(request), ifMatch);
+        sendJson(response, record.document, { "ETag": `"${record.revision}"` });
         return;
       }
 
