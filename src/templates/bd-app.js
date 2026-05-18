@@ -139,10 +139,10 @@ function renderProofSection(item, index) {
       ${itemField("Project slug", "projectSlug", item?.projectSlug, BD_FIELD_LIMITS.proofProjectSlug)}
       ${visibilitySelect(item?.visibility, "private")}
       ${itemField("Asset path", "assetPath", item?.assetPath, BD_FIELD_LIMITS.proofAssetPath)}
-      ${itemTextarea("Problem", "problem", item?.problem, 3, BD_FIELD_LIMITS.proofBody)}
-      ${itemTextarea("Intervention", "intervention", item?.intervention, 3, BD_FIELD_LIMITS.proofBody)}
-      ${itemTextarea("Outcome", "outcome", item?.outcome, 3, BD_FIELD_LIMITS.proofBody)}
-      ${itemTextarea("Evidence", "evidence", item?.evidence, 3, BD_FIELD_LIMITS.proofBody)}
+      ${itemTextarea("Problem", "problem", item?.problem, 3, BD_FIELD_LIMITS.proofProblem)}
+      ${itemTextarea("Intervention", "intervention", item?.intervention, 3, BD_FIELD_LIMITS.proofIntervention)}
+      ${itemTextarea("Outcome", "outcome", item?.outcome, 3, BD_FIELD_LIMITS.proofOutcome)}
+      ${itemTextarea("Evidence", "evidence", item?.evidence, 3, BD_FIELD_LIMITS.proofEvidence)}
     </div>
   </article>`;
 }
@@ -156,8 +156,8 @@ function renderEngagementModel(item, index) {
     <div class="field-grid field-grid--item">
       ${itemField("Title", "title", item?.title, BD_FIELD_LIMITS.engagementTitle)}
       ${itemField("Timeline", "timeline", item?.timeline, BD_FIELD_LIMITS.engagementTimeline)}
-      ${itemTextarea("Best for", "bestFor", item?.bestFor, 3, BD_FIELD_LIMITS.engagementBody)}
-      ${itemTextarea("Scope", "scope", item?.scope, 3, BD_FIELD_LIMITS.engagementBody)}
+      ${itemTextarea("Best for", "bestFor", item?.bestFor, 3, BD_FIELD_LIMITS.engagementBestFor)}
+      ${itemTextarea("Scope", "scope", item?.scope, 3, BD_FIELD_LIMITS.engagementScope)}
     </div>
   </article>`;
 }

@@ -127,13 +127,13 @@ export function validateProject(project) {
   });
 
   [...project.keyDecisions, ...project.outputs].forEach(item => {
-    assertLength("Item title", item.title, TEXT_LIMITS.short);
-    assertLength("Item description", item.description, TEXT_LIMITS.long);
+    assertLength("Item title", item.title, PROJECT_FIELD_LIMITS.titleListTitle);
+    assertLength("Item description", item.description, PROJECT_FIELD_LIMITS.titleListDescription);
   });
 
   project.impact.forEach(item => {
-    assertLength("Impact metric", item.metric, TEXT_LIMITS.short);
-    assertLength("Impact description", item.description, TEXT_LIMITS.long);
+    assertLength("Impact metric", item.metric, PROJECT_FIELD_LIMITS.impactMetric);
+    assertLength("Impact description", item.description, PROJECT_FIELD_LIMITS.titleListDescription);
   });
 
   if (project.assets.length > TEXT_LIMITS.assets) {

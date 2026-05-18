@@ -70,6 +70,24 @@ test("normalizeBdDocument rejects non-local proof asset paths", async () => {
   );
 });
 
+test("normalizeBdDocument enforces PDF-aware copy limits", async () => {
+  const { normalizeBdDocument } = await loadBdDocumentsModule();
+
+  assert.throws(
+    () => normalizeBdDocument(validDocument({
+      executivePromise: "A".repeat(261)
+    })),
+    /executivePromise must be 260 characters or fewer/
+  );
+
+  assert.throws(
+    () => normalizeBdDocument(validDocument({
+      proofSections: [{ ...validDocument().proofSections[0], evidence: "A".repeat(141) }]
+    })),
+    /Proof evidence must be 140 characters or fewer/
+  );
+});
+
 test("saveBdDocumentRecord rejects stale revisions", async () => {
   const { saveBdDocumentRecord } = await loadBdDocumentsModule();
   const first = await saveBdDocumentRecord("enterprise-build-support", validDocument(), "new");

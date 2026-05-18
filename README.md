@@ -29,6 +29,7 @@ For production, use hashed users, role-based access, backups and a TLS reverse p
 ```bash
 npm run export:md
 npm run export:pdf
+npm run export:bd-pdf
 ```
 
 Both scripts default to `uber-sample`. Pass another slug after `--`:
@@ -52,4 +53,4 @@ npm run export:pdf
 npm run export:bd-pdf
 ```
 
-`npm run ci` runs syntax checks, unit tests, and the Markdown export. GitHub Actions also installs Chromium and verifies both PDF exports.
+`npm run ci` runs syntax checks, unit tests, the Markdown export, the sample case-study PDF export, and the BD PDF export. GitHub Actions installs Chromium before running the same release check.

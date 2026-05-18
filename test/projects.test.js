@@ -65,6 +65,24 @@ test("normalizeProject rejects non-local asset paths", async () => {
   );
 });
 
+test("normalizeProject enforces PDF-aware copy limits", async () => {
+  const { normalizeProject } = await loadProjectsModule();
+
+  assert.throws(
+    () => normalizeProject(validProject({
+      title: "A".repeat(83)
+    })),
+    /title must be 82 characters or fewer/
+  );
+
+  assert.throws(
+    () => normalizeProject(validProject({
+      keyDecisions: [{ title: "Decision", description: "A".repeat(211) }]
+    })),
+    /Item description must be 210 characters or fewer/
+  );
+});
+
 test("saveProjectRecord rejects stale revisions", async () => {
   const { saveProjectRecord } = await loadProjectsModule();
   const first = await saveProjectRecord("sample", validProject(), "new");

@@ -7,24 +7,24 @@ const pdfLink = document.querySelector("[data-pdf-link]");
 const ACCEPTED_IMAGE_TYPES = new Set(["image/svg+xml", "image/png", "image/jpeg", "image/webp"]);
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const FIELD_LIMITS = {
-  title: 240,
-  subtitle: 5000,
-  year: 240,
-  sector: 240,
-  clientType: 240,
-  role: 240,
-  collaborators: 5000,
-  context: 5000,
-  challenge: 5000,
-  audience: 5000,
-  approach: 5000,
-  reflection: 5000,
-  confidentialityNotes: 5000,
-  itemTitle: 240,
-  itemDescription: 5000,
-  impactMetric: 240,
-  assetPath: 1000,
-  assetCaption: 5000
+  title: 82,
+  subtitle: 220,
+  year: 16,
+  sector: 56,
+  clientType: 64,
+  role: 110,
+  collaborators: 360,
+  context: 650,
+  challenge: 520,
+  audience: 420,
+  approach: 560,
+  reflection: 420,
+  confidentialityNotes: 320,
+  itemTitle: 72,
+  itemDescription: 210,
+  impactMetric: 56,
+  assetPath: 300,
+  assetCaption: 140
 };
 
 if (!form || !status) {

@@ -164,30 +164,31 @@ export function validateBdDocument(document) {
   });
 
   [...document.buyerProblems, ...document.process].forEach(item => {
-    assertLength("Item title", item.title, TEXT_LIMITS.short);
-    assertLength("Item description", item.description, TEXT_LIMITS.long);
+    assertLength("Item title", item.title, BD_FIELD_LIMITS.titleListTitle);
+    assertLength("Item description", item.description, BD_FIELD_LIMITS.titleListDescription);
   });
 
   document.offerPillars.forEach(item => {
-    assertLength("Offer pillar title", item.title, TEXT_LIMITS.short);
-    assertLength("Offer pillar description", item.description, TEXT_LIMITS.long);
+    assertLength("Offer pillar title", item.title, BD_FIELD_LIMITS.offerTitle);
+    assertLength("Offer pillar description", item.description, BD_FIELD_LIMITS.offerDescription);
 
     if (item.deliverables.length > TEXT_LIMITS.listItems) {
       throw bdDocumentError(`Offer pillar deliverables can include at most ${TEXT_LIMITS.listItems} items.`, 422);
     }
 
     item.deliverables.forEach(deliverable => {
-      assertLength("Offer pillar deliverable", deliverable, TEXT_LIMITS.short);
+      assertLength("Offer pillar deliverable", deliverable, TEXT_LIMITS.label);
     });
   });
 
   document.proofSections.forEach(proof => {
-    ["headline", "clientContext", "projectSlug"].forEach(field => {
-      assertLength(`Proof ${field}`, proof[field], TEXT_LIMITS.short);
-    });
-    ["problem", "intervention", "outcome", "evidence"].forEach(field => {
-      assertLength(`Proof ${field}`, proof[field], TEXT_LIMITS.long);
-    });
+    assertLength("Proof headline", proof.headline, BD_FIELD_LIMITS.proofHeadline);
+    assertLength("Proof clientContext", proof.clientContext, BD_FIELD_LIMITS.proofClientContext);
+    assertLength("Proof projectSlug", proof.projectSlug, BD_FIELD_LIMITS.proofProjectSlug);
+    assertLength("Proof problem", proof.problem, BD_FIELD_LIMITS.proofProblem);
+    assertLength("Proof intervention", proof.intervention, BD_FIELD_LIMITS.proofIntervention);
+    assertLength("Proof outcome", proof.outcome, BD_FIELD_LIMITS.proofOutcome);
+    assertLength("Proof evidence", proof.evidence, BD_FIELD_LIMITS.proofEvidence);
 
     if (proof.projectSlug) {
       assertBdDocumentSlug(proof.projectSlug);
@@ -201,12 +202,10 @@ export function validateBdDocument(document) {
   });
 
   document.engagementModels.forEach(model => {
-    ["title", "timeline"].forEach(field => {
-      assertLength(`Engagement model ${field}`, model[field], TEXT_LIMITS.short);
-    });
-    ["bestFor", "scope"].forEach(field => {
-      assertLength(`Engagement model ${field}`, model[field], TEXT_LIMITS.long);
-    });
+    assertLength("Engagement model title", model.title, BD_FIELD_LIMITS.engagementTitle);
+    assertLength("Engagement model timeline", model.timeline, BD_FIELD_LIMITS.engagementTimeline);
+    assertLength("Engagement model bestFor", model.bestFor, BD_FIELD_LIMITS.engagementBestFor);
+    assertLength("Engagement model scope", model.scope, BD_FIELD_LIMITS.engagementScope);
   });
 
   if (document.assets.length > TEXT_LIMITS.assets) {

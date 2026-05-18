@@ -128,6 +128,8 @@ h3 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: 0;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 h1 {
@@ -152,6 +154,7 @@ p {
   color: var(--body);
   font-size: 16px;
   line-height: 25px;
+  overflow-wrap: break-word;
 }
 
 .case-page--dark p {
@@ -186,6 +189,7 @@ p {
   font-size: 13px;
   font-weight: 500;
   line-height: 18px;
+  overflow-wrap: anywhere;
 }
 
 .case-page--dark .chip,
@@ -265,6 +269,7 @@ p {
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
+  overflow-wrap: break-word;
 }
 
 .lead-block {
@@ -367,6 +372,7 @@ p {
   color: var(--body);
   font-size: 13px;
   line-height: 19px;
+  overflow-wrap: break-word;
 }
 
 .case-page--dark .asset-frame figcaption {
@@ -450,6 +456,7 @@ p {
   color: var(--ink);
   font-size: 14px;
   line-height: 21px;
+  overflow-wrap: break-word;
 }
 
 .case-page--dark .bd-mini-detail dd,
@@ -505,7 +512,7 @@ p {
     height: 297mm;
     min-height: 297mm;
     overflow: hidden;
-    padding: 18mm;
+    padding: 20mm;
     break-after: page;
     page-break-after: always;
   }
@@ -516,43 +523,43 @@ p {
   }
 
   .page-topline {
-    margin-bottom: 13mm;
+    margin-bottom: 12mm;
     font-size: 10pt;
     line-height: 14pt;
   }
 
   .page-content {
-    gap: 9mm;
+    gap: 8mm;
   }
 
   h1 {
-    font-size: 46pt;
-    line-height: 50pt;
+    font-size: 42pt;
+    line-height: 46pt;
   }
 
   h2 {
-    font-size: 36pt;
-    line-height: 40pt;
+    font-size: 32pt;
+    line-height: 36pt;
   }
 
   h3 {
-    font-size: 15pt;
-    line-height: 19pt;
+    font-size: 14pt;
+    line-height: 18pt;
   }
 
   p {
-    font-size: 11pt;
-    line-height: 17pt;
+    font-size: 10.5pt;
+    line-height: 16pt;
   }
 
   .lead {
-    font-size: 15pt;
-    line-height: 22pt;
+    font-size: 14pt;
+    line-height: 20pt;
   }
 
   .cover-subtitle {
-    font-size: 16pt;
-    line-height: 23pt;
+    font-size: 15pt;
+    line-height: 21pt;
   }
 
   .chip,
@@ -569,7 +576,7 @@ p {
 
   .story-card,
   .note-panel {
-    padding: 14pt;
+    padding: 13pt;
   }
 
   .story-card {
@@ -593,7 +600,7 @@ p {
   .bd-promise-grid,
   .bd-proof-layout,
   .bd-cta-layout {
-    gap: 8mm;
+    gap: 9mm;
   }
 
   .bd-process-list,
