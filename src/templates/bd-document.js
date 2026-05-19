@@ -125,6 +125,8 @@ export function renderBdDocument(document, options = {}) {
 
   const previewToolbar = slug ? html`<nav class="preview-toolbar" aria-label="Preview controls">
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/bd-builder/${slug}">Close preview</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/bd/word/${slug}" download>Save Word</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/bd/banner/${slug}" download>Save banner</a>
     <a class="preview-toolbar__link" href="/api/export/bd/pdf/${slug}" download>Save PDF</a>
   </nav>` : "";
 

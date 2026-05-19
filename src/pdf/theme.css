@@ -342,6 +342,70 @@ p {
   line-height: 21px;
 }
 
+.impact-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.impact-visual {
+  display: grid;
+  gap: 12px;
+}
+
+.impact-row {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--hairline-mid);
+  border-radius: var(--radius-card);
+  padding: 18px;
+}
+
+.impact-row__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.impact-row__header h3 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.impact-row__header strong {
+  color: var(--on-dark);
+  font-size: 28px;
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.impact-row p {
+  max-width: none;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.impact-meter {
+  width: 100%;
+  height: 18px;
+}
+
+.impact-meter::-webkit-meter-bar {
+  border: 1px solid var(--hairline-mid);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+}
+
+.impact-meter::-webkit-meter-optimum-value {
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+}
+
+.impact-meter::-moz-meter-bar {
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+}
+
 .asset-frame {
   display: grid;
   gap: 12px;
@@ -469,6 +533,136 @@ p {
   gap: 22px;
 }
 
+.marketing-banner-body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font-text);
+}
+
+.marketing-banner {
+  width: 100vw;
+  height: 100vh;
+  min-height: 640px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(480px, 0.95fr);
+  gap: clamp(36px, 5vw, 76px);
+  overflow: hidden;
+  padding: clamp(48px, 5vw, 86px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 42%),
+    var(--ink);
+}
+
+.marketing-banner--bd {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent 45%),
+    #111111;
+}
+
+.marketing-banner__copy {
+  min-width: 0;
+  display: grid;
+  align-content: space-between;
+  gap: 32px;
+}
+
+.marketing-banner__accent,
+.marketing-banner__eyebrow,
+.marketing-banner__footer {
+  color: var(--mute);
+  font-size: clamp(18px, 1.45vw, 24px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.marketing-banner__accent {
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid var(--hairline-mid);
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+}
+
+.marketing-banner__headline {
+  display: grid;
+  gap: 24px;
+}
+
+.marketing-banner__eyebrow {
+  color: var(--on-dark);
+  text-transform: uppercase;
+}
+
+.marketing-banner h1 {
+  max-width: 900px;
+  color: var(--on-dark);
+  font-size: clamp(66px, 6.3vw, 108px);
+  line-height: 0.98;
+}
+
+.marketing-banner__subtitle {
+  max-width: 820px;
+  color: var(--canvas-soft);
+  font-size: clamp(26px, 2.1vw, 36px);
+  font-weight: 500;
+  line-height: 1.22;
+}
+
+.marketing-banner__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.marketing-banner__chips span {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: clamp(16px, 1.2vw, 20px);
+  font-weight: 700;
+  line-height: 1.15;
+  padding: 10px 16px;
+}
+
+.marketing-banner__footer {
+  max-width: 760px;
+}
+
+.marketing-banner__visual {
+  min-width: 0;
+  min-height: 0;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--hairline-mid);
+  border-radius: 24px;
+  background: var(--canvas-softer);
+  color: var(--ink);
+}
+
+.marketing-banner__visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.marketing-banner__visual--empty {
+  padding: 48px;
+  color: var(--body);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: 46px;
@@ -489,6 +683,12 @@ p {
   .bd-process-layout,
   .two-column--balanced,
   .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .marketing-banner {
+    height: auto;
+    min-height: 100vh;
     grid-template-columns: 1fr;
   }
 }
@@ -583,11 +783,39 @@ p {
     min-height: 112pt;
   }
 
+  .impact-layout {
+    gap: 7mm;
+  }
+
+  .impact-visual {
+    gap: 8pt;
+  }
+
+  .impact-row {
+    gap: 8pt;
+    padding: 12pt;
+  }
+
+  .impact-row__header h3 {
+    font-size: 12pt;
+    line-height: 16pt;
+  }
+
+  .impact-row__header strong {
+    font-size: 18pt;
+    line-height: 22pt;
+  }
+
+  .impact-meter {
+    height: 12pt;
+  }
+
   .bd-story-card {
     min-height: 124pt;
   }
 
   .story-card p,
+  .impact-row p,
   .asset-frame figcaption,
   .bd-process-step p,
   .bd-mini-detail dd,

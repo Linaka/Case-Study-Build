@@ -1,5 +1,5 @@
-import { html } from "../lib/html.js";
-import { BD_FIELD_LIMITS } from "../lib/limits.js";
+import { html, safeJson } from "../lib/html.js";
+import { BD_CLIENT_FIELD_LIMITS, BD_FIELD_LIMITS } from "../lib/limits.js";
 import { renderDocument } from "./layout.js";
 
 function text(value) {
@@ -87,16 +87,61 @@ function imagePlacement({ title, description, slot, item }) {
   </section>`;
 }
 
-function structuredList({ title, listName, addLabel, items, renderItem }) {
-  return html`<section class="list-editor" data-list="${listName}">
-    <header class="list-editor__header">
-      <h3>${title}</h3>
-      <button class="button button--subtle" type="button" data-add-item="${listName}">${addLabel}</button>
-    </header>
-    <div class="list-items" data-list-items>
-      ${items.map(renderItem)}
+function actionMenu(slug) {
+  return html`<details class="action-menu">
+    <summary class="button button--primary">Import / Export</summary>
+    <div class="action-menu__panel">
+      <section class="action-menu__group" aria-labelledby="bd-import-actions">
+        <h2 id="bd-import-actions">Import</h2>
+        <label class="action-menu__item file-button">
+          Import PDF
+          <input type="file" data-pdf-import-input accept="application/pdf,.pdf">
+        </label>
+        <label class="action-menu__item file-button">
+          Import Word
+          <input type="file" data-word-import-input accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        </label>
+        <p class="action-menu__meta" data-pdf-import-meta>No PDF imported yet.</p>
+        <p class="action-menu__meta" data-word-import-meta>No Word document imported yet.</p>
+      </section>
+      <section class="action-menu__group" aria-labelledby="bd-export-actions">
+        <h2 id="bd-export-actions">Export</h2>
+        <a class="action-menu__item" href="/api/export/bd/word/${slug}" data-word-link="true" download>Export Word</a>
+        <a class="action-menu__item" href="/api/export/bd/pdf/${slug}" data-pdf-link="true" download>Export PDF</a>
+        <a class="action-menu__item" href="/api/export/bd/banner/${slug}" data-banner-link="true" download>Export marketing banner</a>
+        <a class="action-menu__item" href="/api/bd-documents/${slug}" download data-json-link="true">Export JSON</a>
+      </section>
     </div>
-  </section>`;
+  </details>`;
+}
+
+function formCard(title, children, open = false) {
+  return html`<details class="form-card form-card--collapsible" ${open ? "open" : ""}>
+    <summary class="form-card__summary">
+      <h2>${title}</h2>
+      <span aria-hidden="true"></span>
+    </summary>
+    <div class="form-card__body">
+      ${children}
+    </div>
+  </details>`;
+}
+
+function structuredList({ title, listName, addLabel, items, renderItem }) {
+  return html`<details class="list-editor" data-list="${listName}">
+    <summary class="list-editor__summary">
+      <h3>${title}</h3>
+      <span>${items.length} ${items.length === 1 ? "item" : "items"}</span>
+    </summary>
+    <div class="list-editor__body">
+      <header class="list-editor__header">
+      <button class="button button--subtle" type="button" data-add-item="${listName}">${addLabel}</button>
+      </header>
+      <div class="list-items" data-list-items>
+        ${items.map(renderItem)}
+      </div>
+    </div>
+  </details>`;
 }
 
 function renderTitleDescriptionItem(item, index) {
@@ -173,17 +218,14 @@ export function renderBdBuilder(document, slug, options = {}) {
       <nav class="button-row" aria-label="Business development document links">
         <a class="button button--subtle" href="/">Projects</a>
         <a class="button button--subtle" href="/bd/${slug}" data-preview-link="true">Preview</a>
-        <a class="button button--subtle" href="/api/export/bd/pdf/${slug}" data-pdf-link="true" download>Save PDF</a>
-        <a class="button button--primary" href="/api/bd-documents/${slug}" download data-json-link="true">JSON</a>
+        ${actionMenu(slug)}
       </nav>
     </header>
 
-    <form class="builder-form" id="bd-document-form" data-slug="${slug}" data-revision="${options.revision || "new"}">
-      <section class="form-card">
-        <h2>Positioning</h2>
-        <div class="field-grid">
+    <form class="builder-form" id="bd-document-form" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(BD_CLIENT_FIELD_LIMITS)}">
+      ${formCard("Positioning", html`<div class="field-grid">
           ${field("Title", "title", document.title)}
-          ${field("Subtitle", "subtitle", document.subtitle)}
+          ${textarea("Subtitle", "subtitle", document.subtitle, 3)}
           ${field("Year", "year", document.year)}
           ${field("Audience", "audience", document.audience)}
           ${textarea("Executive promise", "executivePromise", document.executivePromise, 5)}
@@ -194,23 +236,17 @@ export function renderBdBuilder(document, slug, options = {}) {
           description: "Appears on the cover page of the business development PDF.",
           slot: "cover",
           item: coverAsset
-        })}
-      </section>
+        })}`, true)}
 
-      <section class="form-card">
-        <h2>Offer narrative</h2>
-        <div class="field-grid">
+      ${formCard("Offer narrative", html`<div class="field-grid">
           ${textarea("Process summary", "processSummary", document.processSummary, 5)}
           ${textarea("Next steps", "nextSteps", document.nextSteps, 5)}
           ${field("Primary CTA", "primaryCta", document.primaryCta)}
           ${field("Secondary CTA", "secondaryCta", document.secondaryCta)}
           ${textarea("Confidentiality notes", "confidentialityNotes", document.confidentialityNotes, 4)}
-        </div>
-      </section>
+        </div>`)}
 
-      <section class="form-card">
-        <h2>Business development sections</h2>
-        <div class="structured-list-grid">
+      ${formCard("Business development sections", html`<div class="structured-list-grid">
           ${structuredList({
             title: "Buyer problems",
             listName: "buyerProblems",
@@ -246,8 +282,7 @@ export function renderBdBuilder(document, slug, options = {}) {
             items: document.engagementModels,
             renderItem: renderEngagementModel
           })}
-        </div>
-      </section>
+        </div>`)}
 
       <footer class="form-actions">
         <button class="button button--primary" type="submit">Save JSON</button>

@@ -83,6 +83,48 @@ function normalizeStoryItems(value, titleKey = "title") {
     .filter(item => item && (item[titleKey] || item.description));
 }
 
+function normalizeImpactValue(value) {
+  const rawValue = asText(value);
+
+  if (!rawValue) {
+    return null;
+  }
+
+  const numericValue = Number(rawValue.replace(/,/g, ""));
+
+  if (!Number.isFinite(numericValue)) {
+    throw projectError("Impact value must be a number.", 422);
+  }
+
+  return numericValue;
+}
+
+function normalizeImpactItems(value) {
+  return asArray(value)
+    .map(item => {
+      if (typeof item === "string") {
+        return {
+          metric: asText(item),
+          value: null,
+          unit: "",
+          description: ""
+        };
+      }
+
+      if (!item || typeof item !== "object") {
+        return null;
+      }
+
+      return {
+        metric: asText(item.metric || item.title),
+        value: normalizeImpactValue(item.value),
+        unit: asText(item.unit),
+        description: asText(item.description || item.body || item.summary)
+      };
+    })
+    .filter(item => item && (item.metric || item.value !== null || item.unit || item.description));
+}
+
 function normalizeAssets(value) {
   return asArray(value)
     .filter(asset => asset && typeof asset === "object")
@@ -133,6 +175,7 @@ export function validateProject(project) {
 
   project.impact.forEach(item => {
     assertLength("Impact metric", item.metric, PROJECT_FIELD_LIMITS.impactMetric);
+    assertLength("Impact unit", item.unit, PROJECT_FIELD_LIMITS.impactUnit);
     assertLength("Impact description", item.description, PROJECT_FIELD_LIMITS.titleListDescription);
   });
 
@@ -142,7 +185,7 @@ export function validateProject(project) {
 
   project.assets.forEach(asset => {
     assertLength("Asset path", asset.path, TEXT_LIMITS.path);
-    assertLength("Asset caption", asset.caption, TEXT_LIMITS.long);
+    assertLength("Asset caption", asset.caption, PROJECT_FIELD_LIMITS.assetCaption);
 
     if (!VISIBILITY_VALUES.has(asset.visibility)) {
       throw projectError("Asset visibility must be public, private or hidden.", 422);
@@ -195,7 +238,7 @@ export function normalizeProject(project) {
   normalized.collaborators = asArray(project?.collaborators).map(asText).filter(Boolean);
   normalized.keyDecisions = normalizeStoryItems(project?.keyDecisions, "title");
   normalized.outputs = normalizeStoryItems(project?.outputs, "title");
-  normalized.impact = normalizeStoryItems(project?.impact, "metric");
+  normalized.impact = normalizeImpactItems(project?.impact);
   normalized.assets = normalizeAssets(project?.assets);
 
   return validateProject(normalized);

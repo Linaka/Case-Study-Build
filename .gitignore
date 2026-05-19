@@ -5,4 +5,7 @@ backups/
 config/users.json
 exports/*.pdf
 exports/*.md
+exports/*.png
+exports/*.xlsx
+exports/*.docx
 !exports/.gitkeep

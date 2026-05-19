@@ -1,5 +1,5 @@
-import { html } from "../lib/html.js";
-import { PROJECT_FIELD_LIMITS } from "../lib/limits.js";
+import { html, safeJson } from "../lib/html.js";
+import { PROJECT_CLIENT_FIELD_LIMITS, PROJECT_FIELD_LIMITS } from "../lib/limits.js";
 import { renderDocument } from "./layout.js";
 
 function text(value) {
@@ -16,6 +16,7 @@ function renderProjectCard(project) {
     <nav class="button-row" aria-label="${project.title} actions">
       <a class="button button--subtle" href="/builder/${project.slug}">Edit</a>
       <a class="button button--subtle" href="/projects/${project.slug}">Preview</a>
+      <a class="button button--subtle" href="/api/export/word/${project.slug}" download>Word</a>
       <a class="button button--primary" href="/api/projects/${project.slug}" download>JSON</a>
     </nav>
   </article>`;
@@ -31,6 +32,7 @@ function renderBdDocumentCard(document) {
     <nav class="button-row" aria-label="${document.title} actions">
       <a class="button button--subtle" href="/bd-builder/${document.slug}">Edit</a>
       <a class="button button--subtle" href="/bd/${document.slug}">Preview</a>
+      <a class="button button--subtle" href="/api/export/bd/word/${document.slug}" download>Word</a>
       <a class="button button--primary" href="/api/bd-documents/${document.slug}" download>JSON</a>
     </nav>
   </article>`;
@@ -54,6 +56,13 @@ function itemField(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.tit
   return html`<label class="field">
     <span>${label}</span>
     <input type="text" data-field="${fieldName}" value="${text(value)}" maxlength="${maxLength}">
+  </label>`;
+}
+
+function itemNumberField(label, fieldName, value) {
+  return html`<label class="field">
+    <span>${label}</span>
+    <input type="number" data-field="${fieldName}" value="${text(value)}" step="any">
   </label>`;
 }
 
@@ -117,6 +126,35 @@ function imagePlacement({ title, description, slot, item }) {
   </section>`;
 }
 
+function actionMenu(slug) {
+  return html`<details class="action-menu">
+    <summary class="button button--primary">Import / Export</summary>
+    <div class="action-menu__panel">
+      <section class="action-menu__group" aria-labelledby="project-import-actions">
+        <h2 id="project-import-actions">Import</h2>
+        <label class="action-menu__item file-button">
+          Import PDF
+          <input type="file" data-pdf-import-input accept="application/pdf,.pdf">
+        </label>
+        <label class="action-menu__item file-button">
+          Import Word
+          <input type="file" data-word-import-input accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        </label>
+        <p class="action-menu__meta" data-pdf-import-meta>No PDF imported yet.</p>
+        <p class="action-menu__meta" data-word-import-meta>No Word document imported yet.</p>
+      </section>
+      <section class="action-menu__group" aria-labelledby="project-export-actions">
+        <h2 id="project-export-actions">Export</h2>
+        <a class="action-menu__item" href="/api/export/xlsx/${slug}" data-xlsx-link="true" download>Export Excel data</a>
+        <a class="action-menu__item" href="/api/export/word/${slug}" data-word-link="true" download>Export Word</a>
+        <a class="action-menu__item" href="/api/export/pdf/${slug}" data-pdf-link="true" download>Export PDF</a>
+        <a class="action-menu__item" href="/api/export/banner/${slug}" data-banner-link="true" download>Export marketing banner</a>
+        <a class="action-menu__item" href="/api/projects/${slug}" download data-json-link="true">Export JSON</a>
+      </section>
+    </div>
+  </details>`;
+}
+
 function renderTitleDescriptionItem(item, index, titleLabel = "Title") {
   return html`<article class="list-item" data-list-item>
     <header class="list-item__header">
@@ -125,6 +163,21 @@ function renderTitleDescriptionItem(item, index, titleLabel = "Title") {
     </header>
     <div class="field-grid field-grid--item">
       ${itemField(titleLabel, titleLabel === "Metric" ? "metric" : "title", item?.[titleLabel === "Metric" ? "metric" : "title"], titleLabel === "Metric" ? PROJECT_FIELD_LIMITS.impactMetric : PROJECT_FIELD_LIMITS.titleListTitle)}
+      ${itemTextarea("Description", "description", item?.description)}
+    </div>
+  </article>`;
+}
+
+function renderImpactItem(item, index) {
+  return html`<article class="list-item" data-list-item>
+    <header class="list-item__header">
+      <h4>Item ${index + 1}</h4>
+      <button class="icon-button" type="button" data-remove-item aria-label="Remove item">Remove</button>
+    </header>
+    <div class="field-grid field-grid--item">
+      ${itemField("Metric", "metric", item?.metric, PROJECT_FIELD_LIMITS.impactMetric)}
+      ${itemNumberField("Value", "value", item?.value)}
+      ${itemField("Unit", "unit", item?.unit, PROJECT_FIELD_LIMITS.impactUnit)}
       ${itemTextarea("Description", "description", item?.description)}
     </div>
   </article>`;
@@ -147,53 +200,108 @@ function renderAssetItem(item, index) {
   </article>`;
 }
 
+function formCard(title, children, open = false) {
+  return html`<details class="form-card form-card--collapsible" ${open ? "open" : ""}>
+    <summary class="form-card__summary">
+      <h2>${title}</h2>
+      <span aria-hidden="true"></span>
+    </summary>
+    <div class="form-card__body">
+      ${children}
+    </div>
+  </details>`;
+}
+
 function structuredList({ title, listName, addLabel, items, renderItem }) {
-  return html`<section class="list-editor" data-list="${listName}">
-    <header class="list-editor__header">
+  return html`<details class="list-editor" data-list="${listName}">
+    <summary class="list-editor__summary">
       <h3>${title}</h3>
+      <span>${items.length} ${items.length === 1 ? "item" : "items"}</span>
+    </summary>
+    <div class="list-editor__body">
+      <header class="list-editor__header">
       <button class="button button--subtle" type="button" data-add-item="${listName}">${addLabel}</button>
-    </header>
-    <div class="list-items" data-list-items>
-      ${items.map(renderItem)}
+      </header>
+      <div class="list-items" data-list-items>
+        ${items.map(renderItem)}
+      </div>
+    </div>
+  </details>`;
+}
+
+function dashboardTab({ activeView, count, href, label, value }) {
+  const isActive = activeView === value;
+
+  return html`<a class="dashboard-tab${isActive ? " dashboard-tab--active" : ""}" href="${href}" aria-current="${isActive ? "page" : "false"}">
+    <span>${label}</span>
+    <span class="dashboard-tab__count">${count}</span>
+  </a>`;
+}
+
+function renderCaseStudyDashboard(projects) {
+  return html`<section class="dashboard-section" id="case-studies" aria-labelledby="case-studies-heading">
+    <div class="dashboard-section__header">
+      <div class="dashboard-section__title">
+        <p class="eyebrow">Proof library</p>
+        <h2 id="case-studies-heading">Case studies</h2>
+      </div>
+      <a class="button button--primary" href="/builder/new-case-study">New case study</a>
+    </div>
+    <div class="project-list">
+      ${projects.length
+        ? projects.map(renderProjectCard)
+        : html`<p class="empty-state">No case studies yet.</p>`}
     </div>
   </section>`;
 }
 
-export function renderDashboard(projects, bdDocuments = []) {
+function renderBdDashboard(bdDocuments) {
+  return html`<section class="dashboard-section" id="bd-documents" aria-labelledby="bd-documents-heading">
+    <div class="dashboard-section__header">
+      <div class="dashboard-section__title">
+        <p class="eyebrow">Sales documents</p>
+        <h2 id="bd-documents-heading">Business development PDFs</h2>
+      </div>
+      <a class="button button--primary" href="/bd-builder/new-business-development-doc">New BD document</a>
+    </div>
+    <div class="project-list">
+      ${bdDocuments.length
+        ? bdDocuments.map(renderBdDocumentCard)
+        : html`<p class="empty-state">No business development documents yet.</p>`}
+    </div>
+  </section>`;
+}
+
+export function renderDashboard(projects, bdDocuments = [], options = {}) {
+  const activeView = options.activeView === "bd-documents" ? "bd-documents" : "case-studies";
   const body = html`<main class="app-shell">
     <header class="app-header">
       <div>
         <p class="eyebrow">Portfolio system</p>
         <h1>Case studies and business development docs</h1>
       </div>
-      <nav class="button-row" aria-label="Project creation">
-        <a class="button button--subtle" href="/builder/new-project">New project</a>
-        <a class="button button--subtle" href="/bd-builder/new-business-development-doc">New BD doc</a>
-        <a class="button button--primary" href="/builder/${projects[0]?.slug || "uber-sample"}">Open builder</a>
-      </nav>
     </header>
-    <section class="dashboard-section" aria-labelledby="bd-documents-heading">
-      <div class="dashboard-section__header">
-        <p class="eyebrow">Sales documents</p>
-        <h2 id="bd-documents-heading">Business development PDFs</h2>
-      </div>
-      <div class="project-list">
-        ${bdDocuments.map(renderBdDocumentCard)}
-      </div>
-    </section>
-    <section class="dashboard-section" aria-labelledby="case-studies-heading">
-      <div class="dashboard-section__header">
-        <p class="eyebrow">Proof library</p>
-        <h2 id="case-studies-heading">Case studies</h2>
-      </div>
-      <div class="project-list">
-        ${projects.map(renderProjectCard)}
-      </div>
-    </section>
+    <nav class="dashboard-tabs" aria-label="Dashboard views">
+      ${dashboardTab({
+        activeView,
+        count: projects.length,
+        href: "/?view=case-studies",
+        label: "Case studies",
+        value: "case-studies"
+      })}
+      ${dashboardTab({
+        activeView,
+        count: bdDocuments.length,
+        href: "/?view=bd-documents",
+        label: "BD documents",
+        value: "bd-documents"
+      })}
+    </nav>
+    ${activeView === "bd-documents" ? renderBdDashboard(bdDocuments) : renderCaseStudyDashboard(projects)}
   </main>`;
 
   return renderDocument({
-    title: "Case studies",
+    title: activeView === "bd-documents" ? "Business development documents" : "Case studies",
     body,
     bodyClass: "app-body",
     styles: ["/app/app.css"]
@@ -213,17 +321,14 @@ export function renderBuilder(project, slug, options = {}) {
       <nav class="button-row" aria-label="Project links">
         <a class="button button--subtle" href="/">Projects</a>
         <a class="button button--subtle" href="/projects/${slug}" data-preview-link="true">Preview</a>
-        <a class="button button--subtle" href="/api/export/pdf/${slug}" data-pdf-link="true" download>Save PDF</a>
-        <a class="button button--primary" href="/api/projects/${slug}" download data-json-link="true">JSON</a>
+        ${actionMenu(slug)}
       </nav>
     </header>
 
-    <form class="builder-form" id="project-form" data-slug="${slug}" data-revision="${options.revision || "new"}">
-      <section class="form-card">
-        <h2>Metadata</h2>
-        <div class="field-grid">
+    <form class="builder-form" id="project-form" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(PROJECT_CLIENT_FIELD_LIMITS)}">
+      ${formCard("Metadata", html`<div class="field-grid">
           ${field("Title", "title", project.title)}
-          ${field("Subtitle", "subtitle", project.subtitle)}
+          ${textarea("Subtitle", "subtitle", project.subtitle, 3)}
           ${field("Year", "year", project.year)}
           ${field("Sector", "sector", project.sector)}
           ${field("Client type", "clientType", project.clientType)}
@@ -235,24 +340,18 @@ export function renderBuilder(project, slug, options = {}) {
           description: "Appears on the cover page and sets the visual tone for the case study.",
           slot: "cover",
           item: coverAsset
-        })}
-      </section>
+        })}`, true)}
 
-      <section class="form-card">
-        <h2>Narrative</h2>
-        <div class="field-grid">
+      ${formCard("Narrative", html`<div class="field-grid">
           ${textarea("Context", "context", project.context, 6)}
           ${textarea("Challenge", "challenge", project.challenge, 6)}
           ${textarea("Audience", "audience", project.audience, 5)}
           ${textarea("Approach", "approach", project.approach, 6)}
           ${textarea("Reflection", "reflection", project.reflection, 5)}
           ${textarea("Confidentiality notes", "confidentialityNotes", project.confidentialityNotes, 4)}
-        </div>
-      </section>
+        </div>`)}
 
-      <section class="form-card">
-        <h2>Structured lists</h2>
-        <div class="structured-list-grid">
+      ${formCard("Structured lists", html`<div class="structured-list-grid">
           ${structuredList({
             title: "Key decisions",
             listName: "keyDecisions",
@@ -284,10 +383,9 @@ export function renderBuilder(project, slug, options = {}) {
             listName: "impact",
             addLabel: "Add impact",
             items: project.impact,
-            renderItem: (item, index) => renderTitleDescriptionItem(item, index, "Metric")
+            renderItem: renderImpactItem
           })}
-        </div>
-      </section>
+        </div>`)}
 
       <footer class="form-actions">
         <button class="button button--primary" type="submit">Save JSON</button>

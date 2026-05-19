@@ -26,8 +26,31 @@ export const PROJECT_FIELD_LIMITS = {
   titleListTitle: 72,
   titleListDescription: 210,
   impactMetric: 56,
+  impactUnit: 24,
   assetPath: TEXT_LIMITS.path,
   assetCaption: 140
+};
+
+export const PROJECT_CLIENT_FIELD_LIMITS = {
+  title: PROJECT_FIELD_LIMITS.title,
+  subtitle: PROJECT_FIELD_LIMITS.subtitle,
+  year: PROJECT_FIELD_LIMITS.year,
+  sector: PROJECT_FIELD_LIMITS.sector,
+  clientType: PROJECT_FIELD_LIMITS.clientType,
+  role: PROJECT_FIELD_LIMITS.role,
+  collaborators: PROJECT_FIELD_LIMITS.collaborators,
+  context: PROJECT_FIELD_LIMITS.context,
+  challenge: PROJECT_FIELD_LIMITS.challenge,
+  audience: PROJECT_FIELD_LIMITS.audience,
+  approach: PROJECT_FIELD_LIMITS.approach,
+  reflection: PROJECT_FIELD_LIMITS.reflection,
+  confidentialityNotes: PROJECT_FIELD_LIMITS.confidentialityNotes,
+  itemTitle: PROJECT_FIELD_LIMITS.titleListTitle,
+  itemDescription: PROJECT_FIELD_LIMITS.titleListDescription,
+  impactMetric: PROJECT_FIELD_LIMITS.impactMetric,
+  impactUnit: PROJECT_FIELD_LIMITS.impactUnit,
+  assetPath: PROJECT_FIELD_LIMITS.assetPath,
+  assetCaption: PROJECT_FIELD_LIMITS.assetCaption
 };
 
 export const BD_FIELD_LIMITS = {
@@ -63,4 +86,39 @@ export const BD_FIELD_LIMITS = {
   assetPath: TEXT_LIMITS.path,
   assetCaption: 140,
   confidentialityNotes: 260
+};
+
+export const BD_CLIENT_FIELD_LIMITS = {
+  title: BD_FIELD_LIMITS.title,
+  subtitle: BD_FIELD_LIMITS.subtitle,
+  year: BD_FIELD_LIMITS.year,
+  audience: BD_FIELD_LIMITS.audience,
+  positioning: BD_FIELD_LIMITS.positioning,
+  executivePromise: BD_FIELD_LIMITS.executivePromise,
+  processSummary: BD_FIELD_LIMITS.processSummary,
+  nextSteps: BD_FIELD_LIMITS.nextSteps,
+  primaryCta: BD_FIELD_LIMITS.primaryCta,
+  secondaryCta: BD_FIELD_LIMITS.secondaryCta,
+  confidentialityNotes: BD_FIELD_LIMITS.confidentialityNotes,
+  itemTitle: BD_FIELD_LIMITS.titleListTitle,
+  itemDescription: BD_FIELD_LIMITS.titleListDescription,
+  offerTitle: BD_FIELD_LIMITS.offerTitle,
+  offerDescription: BD_FIELD_LIMITS.offerDescription,
+  deliverables: BD_FIELD_LIMITS.offerDeliverables,
+  headline: BD_FIELD_LIMITS.proofHeadline,
+  clientContext: BD_FIELD_LIMITS.proofClientContext,
+  projectSlug: BD_FIELD_LIMITS.proofProjectSlug,
+  assetPath: BD_FIELD_LIMITS.assetPath,
+  path: BD_FIELD_LIMITS.assetPath,
+  problem: BD_FIELD_LIMITS.proofProblem,
+  intervention: BD_FIELD_LIMITS.proofIntervention,
+  outcome: BD_FIELD_LIMITS.proofOutcome,
+  evidence: BD_FIELD_LIMITS.proofEvidence,
+  proofBody: BD_FIELD_LIMITS.proofBody,
+  engagementTitle: BD_FIELD_LIMITS.engagementTitle,
+  engagementTimeline: BD_FIELD_LIMITS.engagementTimeline,
+  timeline: BD_FIELD_LIMITS.engagementTimeline,
+  bestFor: BD_FIELD_LIMITS.engagementBestFor,
+  scope: BD_FIELD_LIMITS.engagementScope,
+  caption: BD_FIELD_LIMITS.assetCaption
 };

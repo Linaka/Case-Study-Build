@@ -214,7 +214,7 @@ export function validateBdDocument(document) {
 
   document.assets.forEach(asset => {
     assertLength("Asset path", asset.path, TEXT_LIMITS.path);
-    assertLength("Asset caption", asset.caption, TEXT_LIMITS.long);
+    assertLength("Asset caption", asset.caption, BD_FIELD_LIMITS.assetCaption);
 
     if (!VISIBILITY_VALUES.has(asset.visibility)) {
       throw bdDocumentError("Asset visibility must be public, private or hidden.", 422);

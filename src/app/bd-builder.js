@@ -4,41 +4,29 @@ const heading = document.querySelector(".app-header h1");
 const previewLink = document.querySelector("[data-preview-link]");
 const jsonLink = document.querySelector("[data-json-link]");
 const pdfLink = document.querySelector("[data-pdf-link]");
+const wordLink = document.querySelector("[data-word-link]");
+const bannerLink = document.querySelector("[data-banner-link]");
+const pdfImportMeta = document.querySelector("[data-pdf-import-meta]");
+const wordImportMeta = document.querySelector("[data-word-import-meta]");
 const ACCEPTED_IMAGE_TYPES = new Set(["image/svg+xml", "image/png", "image/jpeg", "image/webp"]);
+const ACCEPTED_PDF_TYPES = new Set(["application/pdf", "application/x-pdf"]);
+const ACCEPTED_WORD_TYPES = new Set(["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]);
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const FIELD_LIMITS = {
-  title: 82,
-  subtitle: 220,
-  year: 16,
-  audience: 82,
-  positioning: 460,
-  executivePromise: 260,
-  processSummary: 320,
-  nextSteps: 360,
-  primaryCta: 56,
-  secondaryCta: 64,
-  confidentialityNotes: 260,
-  itemTitle: 56,
-  itemDescription: 170,
-  deliverables: 180,
-  headline: 78,
-  clientContext: 56,
-  projectSlug: 72,
-  assetPath: 300,
-  path: 300,
-  problem: 190,
-  intervention: 210,
-  outcome: 170,
-  evidence: 140,
-  proofBody: 210,
-  timeline: 28,
-  bestFor: 120,
-  scope: 150,
-  caption: 140
-};
+const MAX_PDF_BYTES = 20 * 1024 * 1024;
+const MAX_WORD_BYTES = 10 * 1024 * 1024;
 
 if (!form || !status) {
   throw new Error("Business development builder form could not be initialised.");
+}
+
+const FIELD_LIMITS = fieldLimitsFromForm();
+
+function fieldLimitsFromForm() {
+  try {
+    return JSON.parse(form.dataset.fieldLimits || "{}");
+  } catch {
+    return {};
+  }
 }
 
 function value(name) {
@@ -62,6 +50,20 @@ function lines(name) {
 function setStatus(message, state = "idle") {
   status.textContent = message;
   status.dataset.state = state;
+}
+
+function setPdfImportMeta(message, state = "idle") {
+  if (pdfImportMeta) {
+    pdfImportMeta.textContent = message;
+    pdfImportMeta.dataset.state = state;
+  }
+}
+
+function setWordImportMeta(message, state = "idle") {
+  if (wordImportMeta) {
+    wordImportMeta.textContent = message;
+    wordImportMeta.dataset.state = state;
+  }
 }
 
 function setSaving(isSaving) {
@@ -91,6 +93,14 @@ function syncChrome(documentData) {
   if (pdfLink) {
     pdfLink.href = `/api/export/bd/pdf/${form.dataset.slug}`;
   }
+
+  if (wordLink) {
+    wordLink.href = `/api/export/bd/word/${form.dataset.slug}`;
+  }
+
+  if (bannerLink) {
+    bannerLink.href = `/api/export/bd/banner/${form.dataset.slug}`;
+  }
 }
 
 async function readErrorMessage(response) {
@@ -110,13 +120,13 @@ function messageFromError(error) {
 
 function limitForField(fieldName) {
   return {
-    bestFor: FIELD_LIMITS.proofBody,
+    bestFor: FIELD_LIMITS.bestFor,
     description: FIELD_LIMITS.itemDescription,
-    evidence: FIELD_LIMITS.proofBody,
-    intervention: FIELD_LIMITS.proofBody,
-    outcome: FIELD_LIMITS.proofBody,
-    problem: FIELD_LIMITS.proofBody,
-    scope: FIELD_LIMITS.proofBody
+    evidence: FIELD_LIMITS.evidence,
+    intervention: FIELD_LIMITS.intervention,
+    outcome: FIELD_LIMITS.outcome,
+    problem: FIELD_LIMITS.problem,
+    scope: FIELD_LIMITS.scope
   }[fieldName] || FIELD_LIMITS[fieldName] || FIELD_LIMITS.itemDescription;
 }
 
@@ -249,39 +259,39 @@ function createListItem(listName) {
     headingText.textContent = "Pillar";
     removeButton.setAttribute("aria-label", "Remove offer pillar");
     grid.append(
-      createField("Title", "title"),
-      createField("Description", "description", "", true),
-      createField("Deliverables", "deliverables", "", true)
+      createField("Title", "title", "", false, FIELD_LIMITS.offerTitle),
+      createField("Description", "description", "", true, FIELD_LIMITS.offerDescription),
+      createField("Deliverables", "deliverables", "", true, FIELD_LIMITS.deliverables)
     );
   } else if (listName === "proofSections") {
     headingText.textContent = "Proof";
     removeButton.setAttribute("aria-label", "Remove proof section");
     grid.append(
-      createField("Headline", "headline"),
-      createField("Client context", "clientContext"),
-      createField("Project slug", "projectSlug"),
+      createField("Headline", "headline", "", false, FIELD_LIMITS.headline),
+      createField("Client context", "clientContext", "", false, FIELD_LIMITS.clientContext),
+      createField("Project slug", "projectSlug", "", false, FIELD_LIMITS.projectSlug),
       createVisibilitySelect("private"),
-      createField("Asset path", "assetPath"),
-      createField("Problem", "problem", "", true),
-      createField("Intervention", "intervention", "", true),
-      createField("Outcome", "outcome", "", true),
-      createField("Evidence", "evidence", "", true)
+      createField("Asset path", "assetPath", "", false, FIELD_LIMITS.assetPath),
+      createField("Problem", "problem", "", true, FIELD_LIMITS.problem),
+      createField("Intervention", "intervention", "", true, FIELD_LIMITS.intervention),
+      createField("Outcome", "outcome", "", true, FIELD_LIMITS.outcome),
+      createField("Evidence", "evidence", "", true, FIELD_LIMITS.evidence)
     );
   } else if (listName === "engagementModels") {
     headingText.textContent = "Model";
     removeButton.setAttribute("aria-label", "Remove engagement model");
     grid.append(
-      createField("Title", "title"),
-      createField("Timeline", "timeline"),
-      createField("Best for", "bestFor", "", true),
-      createField("Scope", "scope", "", true)
+      createField("Title", "title", "", false, FIELD_LIMITS.engagementTitle),
+      createField("Timeline", "timeline", "", false, FIELD_LIMITS.engagementTimeline),
+      createField("Best for", "bestFor", "", true, FIELD_LIMITS.bestFor),
+      createField("Scope", "scope", "", true, FIELD_LIMITS.scope)
     );
   } else {
     headingText.textContent = "Item";
     removeButton.setAttribute("aria-label", "Remove item");
     grid.append(
-      createField("Title", "title"),
-      createField("Description", "description", "", true)
+      createField("Title", "title", "", false, FIELD_LIMITS.itemTitle),
+      createField("Description", "description", "", true, FIELD_LIMITS.itemDescription)
     );
   }
 
@@ -310,6 +320,13 @@ function updateListLabels(listEditor) {
       headingText.textContent = `${label} ${index + 1}`;
     }
   });
+
+  const itemCount = listEditor.querySelectorAll("[data-list-item]").length;
+  const summaryCount = listEditor.querySelector(".list-editor__summary span");
+
+  if (summaryCount) {
+    summaryCount.textContent = `${itemCount} ${itemCount === 1 ? "item" : "items"}`;
+  }
 }
 
 function addListItem(listName) {
@@ -402,6 +419,122 @@ function setImagePath(item, path) {
   setAssetPreview(item, path);
 }
 
+function setControlValue(control, nextValue) {
+  if (!control || nextValue === undefined || nextValue === null) {
+    return false;
+  }
+
+  const value = Array.isArray(nextValue) ? nextValue.join("\n").trim() : String(nextValue).trim();
+
+  if (!value) {
+    return false;
+  }
+
+  control.value = value;
+  updateCharacterCounter(control);
+  return true;
+}
+
+function setNamedValue(name, nextValue) {
+  return setControlValue(form.elements[name], nextValue);
+}
+
+function setItemFieldValue(item, fieldName, nextValue) {
+  return setControlValue(item.querySelector(`[data-field="${fieldName}"]`), nextValue);
+}
+
+function replaceListItems(listName, entries) {
+  if (!Array.isArray(entries) || !entries.length) {
+    return 0;
+  }
+
+  const listEditor = form.querySelector(`[data-list="${listName}"]`);
+  const items = listEditor?.querySelector("[data-list-items]");
+
+  if (!listEditor || !items) {
+    return 0;
+  }
+
+  items.replaceChildren();
+
+  entries.forEach(entry => {
+    const item = createListItem(listName);
+
+    Object.entries(entry || {}).forEach(([fieldName, value]) => {
+      setItemFieldValue(item, fieldName, value);
+    });
+
+    if (listName === "proofSections" && entry?.assetPath) {
+      setAssetPreview(item, entry.assetPath);
+    }
+
+    items.append(item);
+  });
+
+  updateListLabels(listEditor);
+  return entries.length;
+}
+
+function applyImportedAssets(assets) {
+  if (!Array.isArray(assets) || !assets.length) {
+    return 0;
+  }
+
+  let changed = 0;
+
+  assets.forEach(asset => {
+    const slot = asset?.slot || "cover";
+    const item = form.querySelector(`[data-asset-slot="${slot}"]`) || form.querySelector("[data-asset-slot]");
+
+    if (!item) {
+      return;
+    }
+
+    changed += setItemFieldValue(item, "path", asset.path) ? 1 : 0;
+    changed += setItemFieldValue(item, "caption", asset.caption) ? 1 : 0;
+    changed += setItemFieldValue(item, "visibility", asset.visibility) ? 1 : 0;
+
+    if (asset.path) {
+      setAssetPreview(item, asset.path);
+    }
+  });
+
+  return changed;
+}
+
+function applyImportedDocument(documentData) {
+  let changed = 0;
+
+  [
+    "title",
+    "subtitle",
+    "year",
+    "audience",
+    "positioning",
+    "executivePromise",
+    "processSummary",
+    "nextSteps",
+    "primaryCta",
+    "secondaryCta",
+    "confidentialityNotes"
+  ].forEach(field => {
+    changed += setNamedValue(field, documentData?.[field]) ? 1 : 0;
+  });
+
+  changed += replaceListItems("buyerProblems", documentData?.buyerProblems || []);
+  changed += replaceListItems("offerPillars", documentData?.offerPillars || []);
+  changed += replaceListItems("process", documentData?.process || []);
+  changed += replaceListItems("proofSections", documentData?.proofSections || []);
+  changed += replaceListItems("engagementModels", documentData?.engagementModels || []);
+  changed += applyImportedAssets(documentData?.assets || []);
+
+  if (changed) {
+    syncChrome(readDocument());
+  }
+
+  return changed;
+}
+
 async function readImageDimensions(file) {
   const objectUrl = URL.createObjectURL(file);
 
@@ -459,6 +592,89 @@ async function uploadImage(item, file) {
   setImagePath(item, uploaded.path);
   setAssetMeta(item, `Loaded ${dimensions.width}x${dimensions.height} px ${ratioLabel}. Save JSON to keep this image in the document.`, "success");
   setStatus("Image loaded. Save JSON to keep it in the document.", "success");
+}
+
+function validatePdfFile(file) {
+  const hasPdfExtension = /\.pdf$/i.test(file.name || "");
+
+  if (file.type && !ACCEPTED_PDF_TYPES.has(file.type) && !hasPdfExtension) {
+    throw new Error("Unsupported file type. Use a PDF file.");
+  }
+
+  if (file.size > MAX_PDF_BYTES) {
+    throw new Error("PDF file is too large. Use a file under 20 MB.");
+  }
+}
+
+async function importPdf(file) {
+  validatePdfFile(file);
+  setPdfImportMeta(`Importing ${file.name || "PDF"}...`, "pending");
+  setStatus("Importing PDF content...", "pending");
+
+  const response = await fetch("/api/import/bd/pdf", {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/pdf",
+      "X-File-Name": (file.name || "import.pdf").replace(/[^\x20-\x7E]/g, "-")
+    },
+    body: file
+  });
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response));
+  }
+
+  const imported = await response.json();
+  const changed = applyImportedDocument(imported.document);
+  const pageText = imported.pageCount === 1 ? "1 page" : `${imported.pageCount || "unknown"} pages`;
+
+  if (!changed) {
+    throw new Error("No mappable business development content was found in that PDF.");
+  }
+
+  setPdfImportMeta(`Imported ${pageText}. Review the draft, then save JSON.`, "success");
+  setStatus("PDF content imported. Review the draft, then save JSON.", "success");
+}
+
+function validateWordFile(file) {
+  const hasDocxExtension = /\.docx$/i.test(file.name || "");
+
+  if (file.type && !ACCEPTED_WORD_TYPES.has(file.type) && !hasDocxExtension) {
+    throw new Error("Unsupported file type. Use a Microsoft Word .docx file.");
+  }
+
+  if (file.size > MAX_WORD_BYTES) {
+    throw new Error("Word document is too large. Use a .docx file under 10 MB.");
+  }
+}
+
+async function importWord(file) {
+  validateWordFile(file);
+  setWordImportMeta(`Importing ${file.name || "Word document"}...`, "pending");
+  setStatus("Importing Word content...", "pending");
+
+  const response = await fetch("/api/import/bd/word", {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "X-File-Name": (file.name || "import.docx").replace(/[^\x20-\x7E]/g, "-")
+    },
+    body: file
+  });
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response));
+  }
+
+  const imported = await response.json();
+  const changed = applyImportedDocument(imported.document);
+
+  if (!changed) {
+    throw new Error("No mappable business development content was found in that Word document.");
+  }
+
+  setWordImportMeta("Imported Word content. Review the draft, then save JSON.", "success");
+  setStatus("Word content imported. Review the draft, then save JSON.", "success");
 }
 
 function collectTitleDescriptionList(listName) {
@@ -622,7 +838,49 @@ form.addEventListener("click", event => {
   }
 });
 
-form.addEventListener("change", async event => {
+document.addEventListener("change", async event => {
+  const pdfInput = event.target.closest("[data-pdf-import-input]");
+
+  if (pdfInput) {
+    const file = pdfInput.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      await importPdf(file);
+    } catch (error) {
+      setPdfImportMeta(messageFromError(error), "error");
+      setStatus(messageFromError(error), "error");
+    } finally {
+      pdfInput.value = "";
+    }
+
+    return;
+  }
+
+  const wordInput = event.target.closest("[data-word-import-input]");
+
+  if (wordInput) {
+    const file = wordInput.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      await importWord(file);
+    } catch (error) {
+      setWordImportMeta(messageFromError(error), "error");
+      setStatus(messageFromError(error), "error");
+    } finally {
+      wordInput.value = "";
+    }
+
+    return;
+  }
+
   const input = event.target.closest("[data-image-input]");
 
   if (!input) {
@@ -679,6 +937,20 @@ if (pdfLink) {
       await saveDocument();
       setStatus("Preparing PDF download...", "pending");
       window.location.assign(pdfLink.href);
+    } catch {
+      // Stay on the form so the user can fix validation or network errors.
+    }
+  });
+}
+
+if (wordLink) {
+  wordLink.addEventListener("click", async event => {
+    event.preventDefault();
+
+    try {
+      await saveDocument();
+      setStatus("Preparing Word download...", "pending");
+      window.location.assign(wordLink.href);
     } catch {
       // Stay on the form so the user can fix validation or network errors.
     }

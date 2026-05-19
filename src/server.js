@@ -18,11 +18,23 @@ import {
 } from "./lib/bd-documents.js";
 import { toHtml } from "./lib/html.js";
 import { createJobQueue } from "./lib/job-queue.js";
+import { assertPdfUpload, importBdDocumentPdf, importProjectPdf, MAX_PDF_BYTES } from "./lib/pdf-import.js";
 import { assertProjectSlug, blankProject, listProjects, readProject, readProjectRecord, saveProjectRecord } from "./lib/projects.js";
+import {
+  bdDocumentFromDocx,
+  isDocxBuffer,
+  MAX_WORD_DOCUMENT_BYTES,
+  projectFromDocx,
+  renderBdDocumentDocx,
+  renderProjectDocx,
+  WORD_DOCUMENT_MIME
+} from "./lib/word-documents.js";
+import { createImpactWorkbook } from "./lib/xlsx.js";
 import { renderBdBuilder } from "./templates/bd-app.js";
 import { renderBdDocument } from "./templates/bd-document.js";
 import { renderDashboard, renderBuilder } from "./templates/app.js";
 import { renderCaseStudy } from "./templates/case-study.js";
+import { renderMarketingBanner } from "./templates/marketing-banner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -102,6 +114,36 @@ function sendPdf(response, slug, file) {
     ...securityHeaders(),
     "Content-Type": "application/pdf",
     "Content-Disposition": `attachment; filename="${slug}.pdf"`,
+    "Content-Length": file.length
+  });
+  response.end(file);
+}
+
+function sendPng(response, slug, file) {
+  response.writeHead(200, {
+    ...securityHeaders(),
+    "Content-Type": "image/png",
+    "Content-Disposition": `attachment; filename="${slug}.png"`,
+    "Content-Length": file.length
+  });
+  response.end(file);
+}
+
+function sendXlsx(response, slug, file) {
+  response.writeHead(200, {
+    ...securityHeaders(),
+    "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "Content-Disposition": `attachment; filename="${slug}-impact.xlsx"`,
+    "Content-Length": file.length
+  });
+  response.end(file);
+}
+
+function sendWordDocument(response, slug, file) {
+  response.writeHead(200, {
+    ...securityHeaders(),
+    "Content-Type": WORD_DOCUMENT_MIME,
+    "Content-Disposition": `attachment; filename="${slug}.docx"`,
     "Content-Length": file.length
   });
   response.end(file);
@@ -312,7 +354,7 @@ async function readJsonRequest(request) {
   }
 }
 
-async function readBinaryRequest(request, maxBytes) {
+async function readBinaryRequest(request, maxBytes, tooLargeMessage = "Request body is too large.") {
   const chunks = [];
   let total = 0;
 
@@ -320,7 +362,7 @@ async function readBinaryRequest(request, maxBytes) {
     total += chunk.length;
 
     if (total > maxBytes) {
-      throw httpError(413, "Image file is too large. Use a file under 5 MB.");
+      throw httpError(413, tooLargeMessage);
     }
 
     chunks.push(chunk);
@@ -333,7 +375,7 @@ async function uploadAsset(request, slug) {
   const contentType = String(request.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
   const originalName = request.headers["x-file-name"];
   const fileName = safeAssetFilename(originalName, contentType);
-  const file = await readBinaryRequest(request, MAX_IMAGE_BYTES);
+  const file = await readBinaryRequest(request, MAX_IMAGE_BYTES, "Image file is too large. Use a file under 5 MB.");
 
   if (!file.length) {
     throw httpError(400, "Choose an image file before uploading.");
@@ -354,6 +396,42 @@ async function uploadAsset(request, slug) {
     type: contentType,
     size: file.length
   };
+}
+
+async function importPdf(request, type) {
+  const contentType = String(request.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
+  const fileName = String(request.headers["x-file-name"] || "");
+  const file = await readBinaryRequest(request, MAX_PDF_BYTES, "PDF file is too large. Use a file under 20 MB.");
+
+  if (!file.length) {
+    throw httpError(400, "Choose a PDF file before importing.");
+  }
+
+  assertPdfUpload(file, contentType);
+
+  if (type === "bd") {
+    return importBdDocumentPdf(file, { fileName });
+  }
+
+  return importProjectPdf(file, { fileName });
+}
+
+async function readWordDocumentRequest(request) {
+  const file = await readBinaryRequest(
+    request,
+    MAX_WORD_DOCUMENT_BYTES,
+    "Word document is too large. Use a .docx file under 10 MB."
+  );
+
+  if (!file.length) {
+    throw httpError(400, "Choose a .docx file before importing.");
+  }
+
+  if (!isDocxBuffer(file)) {
+    throw httpError(400, "Import requires a Microsoft Word .docx file.");
+  }
+
+  return file;
 }
 
 function localPreviewOrigin() {
@@ -402,6 +480,49 @@ async function renderPdfWithWorker(previewPath, outputPath) {
   return fs.readFile(outputPath);
 }
 
+async function renderImageWithWorker(previewPath, outputPath, options = {}) {
+  await fs.mkdir(path.dirname(outputPath), { recursive: true });
+
+  await new Promise((resolve, reject) => {
+    const worker = spawn(process.execPath, ["scripts/render-image-worker.js"], {
+      env: {
+        ...process.env,
+        PREVIEW_URL: `${localPreviewOrigin()}${previewPath}`,
+        OUTPUT_PATH: outputPath,
+        INTERNAL_RENDER_TOKEN,
+        IMAGE_WIDTH: String(options.width || 1600),
+        IMAGE_HEIGHT: String(options.height || 900)
+      },
+      stdio: ["ignore", "ignore", "pipe"]
+    });
+    const stderr = [];
+    const timeout = setTimeout(() => {
+      worker.kill("SIGTERM");
+      reject(httpError(504, "Image export timed out."));
+    }, PDF_JOB_TIMEOUT_MS);
+
+    worker.stderr.on("data", chunk => stderr.push(chunk));
+    worker.on("error", error => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    worker.on("exit", code => {
+      clearTimeout(timeout);
+
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      const detail = Buffer.concat(stderr).toString("utf8").trim();
+      reject(httpError(500, detail || "Image worker failed."));
+    });
+  });
+
+  await backupWrittenFile(outputPath, path.join("exports", path.basename(outputPath)));
+  return fs.readFile(outputPath);
+}
+
 async function exportProjectPdf(slug) {
   await readProject(slug);
   const outputDir = path.join(ROOT, "exports");
@@ -410,12 +531,61 @@ async function exportProjectPdf(slug) {
   return renderPdfWithWorker(`/projects/${slug}`, outputPath);
 }
 
+async function exportProjectMarketingBanner(slug) {
+  await readProject(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-marketing-banner.png`);
+
+  return renderImageWithWorker(`/marketing-banner/projects/${slug}`, outputPath);
+}
+
+async function exportProjectXlsx(slug) {
+  const project = await readProject(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-impact.xlsx`);
+  const file = createImpactWorkbook(project);
+
+  await fs.mkdir(outputDir, { recursive: true });
+  await fs.writeFile(outputPath, file);
+  await backupWrittenFile(outputPath, path.join("exports", path.basename(outputPath)));
+
+  return file;
+}
+
 async function exportBdDocumentPdf(slug) {
   await readBdDocument(slug);
   const outputDir = path.join(ROOT, "exports");
   const outputPath = path.join(outputDir, `${slug}-bd.pdf`);
 
   return renderPdfWithWorker(`/bd/${slug}`, outputPath);
+}
+
+async function exportBdDocumentMarketingBanner(slug) {
+  await readBdDocument(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-bd-marketing-banner.png`);
+
+  return renderImageWithWorker(`/marketing-banner/bd/${slug}`, outputPath);
+}
+
+async function exportProjectWord(slug) {
+  return renderProjectDocx(await readProject(slug));
+}
+
+async function exportBdDocumentWord(slug) {
+  return renderBdDocumentDocx(await readBdDocument(slug));
+}
+
+async function importProjectWord(request) {
+  return {
+    project: projectFromDocx(await readWordDocumentRequest(request))
+  };
+}
+
+async function importBdDocumentWord(request) {
+  return {
+    document: bdDocumentFromDocx(await readWordDocumentRequest(request))
+  };
 }
 
 async function readProjectForBuilder(slug) {
@@ -516,9 +686,21 @@ async function handleRequest(request, response) {
       return;
     }
 
+    if (request.method === "GET" && pathname.startsWith("/api/export/bd/banner/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/api/export/bd/banner/", ""));
+      sendPng(response, `${slug}-bd-marketing-banner`, await PDF_QUEUE.add(() => exportBdDocumentMarketingBanner(slug)));
+      return;
+    }
+
     if (request.method === "GET" && pathname.startsWith("/api/export/bd/pdf/")) {
       const slug = assertBdDocumentSlug(pathname.replace("/api/export/bd/pdf/", ""));
       sendPdf(response, `${slug}-bd`, await PDF_QUEUE.add(() => exportBdDocumentPdf(slug)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/bd/word/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/api/export/bd/word/", ""));
+      sendWordDocument(response, `${slug}-bd`, await exportBdDocumentWord(slug));
       return;
     }
 
@@ -528,8 +710,48 @@ async function handleRequest(request, response) {
       return;
     }
 
+    if (request.method === "GET" && pathname.startsWith("/api/export/banner/")) {
+      const slug = assertProjectSlug(pathname.replace("/api/export/banner/", ""));
+      sendPng(response, `${slug}-marketing-banner`, await PDF_QUEUE.add(() => exportProjectMarketingBanner(slug)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/word/")) {
+      const slug = assertProjectSlug(pathname.replace("/api/export/word/", ""));
+      sendWordDocument(response, slug, await exportProjectWord(slug));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/xlsx/")) {
+      const slug = assertProjectSlug(pathname.replace("/api/export/xlsx/", ""));
+      sendXlsx(response, slug, await exportProjectXlsx(slug));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/import/pdf") {
+      sendJson(response, await importPdf(request, "project"));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/import/bd/pdf") {
+      sendJson(response, await importPdf(request, "bd"));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/import/bd/word") {
+      sendJson(response, await importBdDocumentWord(request));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/import/word") {
+      sendJson(response, await importProjectWord(request));
+      return;
+    }
+
     if (request.method === "GET" && pathname === "/") {
-      sendHtml(response, renderDashboard(await listProjects(), await listBdDocuments()));
+      sendHtml(response, renderDashboard(await listProjects(), await listBdDocuments(), {
+        activeView: url.searchParams.get("view")
+      }));
       return;
     }
 
@@ -556,6 +778,18 @@ async function handleRequest(request, response) {
       const slug = assertBdDocumentSlug(pathname.replace("/bd-builder/", ""));
       const record = await readBdDocumentForBuilder(slug);
       sendHtml(response, renderBdBuilder(record.document, slug, { revision: record.revision }));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/marketing-banner/projects/")) {
+      const slug = assertProjectSlug(pathname.replace("/marketing-banner/projects/", ""));
+      sendHtml(response, renderMarketingBanner(await readProjectForPreview(slug), { slug, type: "project" }));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/marketing-banner/bd/")) {
+      const slug = assertBdDocumentSlug(pathname.replace("/marketing-banner/bd/", ""));
+      sendHtml(response, renderMarketingBanner(await readBdDocumentForPreview(slug), { slug, type: "bd" }));
       return;
     }
 

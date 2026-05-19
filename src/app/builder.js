@@ -4,31 +4,30 @@ const heading = document.querySelector(".app-header h1");
 const previewLink = document.querySelector("[data-preview-link]");
 const jsonLink = document.querySelector("[data-json-link]");
 const pdfLink = document.querySelector("[data-pdf-link]");
+const xlsxLink = document.querySelector("[data-xlsx-link]");
+const wordLink = document.querySelector("[data-word-link]");
+const bannerLink = document.querySelector("[data-banner-link]");
+const pdfImportMeta = document.querySelector("[data-pdf-import-meta]");
+const wordImportMeta = document.querySelector("[data-word-import-meta]");
 const ACCEPTED_IMAGE_TYPES = new Set(["image/svg+xml", "image/png", "image/jpeg", "image/webp"]);
+const ACCEPTED_PDF_TYPES = new Set(["application/pdf", "application/x-pdf"]);
+const ACCEPTED_WORD_TYPES = new Set(["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]);
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const FIELD_LIMITS = {
-  title: 82,
-  subtitle: 220,
-  year: 16,
-  sector: 56,
-  clientType: 64,
-  role: 110,
-  collaborators: 360,
-  context: 650,
-  challenge: 520,
-  audience: 420,
-  approach: 560,
-  reflection: 420,
-  confidentialityNotes: 320,
-  itemTitle: 72,
-  itemDescription: 210,
-  impactMetric: 56,
-  assetPath: 300,
-  assetCaption: 140
-};
+const MAX_PDF_BYTES = 20 * 1024 * 1024;
+const MAX_WORD_BYTES = 10 * 1024 * 1024;
 
 if (!form || !status) {
   throw new Error("Builder form could not be initialised.");
+}
+
+const FIELD_LIMITS = fieldLimitsFromForm();
+
+function fieldLimitsFromForm() {
+  try {
+    return JSON.parse(form.dataset.fieldLimits || "{}");
+  } catch {
+    return {};
+  }
 }
 
 function value(name) {
@@ -48,6 +47,20 @@ function lines(name) {
 function setStatus(message, state = "idle") {
   status.textContent = message;
   status.dataset.state = state;
+}
+
+function setPdfImportMeta(message, state = "idle") {
+  if (pdfImportMeta) {
+    pdfImportMeta.textContent = message;
+    pdfImportMeta.dataset.state = state;
+  }
+}
+
+function setWordImportMeta(message, state = "idle") {
+  if (wordImportMeta) {
+    wordImportMeta.textContent = message;
+    wordImportMeta.dataset.state = state;
+  }
 }
 
 function setSaving(isSaving) {
@@ -77,6 +90,18 @@ function syncChrome(project) {
   if (pdfLink) {
     pdfLink.href = `/api/export/pdf/${form.dataset.slug}`;
   }
+
+  if (xlsxLink) {
+    xlsxLink.href = `/api/export/xlsx/${form.dataset.slug}`;
+  }
+
+  if (wordLink) {
+    wordLink.href = `/api/export/word/${form.dataset.slug}`;
+  }
+
+  if (bannerLink) {
+    bannerLink.href = `/api/export/banner/${form.dataset.slug}`;
+  }
 }
 
 async function readErrorMessage(response) {
@@ -100,7 +125,8 @@ function limitForField(fieldName) {
     description: FIELD_LIMITS.itemDescription,
     metric: FIELD_LIMITS.impactMetric,
     path: FIELD_LIMITS.assetPath,
-    title: FIELD_LIMITS.itemTitle
+    title: FIELD_LIMITS.itemTitle,
+    unit: FIELD_LIMITS.impactUnit
   }[fieldName] || FIELD_LIMITS[fieldName] || FIELD_LIMITS.itemDescription;
 }
 
@@ -136,7 +162,7 @@ function initializeCharacterCounters(root = form) {
   root.querySelectorAll("input[maxlength], textarea[maxlength]").forEach(attachCharacterCounter);
 }
 
-function createField(labelText, fieldName, value = "", multiline = false, maxLength = limitForField(fieldName)) {
+function createField(labelText, fieldName, value = "", multiline = false, maxLength = limitForField(fieldName), type = "text") {
   const label = document.createElement("label");
   const labelTextNode = document.createElement("span");
   const control = document.createElement(multiline ? "textarea" : "input");
@@ -144,13 +170,18 @@ function createField(labelText, fieldName, value = "", multiline = false, maxLen
   label.className = multiline ? "field field--wide" : "field";
   labelTextNode.textContent = labelText;
   control.dataset.field = fieldName;
-  control.maxLength = maxLength;
   control.value = value;
 
   if (multiline) {
+    control.maxLength = maxLength;
     control.rows = 3;
   } else {
-    control.type = "text";
+    control.type = type;
+    if (type === "number") {
+      control.step = "any";
+    } else {
+      control.maxLength = maxLength;
+    }
   }
 
   label.append(labelTextNode, control);
@@ -245,6 +276,10 @@ function createListItem(listName) {
     removeButton.setAttribute("aria-label", "Remove item");
     grid.append(
       createField(titleLabel, titleField),
+      ...(listName === "impact" ? [
+        createField("Value", "value", "", false, FIELD_LIMITS.itemDescription, "number"),
+        createField("Unit", "unit", "", false, FIELD_LIMITS.impactUnit)
+      ] : []),
       createField("Description", "description", "", true, FIELD_LIMITS.itemDescription)
     );
   }
@@ -271,6 +306,13 @@ function updateListLabels(listEditor) {
 
     heading.textContent = `${listName === "assets" ? "Asset" : "Item"} ${index + 1}`;
   });
+
+  const itemCount = listEditor.querySelectorAll("[data-list-item]").length;
+  const summaryCount = listEditor.querySelector(".list-editor__summary span");
+
+  if (summaryCount) {
+    summaryCount.textContent = `${itemCount} ${itemCount === 1 ? "item" : "items"}`;
+  }
 }
 
 function addListItem(listName) {
@@ -363,6 +405,126 @@ function setAssetPath(item, path) {
   setAssetPreview(item, path);
 }
 
+function setControlValue(control, nextValue) {
+  if (!control || nextValue === undefined || nextValue === null) {
+    return false;
+  }
+
+  const value = String(nextValue).trim();
+
+  if (!value) {
+    return false;
+  }
+
+  control.value = value;
+  updateCharacterCounter(control);
+  return true;
+}
+
+function setNamedValue(name, nextValue) {
+  return setControlValue(form.elements[name], nextValue);
+}
+
+function setItemFieldValue(item, fieldName, nextValue) {
+  return setControlValue(item.querySelector(`[data-field="${fieldName}"]`), nextValue);
+}
+
+function replaceListItems(listName, entries) {
+  if (!Array.isArray(entries) || !entries.length) {
+    return 0;
+  }
+
+  const listEditor = form.querySelector(`[data-list="${listName}"]`);
+  const items = listEditor?.querySelector("[data-list-items]");
+
+  if (!listEditor || !items) {
+    return 0;
+  }
+
+  items.replaceChildren();
+
+  entries.forEach(entry => {
+    const item = createListItem(listName);
+
+    if (listName === "impact") {
+      setItemFieldValue(item, "metric", entry.metric);
+      setItemFieldValue(item, "value", entry.value);
+      setItemFieldValue(item, "unit", entry.unit);
+    } else {
+      setItemFieldValue(item, "title", entry.title);
+    }
+
+    setItemFieldValue(item, "description", entry.description);
+    items.append(item);
+  });
+
+  updateListLabels(listEditor);
+  return entries.length;
+}
+
+function applyImportedAssets(assets) {
+  if (!Array.isArray(assets) || !assets.length) {
+    return 0;
+  }
+
+  let changed = 0;
+
+  assets.forEach(asset => {
+    const slot = asset?.slot || "cover";
+    const item = form.querySelector(`[data-asset-slot="${slot}"]`) || form.querySelector("[data-asset-slot]");
+
+    if (!item) {
+      return;
+    }
+
+    changed += setItemFieldValue(item, "path", asset.path) ? 1 : 0;
+    changed += setItemFieldValue(item, "caption", asset.caption) ? 1 : 0;
+    changed += setItemFieldValue(item, "visibility", asset.visibility) ? 1 : 0;
+
+    if (asset.path) {
+      setAssetPreview(item, asset.path);
+    }
+  });
+
+  return changed;
+}
+
+function applyImportedProject(project) {
+  let changed = 0;
+
+  [
+    "title",
+    "subtitle",
+    "year",
+    "sector",
+    "clientType",
+    "role",
+    "context",
+    "challenge",
+    "audience",
+    "approach",
+    "reflection",
+    "confidentialityNotes"
+  ].forEach(field => {
+    changed += setNamedValue(field, project?.[field]) ? 1 : 0;
+  });
+
+  if (Array.isArray(project?.collaborators) && project.collaborators.length) {
+    changed += setNamedValue("collaborators", project.collaborators.join("\n")) ? 1 : 0;
+  }
+
+  changed += replaceListItems("keyDecisions", project?.keyDecisions || []);
+  changed += replaceListItems("outputs", project?.outputs || []);
+  changed += replaceListItems("impact", project?.impact || []);
+  changed += applyImportedAssets(project?.assets || []);
+
+  if (changed) {
+    syncChrome(readProject());
+  }
+
+  return changed;
+}
+
 async function readImageDimensions(file) {
   const objectUrl = URL.createObjectURL(file);
 
@@ -422,16 +584,101 @@ async function uploadImage(item, file) {
   setStatus("Image loaded. Save JSON to keep it in the case study.", "success");
 }
 
+function validatePdfFile(file) {
+  const hasPdfExtension = /\.pdf$/i.test(file.name || "");
+
+  if (file.type && !ACCEPTED_PDF_TYPES.has(file.type) && !hasPdfExtension) {
+    throw new Error("Unsupported file type. Use a PDF file.");
+  }
+
+  if (file.size > MAX_PDF_BYTES) {
+    throw new Error("PDF file is too large. Use a file under 20 MB.");
+  }
+}
+
+async function importPdf(file) {
+  validatePdfFile(file);
+  setPdfImportMeta(`Importing ${file.name || "PDF"}...`, "pending");
+  setStatus("Importing PDF content...", "pending");
+
+  const response = await fetch("/api/import/pdf", {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/pdf",
+      "X-File-Name": (file.name || "import.pdf").replace(/[^\x20-\x7E]/g, "-")
+    },
+    body: file
+  });
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response));
+  }
+
+  const imported = await response.json();
+  const changed = applyImportedProject(imported.project);
+  const pageText = imported.pageCount === 1 ? "1 page" : `${imported.pageCount || "unknown"} pages`;
+
+  if (!changed) {
+    throw new Error("No mappable case-study content was found in that PDF.");
+  }
+
+  setPdfImportMeta(`Imported ${pageText}. Review the draft, then save JSON.`, "success");
+  setStatus("PDF content imported. Review the draft, then save JSON.", "success");
+}
+
+function validateWordFile(file) {
+  const hasDocxExtension = /\.docx$/i.test(file.name || "");
+
+  if (file.type && !ACCEPTED_WORD_TYPES.has(file.type) && !hasDocxExtension) {
+    throw new Error("Unsupported file type. Use a Microsoft Word .docx file.");
+  }
+
+  if (file.size > MAX_WORD_BYTES) {
+    throw new Error("Word document is too large. Use a .docx file under 10 MB.");
+  }
+}
+
+async function importWord(file) {
+  validateWordFile(file);
+  setWordImportMeta(`Importing ${file.name || "Word document"}...`, "pending");
+  setStatus("Importing Word content...", "pending");
+
+  const response = await fetch("/api/import/word", {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "X-File-Name": (file.name || "import.docx").replace(/[^\x20-\x7E]/g, "-")
+    },
+    body: file
+  });
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response));
+  }
+
+  const imported = await response.json();
+  const changed = applyImportedProject(imported.project);
+
+  if (!changed) {
+    throw new Error("No mappable case-study content was found in that Word document.");
+  }
+
+  setWordImportMeta("Imported Word content. Review the draft, then save JSON.", "success");
+  setStatus("Word content imported. Review the draft, then save JSON.", "success");
+}
+
 function collectStructuredList(listName) {
   return Array.from(form.querySelectorAll(`[data-list="${listName}"] [data-list-item]`))
     .map(item => {
       if (listName === "impact") {
         const impact = {
           metric: fieldValue(item, "metric"),
+          value: fieldValue(item, "value"),
+          unit: fieldValue(item, "unit"),
           description: fieldValue(item, "description")
         };
 
-        return impact.metric || impact.description ? impact : null;
+        return impact.metric || impact.value || impact.unit || impact.description ? impact : null;
       }
 
       const entry = {
@@ -543,7 +790,49 @@ form.addEventListener("click", event => {
   }
 });
 
-form.addEventListener("change", async event => {
+document.addEventListener("change", async event => {
+  const pdfInput = event.target.closest("[data-pdf-import-input]");
+
+  if (pdfInput) {
+    const file = pdfInput.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      await importPdf(file);
+    } catch (error) {
+      setPdfImportMeta(messageFromError(error), "error");
+      setStatus(messageFromError(error), "error");
+    } finally {
+      pdfInput.value = "";
+    }
+
+    return;
+  }
+
+  const wordInput = event.target.closest("[data-word-import-input]");
+
+  if (wordInput) {
+    const file = wordInput.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      await importWord(file);
+    } catch (error) {
+      setWordImportMeta(messageFromError(error), "error");
+      setStatus(messageFromError(error), "error");
+    } finally {
+      wordInput.value = "";
+    }
+
+    return;
+  }
+
   const input = event.target.closest("[data-image-input]");
 
   if (!input) {
@@ -600,6 +889,34 @@ if (pdfLink) {
       await saveProject();
       setStatus("Preparing PDF download...", "pending");
       window.location.assign(pdfLink.href);
+    } catch {
+      // Stay on the form so the user can fix validation or network errors.
+    }
+  });
+}
+
+if (xlsxLink) {
+  xlsxLink.addEventListener("click", async event => {
+    event.preventDefault();
+
+    try {
+      await saveProject();
+      setStatus("Preparing Excel download...", "pending");
+      window.location.assign(xlsxLink.href);
+    } catch {
+      // Stay on the form so the user can fix validation or network errors.
+    }
+  });
+}
+
+if (wordLink) {
+  wordLink.addEventListener("click", async event => {
+    event.preventDefault();
+
+    try {
+      await saveProject();
+      setStatus("Preparing Word download...", "pending");
+      window.location.assign(wordLink.href);
     } catch {
       // Stay on the form so the user can fix validation or network errors.
     }

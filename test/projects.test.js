@@ -30,7 +30,7 @@ function validProject(overrides = {}) {
     approach: "Approach.",
     keyDecisions: [{ title: "Decision", description: "Reasoning." }],
     outputs: [{ title: "Output", description: "Result." }],
-    impact: [{ metric: "Impact", description: "Outcome." }],
+    impact: [{ metric: "Impact", value: 42, unit: "%", description: "Outcome." }],
     reflection: "Reflection.",
     confidentialityNotes: "No sensitive data.",
     assets: [
@@ -52,6 +52,8 @@ test("normalizeProject validates and preserves slotted assets", async () => {
   assert.equal(project.title, "Production case study");
   assert.equal(project.assets[0].slot, "cover");
   assert.equal(project.keyDecisions[0].title, "Decision");
+  assert.equal(project.impact[0].value, 42);
+  assert.equal(project.impact[0].unit, "%");
 });
 
 test("normalizeProject rejects non-local asset paths", async () => {
@@ -62,6 +64,17 @@ test("normalizeProject rejects non-local asset paths", async () => {
       assets: [{ path: "https://example.com/image.png", caption: "", visibility: "public", slot: "cover" }]
     })),
     /local \/assets\//
+  );
+});
+
+test("normalizeProject rejects non-numeric impact values", async () => {
+  const { normalizeProject } = await loadProjectsModule();
+
+  assert.throws(
+    () => normalizeProject(validProject({
+      impact: [{ metric: "Impact", value: "many", unit: "%", description: "Outcome." }]
+    })),
+    /Impact value must be a number/
   );
 });
 
@@ -80,6 +93,13 @@ test("normalizeProject enforces PDF-aware copy limits", async () => {
       keyDecisions: [{ title: "Decision", description: "A".repeat(211) }]
     })),
     /Item description must be 210 characters or fewer/
+  );
+
+  assert.throws(
+    () => normalizeProject(validProject({
+      assets: [{ ...validProject().assets[0], caption: "A".repeat(141) }]
+    })),
+    /Asset caption must be 140 characters or fewer/
   );
 });
 

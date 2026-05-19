@@ -25,6 +25,61 @@ function objectBody(item) {
   return asText(item?.description || item?.body || item?.summary);
 }
 
+function numericImpactItems(items) {
+  return asArray(items)
+    .map((item, index) => ({
+      metric: objectTitle(item, `Metric ${index + 1}`),
+      value: item?.value === null || item?.value === undefined || item?.value === "" ? null : Number(item.value),
+      unit: asText(item?.unit),
+      description: objectBody(item)
+    }))
+    .filter(item => Number.isFinite(item.value));
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("en", {
+    maximumFractionDigits: 2
+  }).format(value);
+}
+
+function formatImpactValue(item) {
+  const value = formatNumber(item.value);
+
+  if (!item.unit) {
+    return value;
+  }
+
+  return ["%", "x", "X"].includes(item.unit) ? `${value}${item.unit}` : `${value} ${item.unit}`;
+}
+
+function impactSection(items) {
+  const numericItems = numericImpactItems(items);
+  const narrativeItems = asArray(items).filter(item => {
+    const value = item?.value === null || item?.value === undefined || item?.value === "" ? null : Number(item.value);
+    return !Number.isFinite(value);
+  });
+
+  if (!numericItems.length) {
+    return cardGrid(items);
+  }
+
+  const maxValue = Math.max(...numericItems.map(item => Math.abs(item.value)), 1);
+
+  return html`<div class="impact-layout">
+    <div class="impact-visual" aria-label="Impact data visualisation">
+      ${numericItems.map(item => html`<article class="impact-row">
+        <div class="impact-row__header">
+          <h3>${item.metric}</h3>
+          <strong>${formatImpactValue(item)}</strong>
+        </div>
+        <meter class="impact-meter" min="0" max="${maxValue}" value="${Math.abs(item.value)}">${formatImpactValue(item)}</meter>
+        ${item.description ? html`<p>${item.description}</p>` : ""}
+      </article>`)}
+    </div>
+    ${narrativeItems.length ? cardGrid(narrativeItems) : ""}
+  </div>`;
+}
+
 function paragraphs(value, className = "") {
   const blocks = asText(value).split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
 
@@ -107,6 +162,9 @@ export function renderCaseStudy(project, options = {}) {
 
   const previewToolbar = slug ? html`<nav class="preview-toolbar" aria-label="Preview controls">
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/builder/${slug}">Close preview</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/xlsx/${slug}" download>Excel data</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/word/${slug}" download>Save Word</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/banner/${slug}" download>Save banner</a>
     <a class="preview-toolbar__link" href="/api/export/pdf/${slug}" download>Save PDF</a>
   </nav>` : "";
 
@@ -190,7 +248,7 @@ export function renderCaseStudy(project, options = {}) {
       number: "07",
       eyebrow: "Impact",
       title: "Impact",
-      children: html`${cardGrid(project.impact)}`
+      children: impactSection(project.impact)
     })}
 
     ${page({

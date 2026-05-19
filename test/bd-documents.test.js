@@ -86,6 +86,13 @@ test("normalizeBdDocument enforces PDF-aware copy limits", async () => {
     })),
     /Proof evidence must be 140 characters or fewer/
   );
+
+  assert.throws(
+    () => normalizeBdDocument(validDocument({
+      assets: [{ ...validDocument().assets[0], caption: "A".repeat(141) }]
+    })),
+    /Asset caption must be 140 characters or fewer/
+  );
 });
 
 test("saveBdDocumentRecord rejects stale revisions", async () => {
