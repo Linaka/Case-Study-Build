@@ -38,6 +38,54 @@ function renderBdDocumentCard(document) {
   </article>`;
 }
 
+function renderEngineeringReportCard(project) {
+  return html`<article class="project-card">
+    <div>
+      <p class="eyebrow">${project.year || "Draft"} · ${project.sector || "Engineering source"}</p>
+      <h2>${project.title}</h2>
+      <p>${project.subtitle}</p>
+    </div>
+    <nav class="button-row" aria-label="${project.title} engineering report actions">
+      <a class="button button--subtle" href="/builder/${project.slug}">Edit source</a>
+      <a class="button button--subtle" href="/engineering-reports/${project.slug}">Preview report</a>
+      <a class="button button--primary" href="/api/export/engineering/pdf/${project.slug}" download>Generate PDF</a>
+    </nav>
+  </article>`;
+}
+
+function reportOutlinePath(report, part, slug = "") {
+  const suffix = slug ? `/${slug}` : "";
+
+  return `/engineering-report/${report.slug}${part ? `/${part}` : ""}${suffix}`;
+}
+
+function reportOutlineExportPath(report, part, slug = "") {
+  const suffix = slug ? `/${slug}` : "";
+
+  return `/api/export/engineering/${part}/${report.slug}${suffix}`;
+}
+
+function reportSubsectionEditPath(report, subsection) {
+  return `${reportOutlinePath(report, "subsections", subsection.slug)}/edit`;
+}
+
+function reportSectionTitle(section) {
+  const title = text(section?.title).trim();
+  const number = text(section?.number).trim();
+
+  if (number && title.toLowerCase().startsWith(number.toLowerCase())) {
+    return title.slice(number.length).replace(/^[:.\s-]+/, "").trim() || title;
+  }
+
+  return title;
+}
+
+function reportSectionLabel(section) {
+  const title = reportSectionTitle(section);
+
+  return section.number ? `${section.number}. ${title}` : title;
+}
+
 function field(label, name, value, type = "text", maxLength = PROJECT_FIELD_LIMITS[name]) {
   return html`<label class="field">
     <span>${label}</span>
@@ -272,13 +320,183 @@ function renderBdDashboard(bdDocuments) {
   </section>`;
 }
 
+function reportStat(label, value) {
+  return html`<div class="report-stat">
+    <strong>${value}</strong>
+    <span>${label}</span>
+  </div>`;
+}
+
+function renderReportSubsectionRow(report, subsection) {
+  return html`<li class="report-subsection-row" data-report-order-item="subsection" data-subsection-slug="${subsection.slug}">
+    <button class="report-drag-handle" type="button" draggable="true" data-reorder-handle aria-label="Drag subsection ${subsection.number} ${subsection.title}">
+      <span aria-hidden="true"></span>
+    </button>
+    <div class="report-subsection-row__copy">
+      <span>${subsection.number}</span>
+      <p>${subsection.title}</p>
+    </div>
+    <nav aria-label="${subsection.number} ${subsection.title} actions">
+      <a class="report-subsection-row__edit" href="${reportSubsectionEditPath(report, subsection)}" aria-label="Edit subsection ${subsection.number} ${subsection.title}">Edit</a>
+      <a href="${reportOutlinePath(report, "subsections", subsection.slug)}" aria-label="Preview subsection ${subsection.number} ${subsection.title}">Preview</a>
+      <a href="${reportOutlineExportPath(report, "subsection", subsection.slug)}" aria-label="Export subsection ${subsection.number} ${subsection.title} as PDF" download>PDF</a>
+    </nav>
+  </li>`;
+}
+
+function renderReportSectionCard(report, section) {
+  return html`<article class="report-section-card" id="${section.slug}">
+    <header class="report-section-card__header">
+      <div>
+        <p class="eyebrow">${section.groupTitle}</p>
+        <h3>${reportSectionLabel(section)}</h3>
+      </div>
+      <nav aria-label="${reportSectionLabel(section)} section actions">
+        <a class="button button--subtle" href="${reportOutlinePath(report, "sections", section.slug)}/edit">Edit</a>
+        <a class="button button--subtle" href="${reportOutlinePath(report, "sections", section.slug)}">Preview</a>
+        <a class="button button--subtle" href="${reportOutlineExportPath(report, "section", section.slug)}" download>PDF</a>
+      </nav>
+    </header>
+    ${section.subsections.length
+      ? html`<ol class="report-subsection-list" data-report-subsection-list data-section-slug="${section.slug}">${section.subsections.map(subsection => renderReportSubsectionRow(report, subsection))}</ol>`
+      : html`<p class="empty-state">No subsections in this outline block.</p>`}
+  </article>`;
+}
+
+function renderReportGroup(report, group, index) {
+  return html`<details class="report-group" ${index === 0 ? "open" : ""}>
+    <summary class="report-group__summary">
+      <div>
+        <button class="report-drag-handle" type="button" draggable="true" data-reorder-handle aria-label="Drag chapter ${group.title}">
+          <span aria-hidden="true"></span>
+        </button>
+        <span data-report-chapter-index>${String(index + 1).padStart(2, "0")}</span>
+        <h3>${group.title}</h3>
+      </div>
+      <p>${group.sections.length} ${group.sections.length === 1 ? "section" : "sections"}</p>
+    </summary>
+    <div class="report-section-grid">
+      ${group.sections.map(section => renderReportSectionCard(report, section))}
+    </div>
+  </details>`;
+}
+
+function renderEngineeringReportWorkspace(report) {
+  if (!report) {
+    return html`<section class="dashboard-section" id="engineering-reports" aria-labelledby="engineering-reports-heading">
+      <div class="dashboard-section__header">
+        <div class="dashboard-section__title">
+          <p class="eyebrow">Technical reporting</p>
+          <h2 id="engineering-reports-heading">Engineering report generation</h2>
+        </div>
+      </div>
+      <p class="empty-state">No engineering report outline is available.</p>
+    </section>`;
+  }
+
+  return html`<section class="dashboard-section" id="engineering-reports" aria-labelledby="engineering-reports-heading">
+    <div class="dashboard-section__header">
+      <div class="dashboard-section__title">
+        <p class="eyebrow">Technical reporting</p>
+        <h2 id="engineering-reports-heading">Engineering report generation</h2>
+      </div>
+      <div class="button-row">
+        <p class="report-order-status" data-report-order-status role="status" aria-live="polite"></p>
+        <a class="button button--subtle" href="${reportOutlinePath(report)}">Preview full report</a>
+        <a class="button button--primary" href="${reportOutlineExportPath(report, "compile")}" download>Compile PDF</a>
+      </div>
+    </div>
+    <div class="report-workspace" data-report-order-root data-report-slug="${report.slug}">
+      <aside class="report-workspace__summary">
+        <div class="report-workspace__summary-heading">
+          <p class="eyebrow">Report navigator</p>
+          <h3>${report.title}</h3>
+        </div>
+        <div class="report-stat-grid">
+          ${reportStat("sections", report.sectionCount)}
+          ${reportStat("subsections", report.subsectionCount)}
+          ${reportStat("chapters", report.groups.length)}
+        </div>
+        <div class="report-anchor-block">
+          <p>Chapters</p>
+          <nav class="report-anchor-list" aria-label="Engineering report chapters">
+            ${report.groups.map(group => html`<a href="#report-group-${group.slug}">${group.title}</a>`)}
+          </nav>
+        </div>
+      </aside>
+      <div class="report-workspace__body" data-report-chapter-list>
+        ${report.groups.map((group, index) => html`<div id="report-group-${group.slug}" data-report-order-item="chapter" data-group-slug="${group.slug}">
+          ${renderReportGroup(report, group, index)}
+        </div>`)}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderEngineeringReportSupport() {
+  return html`<section class="dashboard-section dashboard-section--support" aria-labelledby="engineering-report-support-heading">
+      <div class="dashboard-section__header">
+        <div class="dashboard-section__title">
+          <p class="eyebrow">Troubleshooting</p>
+          <h2 id="engineering-report-support-heading">Need help with the report?</h2>
+        </div>
+      </div>
+      <article class="support-contact-card">
+        <div class="support-contact-card__profile">
+          <img src="/assets/engineering-reports/report-coordinator-placeholder.svg" alt="Placeholder portrait for Alex Morgan, report coordinator">
+          <div class="support-contact-card__copy">
+            <span>Troubleshooting contact · Report coordinator</span>
+            <h3>Alex Morgan</h3>
+            <a href="mailto:alex.morgan@example.com">alex.morgan@example.com</a>
+            <p>Contact Alex for access, subsection editing, ordering, preview, or PDF compilation issues.</p>
+          </div>
+        </div>
+        <p class="support-contact-card__detail">Share the section or subsection number when reporting a problem.</p>
+      </article>
+    </section>`;
+}
+
+function renderEngineeringReportsDashboard(projects, engineeringReport) {
+  return html`${renderEngineeringReportWorkspace(engineeringReport)}
+    ${renderEngineeringReportSupport()}`;
+}
+
+function dashboardActiveView(value) {
+  if (value === "bd-documents" || value === "engineering-reports") {
+    return value;
+  }
+
+  return "case-studies";
+}
+
+function renderActiveDashboard(activeView, projects, bdDocuments, engineeringReport) {
+  if (activeView === "bd-documents") {
+    return renderBdDashboard(bdDocuments);
+  }
+
+  if (activeView === "engineering-reports") {
+    return renderEngineeringReportsDashboard(projects, engineeringReport);
+  }
+
+  return renderCaseStudyDashboard(projects);
+}
+
+function dashboardTitle(activeView) {
+  return {
+    "bd-documents": "Business development documents",
+    "case-studies": "Case studies",
+    "engineering-reports": "Engineering reports"
+  }[activeView];
+}
+
 export function renderDashboard(projects, bdDocuments = [], options = {}) {
-  const activeView = options.activeView === "bd-documents" ? "bd-documents" : "case-studies";
+  const activeView = dashboardActiveView(options.activeView);
+  const engineeringReport = options.engineeringReport;
   const body = html`<main class="app-shell">
     <header class="app-header">
       <div>
         <p class="eyebrow">Portfolio system</p>
-        <h1>Case studies and business development docs</h1>
+        <h1>Document Collaboration</h1>
       </div>
     </header>
     <nav class="dashboard-tabs" aria-label="Dashboard views">
@@ -296,15 +514,23 @@ export function renderDashboard(projects, bdDocuments = [], options = {}) {
         label: "BD documents",
         value: "bd-documents"
       })}
+      ${dashboardTab({
+        activeView,
+        count: projects.length,
+        href: "/?view=engineering-reports",
+        label: "Engineering reports",
+        value: "engineering-reports"
+      })}
     </nav>
-    ${activeView === "bd-documents" ? renderBdDashboard(bdDocuments) : renderCaseStudyDashboard(projects)}
+    ${renderActiveDashboard(activeView, projects, bdDocuments, engineeringReport)}
   </main>`;
 
   return renderDocument({
-    title: activeView === "bd-documents" ? "Business development documents" : "Case studies",
+    title: dashboardTitle(activeView),
     body,
     bodyClass: "app-body",
-    styles: ["/app/app.css"]
+    styles: ["/app/app.css"],
+    scripts: activeView === "engineering-reports" ? ["/app/engineering-report.js"] : []
   });
 }
 

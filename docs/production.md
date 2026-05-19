@@ -16,8 +16,8 @@ This app is designed first as a local-first portfolio and business development d
 - Production requires HTTPS at the edge via `TRUST_PROXY=1` and `X-Forwarded-Proto: https`.
 - Production requires `BACKUP_DIR`; JSON saves, uploads and PDF exports are copied into timestamped backups.
 - PDF and banner exports are serialized through a queue and rendered by separate worker processes.
-- Tests cover auth, backup behavior, project validation, BD validation, save conflicts, image upload validation, Word export/import, PDF import, Excel export, dashboard IA, marketing banner templates, export artifact dimensions, keyboard paths, semantic labels, long-copy export stress and visual snapshot generation.
-- GitHub Actions runs install, checks, tests, Markdown/Excel exports, case-study and BD PDF exports, case-study and BD banner exports, artifact validation, responsive experience smoke tests, quality smoke tests and a production smoke test.
+- Tests cover auth, backup behavior, project validation, BD validation, save conflicts, image upload validation, report page image attachments, Word export/import, PDF import, Excel export, dashboard IA, section-based engineering report generation, marketing banner templates, export artifact dimensions, keyboard paths, semantic labels, long-copy export stress and visual snapshot generation.
+- GitHub Actions runs install, checks, tests, Markdown/Excel exports, case-study, engineering-report and BD PDF exports, case-study and BD banner exports, artifact validation, responsive experience smoke tests, quality smoke tests and a production smoke test.
 
 ## Local Production
 
@@ -84,7 +84,7 @@ Validate the main design and navigation surfaces with:
 npm run smoke:experience
 ```
 
-This checks the dashboard tabs, builders, previews and marketing banner pages at desktop and mobile widths, including export-link presence and horizontal overflow.
+This checks the dashboard tabs, builders, previews, section/subsection engineering report pages and marketing banner pages at desktop and mobile widths, including export-link presence and horizontal overflow.
 
 Validate the polished experience gates with:
 
@@ -97,7 +97,7 @@ These assert generated export file types and `1600x900` banner dimensions, exerc
 
 ## Storage and Restore
 
-Live JSON remains in `data/projects` and `data/bd-documents`. Uploaded project assets remain in `public/assets/projects`. With `BACKUP_DIR` configured, each save/upload/export creates a timestamped copy under the same relative path, for example:
+Live JSON remains in `data/projects`, `data/bd-documents` and `data/engineering-report-images`. Uploaded project assets remain in `public/assets/projects`; uploaded report page images remain in `public/assets/engineering-reports`. With `BACKUP_DIR` configured, each save/upload/export creates a timestamped copy under the same relative path, for example:
 
 ```text
 BACKUP_DIR/2026-05-18T19-00-00-000Z/data/bd-documents/enterprise-build-support.json

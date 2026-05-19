@@ -1,0 +1,1283 @@
+{
+  "subsections": {
+    "1-1-report-title": {
+      "body": "### Example content for Report title\n\nThis subsection records the Stage 2 position for **Report title** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-2-project-name-and-number": {
+      "body": "### Example content for Project name and number\n\nThis subsection records the Stage 2 position for **Project name and number** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-3-client-end-user": {
+      "body": "### Example content for Client / end user\n\nThis subsection records the Stage 2 position for **Client / end user** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-4-design-team-members": {
+      "body": "### Example content for Design team members\n\nThis subsection records the Stage 2 position for **Design team members** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-5-revision-history": {
+      "body": "### Example content for Revision history\n\nThis subsection records the Stage 2 position for **Revision history** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-6-status-of-issue-for-example-draft-client-review-planning-support-stage-2-close-out": {
+      "body": "### Example content for Status of issue, for example: draft, client review, planning support, Stage 2 close-out\n\nThis subsection records the Stage 2 position for **Status of issue, for example: draft, client review, planning support, Stage 2 close-out** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-7-author-checker-and-approver": {
+      "body": "### Example content for Author, checker and approver\n\nThis subsection records the Stage 2 position for **Author, checker and approver** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "1-8-distribution-list": {
+      "body": "### Example content for Distribution list\n\nThis subsection records the Stage 2 position for **Distribution list** within the **Document Control** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-1-purpose-of-the-report": {
+      "body": "### Example content for Purpose of the report\n\nThis subsection records the Stage 2 position for **Purpose of the report** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-2-summary-of-the-stage-2-engineering-concept": {
+      "body": "### Example content for Summary of the Stage 2 engineering concept\n\nThis subsection records the Stage 2 position for **Summary of the Stage 2 engineering concept** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-3-key-design-drivers": {
+      "body": "### Example content for Key design drivers\n\nThis subsection records the Stage 2 position for **Key design drivers** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-4-principal-engineering-decisions-made-during-stage-2": {
+      "body": "### Example content for Principal engineering decisions made during Stage 2\n\nThis subsection records the Stage 2 position for **Principal engineering decisions made during Stage 2** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-5-key-risks-assumptions-and-dependencies": {
+      "body": "### Example content for Key risks, assumptions and dependencies\n\nThis subsection records the Stage 2 position for **Key risks, assumptions and dependencies** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "2-6-recommended-next-steps-for-stage-3": {
+      "body": "### Example content for Recommended next steps for Stage 3\n\nThis subsection records the Stage 2 position for **Recommended next steps for Stage 3** within the **Executive Summary** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-1-project-description": {
+      "body": "### Example content for Project description\n\nThis subsection records the Stage 2 position for **Project description** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-2-site-location-and-context": {
+      "body": "### Example content for Site location and context\n\nThis subsection records the Stage 2 position for **Site location and context** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-3-project-objectives": {
+      "body": "### Example content for Project objectives\n\nThis subsection records the Stage 2 position for **Project objectives** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-4-client-requirements": {
+      "body": "### Example content for Client requirements\n\nThis subsection records the Stage 2 position for **Client requirements** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-5-stakeholder-requirements": {
+      "body": "### Example content for Stakeholder requirements\n\nThis subsection records the Stage 2 position for **Stakeholder requirements** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-6-stage-1-information-carried-forward": {
+      "body": "### Example content for Stage 1 information carried forward\n\nThis subsection records the Stage 2 position for **Stage 1 information carried forward** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-7-scope-of-this-stage-2-report": {
+      "body": "### Example content for Scope of this Stage 2 report\n\nThis subsection records the Stage 2 position for **Scope of this Stage 2 report** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "3-8-items-outside-the-current-scope": {
+      "body": "### Example content for Items outside the current scope\n\nThis subsection records the Stage 2 position for **Items outside the current scope** within the **Project Overview** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-1-design-brief-and-performance-objectives": {
+      "body": "### Example content for Design brief and performance objectives\n\nThis subsection records the Stage 2 position for **Design brief and performance objectives** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-2-applicable-design-standards-codes-and-guidance": {
+      "body": "### Example content for Applicable design standards, codes and guidance\n\nThis subsection records the Stage 2 position for **Applicable design standards, codes and guidance** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-3-planning-statutory-and-authority-requirements": {
+      "body": "### Example content for Planning, statutory and authority requirements\n\nThis subsection records the Stage 2 position for **Planning, statutory and authority requirements** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-4-environmental-and-sustainability-objectives": {
+      "body": "### Example content for Environmental and sustainability objectives\n\nThis subsection records the Stage 2 position for **Environmental and sustainability objectives** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-5-resilience-adaptability-and-future-flexibility-requirements": {
+      "body": "### Example content for Resilience, adaptability and future flexibility requirements\n\nThis subsection records the Stage 2 position for **Resilience, adaptability and future flexibility requirements** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-6-operational-and-maintenance-assumptions": {
+      "body": "### Example content for Operational and maintenance assumptions\n\nThis subsection records the Stage 2 position for **Operational and maintenance assumptions** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-7-design-life-assumptions": {
+      "body": "### Example content for Design life assumptions\n\nThis subsection records the Stage 2 position for **Design life assumptions** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-8-occupancy-use-and-loading-assumptions": {
+      "body": "### Example content for Occupancy, use and loading assumptions\n\nThis subsection records the Stage 2 position for **Occupancy, use and loading assumptions** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "4-9-interfaces-with-architecture-landscape-interiors-and-specialist-consultants": {
+      "body": "### Example content for Interfaces with architecture, landscape, interiors and specialist consultants\n\nThis subsection records the Stage 2 position for **Interfaces with architecture, landscape, interiors and specialist consultants** within the **Basis of Design** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-1-client-brief": {
+      "body": "### Example content for Client brief\n\nThis subsection records the Stage 2 position for **Client brief** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-2-site-surveys": {
+      "body": "### Example content for Site surveys\n\nThis subsection records the Stage 2 position for **Site surveys** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-3-topographical-information": {
+      "body": "### Example content for Topographical information\n\nThis subsection records the Stage 2 position for **Topographical information** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-4-utilities-records": {
+      "body": "### Example content for Utilities records\n\nThis subsection records the Stage 2 position for **Utilities records** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-5-ground-investigation-information": {
+      "body": "### Example content for Ground investigation information\n\nThis subsection records the Stage 2 position for **Ground investigation information** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-6-flood-risk-drainage-information": {
+      "body": "### Example content for Flood risk / drainage information\n\nThis subsection records the Stage 2 position for **Flood risk / drainage information** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-7-existing-building-information-where-applicable": {
+      "body": "### Example content for Existing building information, where applicable\n\nThis subsection records the Stage 2 position for **Existing building information, where applicable** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-8-planning-history": {
+      "body": "### Example content for Planning history\n\nThis subsection records the Stage 2 position for **Planning history** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-9-environmental-data": {
+      "body": "### Example content for Environmental data\n\nThis subsection records the Stage 2 position for **Environmental data** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-10-previous-feasibility-or-options-studies": {
+      "body": "### Example content for Previous feasibility or options studies\n\nThis subsection records the Stage 2 position for **Previous feasibility or options studies** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "5-11-assumptions-made-due-to-missing-information": {
+      "body": "### Example content for Assumptions made due to missing information\n\nThis subsection records the Stage 2 position for **Assumptions made due to missing information** within the **Existing Information Reviewed** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-1-site-access-and-logistics": {
+      "body": "### Example content for Site access and logistics\n\nThis subsection records the Stage 2 position for **Site access and logistics** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-2-existing-utilities-and-diversions": {
+      "body": "### Example content for Existing utilities and diversions\n\nThis subsection records the Stage 2 position for **Existing utilities and diversions** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-3-ground-conditions": {
+      "body": "### Example content for Ground conditions\n\nThis subsection records the Stage 2 position for **Ground conditions** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-4-flooding-and-drainage-constraints": {
+      "body": "### Example content for Flooding and drainage constraints\n\nThis subsection records the Stage 2 position for **Flooding and drainage constraints** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-5-adjacent-buildings-and-infrastructure": {
+      "body": "### Example content for Adjacent buildings and infrastructure\n\nThis subsection records the Stage 2 position for **Adjacent buildings and infrastructure** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-6-rights-of-way-easements-or-third-party-constraints": {
+      "body": "### Example content for Rights of way, easements or third-party constraints\n\nThis subsection records the Stage 2 position for **Rights of way, easements or third-party constraints** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-7-environmental-constraints": {
+      "body": "### Example content for Environmental constraints\n\nThis subsection records the Stage 2 position for **Environmental constraints** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-8-planning-constraints": {
+      "body": "### Example content for Planning constraints\n\nThis subsection records the Stage 2 position for **Planning constraints** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "6-9-opportunities-for-efficiency-reuse-or-low-carbon-design": {
+      "body": "### Example content for Opportunities for efficiency, reuse or low-carbon design\n\nThis subsection records the Stage 2 position for **Opportunities for efficiency, reuse or low-carbon design** within the **Site Constraints and Opportunities** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-1-safety-by-design": {
+      "body": "### Example content for Safety by design\n\nThis subsection records the Stage 2 position for **Safety by design** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-2-simplicity-and-robustness": {
+      "body": "### Example content for Simplicity and robustness\n\nThis subsection records the Stage 2 position for **Simplicity and robustness** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-3-whole-life-carbon-and-energy-performance": {
+      "body": "### Example content for Whole-life carbon and energy performance\n\nThis subsection records the Stage 2 position for **Whole-life carbon and energy performance** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-4-maintainability-and-access": {
+      "body": "### Example content for Maintainability and access\n\nThis subsection records the Stage 2 position for **Maintainability and access** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-5-flexibility-for-future-change": {
+      "body": "### Example content for Flexibility for future change\n\nThis subsection records the Stage 2 position for **Flexibility for future change** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-6-buildability-and-phasing": {
+      "body": "### Example content for Buildability and phasing\n\nThis subsection records the Stage 2 position for **Buildability and phasing** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-7-passive-design-principles": {
+      "body": "### Example content for Passive design principles\n\nThis subsection records the Stage 2 position for **Passive design principles** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "7-8-integration-with-architectural-intent": {
+      "body": "### Example content for Integration with architectural intent\n\nThis subsection records the Stage 2 position for **Integration with architectural intent** within the **Engineering Design Principles** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-1-existing-site-levels": {
+      "body": "### Example content for Existing site levels\n\nThis subsection records the Stage 2 position for **Existing site levels** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-2-proposed-levels-strategy": {
+      "body": "### Example content for Proposed levels strategy\n\nThis subsection records the Stage 2 position for **Proposed levels strategy** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-3-earthworks-assumptions": {
+      "body": "### Example content for Earthworks assumptions\n\nThis subsection records the Stage 2 position for **Earthworks assumptions** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-4-access-roads-and-external-hardstanding": {
+      "body": "### Example content for Access roads and external hardstanding\n\nThis subsection records the Stage 2 position for **Access roads and external hardstanding** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-5-external-works-design-principles": {
+      "body": "### Example content for External works design principles\n\nThis subsection records the Stage 2 position for **External works design principles** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-6-below-ground-constraints": {
+      "body": "### Example content for Below-ground constraints\n\nThis subsection records the Stage 2 position for **Below-ground constraints** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-7-interface-with-landscape-and-public-realm": {
+      "body": "### Example content for Interface with landscape and public realm\n\nThis subsection records the Stage 2 position for **Interface with landscape and public realm** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "8-8-civil-engineering-risks-and-next-stage-actions": {
+      "body": "### Example content for Civil engineering risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Civil engineering risks and next-stage actions** within the **Civil Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-1-existing-drainage-context": {
+      "body": "### Example content for Existing drainage context\n\nThis subsection records the Stage 2 position for **Existing drainage context** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-2-surface-water-strategy": {
+      "body": "### Example content for Surface water strategy\n\nThis subsection records the Stage 2 position for **Surface water strategy** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-3-foul-water-strategy": {
+      "body": "### Example content for Foul water strategy\n\nThis subsection records the Stage 2 position for **Foul water strategy** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-4-sustainable-drainage-principles": {
+      "body": "### Example content for Sustainable drainage principles\n\nThis subsection records the Stage 2 position for **Sustainable drainage principles** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-5-attenuation-assumptions": {
+      "body": "### Example content for Attenuation assumptions\n\nThis subsection records the Stage 2 position for **Attenuation assumptions** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-6-discharge-rate-assumptions": {
+      "body": "### Example content for Discharge rate assumptions\n\nThis subsection records the Stage 2 position for **Discharge rate assumptions** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-7-flood-risk-considerations": {
+      "body": "### Example content for Flood risk considerations\n\nThis subsection records the Stage 2 position for **Flood risk considerations** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-8-blue-green-infrastructure-opportunities": {
+      "body": "### Example content for Blue-green infrastructure opportunities\n\nThis subsection records the Stage 2 position for **Blue-green infrastructure opportunities** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-9-drainage-authority-engagement": {
+      "body": "### Example content for Drainage authority engagement\n\nThis subsection records the Stage 2 position for **Drainage authority engagement** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "9-10-risks-and-next-stage-actions": {
+      "body": "### Example content for Risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Risks and next-stage actions** within the **Drainage and Water Management Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-1-structural-design-brief": {
+      "body": "### Example content for Structural design brief\n\nThis subsection records the Stage 2 position for **Structural design brief** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-2-proposed-structural-system": {
+      "body": "### Example content for Proposed structural system\n\nThis subsection records the Stage 2 position for **Proposed structural system** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-3-foundation-strategy": {
+      "body": "### Example content for Foundation strategy\n\nThis subsection records the Stage 2 position for **Foundation strategy** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-4-grid-and-stability-strategy": {
+      "body": "### Example content for Grid and stability strategy\n\nThis subsection records the Stage 2 position for **Grid and stability strategy** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-5-floor-construction-options": {
+      "body": "### Example content for Floor construction options\n\nThis subsection records the Stage 2 position for **Floor construction options** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-6-roof-structure-strategy": {
+      "body": "### Example content for Roof structure strategy\n\nThis subsection records the Stage 2 position for **Roof structure strategy** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-7-loading-assumptions": {
+      "body": "### Example content for Loading assumptions\n\nThis subsection records the Stage 2 position for **Loading assumptions** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-8-movement-joints-and-structural-zones": {
+      "body": "### Example content for Movement joints and structural zones\n\nThis subsection records the Stage 2 position for **Movement joints and structural zones** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-9-structural-fire-considerations": {
+      "body": "### Example content for Structural fire considerations\n\nThis subsection records the Stage 2 position for **Structural fire considerations** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-10-embodied-carbon-considerations": {
+      "body": "### Example content for Embodied carbon considerations\n\nThis subsection records the Stage 2 position for **Embodied carbon considerations** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-11-buildability-and-sequencing": {
+      "body": "### Example content for Buildability and sequencing\n\nThis subsection records the Stage 2 position for **Buildability and sequencing** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "10-12-structural-risks-and-next-stage-actions": {
+      "body": "### Example content for Structural risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Structural risks and next-stage actions** within the **Structural Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-1-mep-design-brief": {
+      "body": "### Example content for MEP design brief\n\nThis subsection records the Stage 2 position for **MEP design brief** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-2-servicing-principles": {
+      "body": "### Example content for Servicing principles\n\nThis subsection records the Stage 2 position for **Servicing principles** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-3-energy-strategy": {
+      "body": "### Example content for Energy strategy\n\nThis subsection records the Stage 2 position for **Energy strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-4-heating-and-cooling-strategy": {
+      "body": "### Example content for Heating and cooling strategy\n\nThis subsection records the Stage 2 position for **Heating and cooling strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-5-ventilation-strategy": {
+      "body": "### Example content for Ventilation strategy\n\nThis subsection records the Stage 2 position for **Ventilation strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-6-domestic-water-strategy": {
+      "body": "### Example content for Domestic water strategy\n\nThis subsection records the Stage 2 position for **Domestic water strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-7-electrical-supply-strategy": {
+      "body": "### Example content for Electrical supply strategy\n\nThis subsection records the Stage 2 position for **Electrical supply strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-8-lighting-principles": {
+      "body": "### Example content for Lighting principles\n\nThis subsection records the Stage 2 position for **Lighting principles** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-9-fire-alarm-and-life-safety-systems": {
+      "body": "### Example content for Fire alarm and life safety systems\n\nThis subsection records the Stage 2 position for **Fire alarm and life safety systems** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-10-ict-security-and-specialist-systems": {
+      "body": "### Example content for ICT, security and specialist systems\n\nThis subsection records the Stage 2 position for **ICT, security and specialist systems** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-11-plant-space-requirements": {
+      "body": "### Example content for Plant space requirements\n\nThis subsection records the Stage 2 position for **Plant space requirements** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-12-distribution-routes-and-riser-strategy": {
+      "body": "### Example content for Distribution routes and riser strategy\n\nThis subsection records the Stage 2 position for **Distribution routes and riser strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-13-metering-and-controls-strategy": {
+      "body": "### Example content for Metering and controls strategy\n\nThis subsection records the Stage 2 position for **Metering and controls strategy** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-14-maintainability-and-access": {
+      "body": "### Example content for Maintainability and access\n\nThis subsection records the Stage 2 position for **Maintainability and access** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "11-15-mep-risks-and-next-stage-actions": {
+      "body": "### Example content for MEP risks and next-stage actions\n\nThis subsection records the Stage 2 position for **MEP risks and next-stage actions** within the **Building Services / MEP Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-1-fa-ade-performance-requirements": {
+      "body": "### Example content for Façade performance requirements\n\nThis subsection records the Stage 2 position for **Façade performance requirements** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-2-proposed-fa-ade-typologies": {
+      "body": "### Example content for Proposed façade typologies\n\nThis subsection records the Stage 2 position for **Proposed façade typologies** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-3-thermal-performance-assumptions": {
+      "body": "### Example content for Thermal performance assumptions\n\nThis subsection records the Stage 2 position for **Thermal performance assumptions** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-4-solar-control-and-overheating-considerations": {
+      "body": "### Example content for Solar control and overheating considerations\n\nThis subsection records the Stage 2 position for **Solar control and overheating considerations** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-5-natural-ventilation-interfaces": {
+      "body": "### Example content for Natural ventilation interfaces\n\nThis subsection records the Stage 2 position for **Natural ventilation interfaces** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-6-acoustic-performance-assumptions": {
+      "body": "### Example content for Acoustic performance assumptions\n\nThis subsection records the Stage 2 position for **Acoustic performance assumptions** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-7-fire-performance-principles": {
+      "body": "### Example content for Fire performance principles\n\nThis subsection records the Stage 2 position for **Fire performance principles** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-8-maintenance-and-access-strategy": {
+      "body": "### Example content for Maintenance and access strategy\n\nThis subsection records the Stage 2 position for **Maintenance and access strategy** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-9-embodied-carbon-and-material-considerations": {
+      "body": "### Example content for Embodied carbon and material considerations\n\nThis subsection records the Stage 2 position for **Embodied carbon and material considerations** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-10-interfaces-with-structure-and-mep": {
+      "body": "### Example content for Interfaces with structure and MEP\n\nThis subsection records the Stage 2 position for **Interfaces with structure and MEP** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "12-11-fa-ade-risks-and-next-stage-actions": {
+      "body": "### Example content for Façade risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Façade risks and next-stage actions** within the **Façade Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-1-fire-safety-objectives": {
+      "body": "### Example content for Fire safety objectives\n\nThis subsection records the Stage 2 position for **Fire safety objectives** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-2-occupancy-and-use-assumptions": {
+      "body": "### Example content for Occupancy and use assumptions\n\nThis subsection records the Stage 2 position for **Occupancy and use assumptions** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-3-means-of-escape-principles": {
+      "body": "### Example content for Means of escape principles\n\nThis subsection records the Stage 2 position for **Means of escape principles** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-4-compartmentation-principles": {
+      "body": "### Example content for Compartmentation principles\n\nThis subsection records the Stage 2 position for **Compartmentation principles** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-5-firefighting-access-and-facilities": {
+      "body": "### Example content for Firefighting access and facilities\n\nThis subsection records the Stage 2 position for **Firefighting access and facilities** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-6-fire-detection-and-alarm-strategy": {
+      "body": "### Example content for Fire detection and alarm strategy\n\nThis subsection records the Stage 2 position for **Fire detection and alarm strategy** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-7-smoke-control-principles-where-applicable": {
+      "body": "### Example content for Smoke control principles, where applicable\n\nThis subsection records the Stage 2 position for **Smoke control principles, where applicable** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-8-fire-resistance-assumptions": {
+      "body": "### Example content for Fire resistance assumptions\n\nThis subsection records the Stage 2 position for **Fire resistance assumptions** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-9-interface-with-architecture-structure-and-mep": {
+      "body": "### Example content for Interface with architecture, structure and MEP\n\nThis subsection records the Stage 2 position for **Interface with architecture, structure and MEP** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "13-10-fire-engineering-risks-and-next-stage-actions": {
+      "body": "### Example content for Fire engineering risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Fire engineering risks and next-stage actions** within the **Fire Engineering Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-1-sustainability-brief": {
+      "body": "### Example content for Sustainability brief\n\nThis subsection records the Stage 2 position for **Sustainability brief** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-2-energy-performance-targets": {
+      "body": "### Example content for Energy performance targets\n\nThis subsection records the Stage 2 position for **Energy performance targets** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-3-operational-carbon-strategy": {
+      "body": "### Example content for Operational carbon strategy\n\nThis subsection records the Stage 2 position for **Operational carbon strategy** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-4-embodied-carbon-strategy": {
+      "body": "### Example content for Embodied carbon strategy\n\nThis subsection records the Stage 2 position for **Embodied carbon strategy** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-5-circular-economy-and-reuse-opportunities": {
+      "body": "### Example content for Circular economy and reuse opportunities\n\nThis subsection records the Stage 2 position for **Circular economy and reuse opportunities** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-6-climate-resilience": {
+      "body": "### Example content for Climate resilience\n\nThis subsection records the Stage 2 position for **Climate resilience** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-7-water-efficiency": {
+      "body": "### Example content for Water efficiency\n\nThis subsection records the Stage 2 position for **Water efficiency** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-8-biodiversity-and-ecology-interfaces": {
+      "body": "### Example content for Biodiversity and ecology interfaces\n\nThis subsection records the Stage 2 position for **Biodiversity and ecology interfaces** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-9-health-and-wellbeing-considerations": {
+      "body": "### Example content for Health and wellbeing considerations\n\nThis subsection records the Stage 2 position for **Health and wellbeing considerations** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-10-rating-system-requirements-for-example-breeam-leed-well-or-project-specific-targets": {
+      "body": "### Example content for Rating system requirements, for example BREEAM, LEED, WELL or project-specific targets\n\nThis subsection records the Stage 2 position for **Rating system requirements, for example BREEAM, LEED, WELL or project-specific targets** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "14-11-sustainability-risks-and-next-stage-actions": {
+      "body": "### Example content for Sustainability risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Sustainability risks and next-stage actions** within the **Sustainability, Carbon and Environmental Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-1-acoustic-design-criteria": {
+      "body": "### Example content for Acoustic design criteria\n\nThis subsection records the Stage 2 position for **Acoustic design criteria** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-2-external-noise-constraints": {
+      "body": "### Example content for External noise constraints\n\nThis subsection records the Stage 2 position for **External noise constraints** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-3-internal-acoustic-performance": {
+      "body": "### Example content for Internal acoustic performance\n\nThis subsection records the Stage 2 position for **Internal acoustic performance** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-4-plant-noise-strategy": {
+      "body": "### Example content for Plant noise strategy\n\nThis subsection records the Stage 2 position for **Plant noise strategy** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-5-vibration-considerations": {
+      "body": "### Example content for Vibration considerations\n\nThis subsection records the Stage 2 position for **Vibration considerations** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-6-specialist-spaces-or-sensitive-uses": {
+      "body": "### Example content for Specialist spaces or sensitive uses\n\nThis subsection records the Stage 2 position for **Specialist spaces or sensitive uses** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "15-7-risks-and-next-stage-actions": {
+      "body": "### Example content for Risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Risks and next-stage actions** within the **Acoustics, Vibration and Specialist Performance** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-1-existing-utilities-summary": {
+      "body": "### Example content for Existing utilities summary\n\nThis subsection records the Stage 2 position for **Existing utilities summary** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-2-incoming-electrical-supply": {
+      "body": "### Example content for Incoming electrical supply\n\nThis subsection records the Stage 2 position for **Incoming electrical supply** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-3-gas-strategy-if-applicable": {
+      "body": "### Example content for Gas strategy, if applicable\n\nThis subsection records the Stage 2 position for **Gas strategy, if applicable** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-4-potable-water-supply": {
+      "body": "### Example content for Potable water supply\n\nThis subsection records the Stage 2 position for **Potable water supply** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-5-foul-and-surface-water-connections": {
+      "body": "### Example content for Foul and surface water connections\n\nThis subsection records the Stage 2 position for **Foul and surface water connections** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-6-telecoms-and-data-connections": {
+      "body": "### Example content for Telecoms and data connections\n\nThis subsection records the Stage 2 position for **Telecoms and data connections** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-7-district-energy-or-heat-network-opportunities": {
+      "body": "### Example content for District energy or heat network opportunities\n\nThis subsection records the Stage 2 position for **District energy or heat network opportunities** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-8-diversions-disconnections-and-temporary-supplies": {
+      "body": "### Example content for Diversions, disconnections and temporary supplies\n\nThis subsection records the Stage 2 position for **Diversions, disconnections and temporary supplies** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-9-utility-provider-engagement": {
+      "body": "### Example content for Utility provider engagement\n\nThis subsection records the Stage 2 position for **Utility provider engagement** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "16-10-risks-and-next-stage-actions": {
+      "body": "### Example content for Risks and next-stage actions\n\nThis subsection records the Stage 2 position for **Risks and next-stage actions** within the **Utilities and Infrastructure Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-1-summary-of-options-reviewed": {
+      "body": "### Example content for Summary of options reviewed\n\nThis subsection records the Stage 2 position for **Summary of options reviewed** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-2-evaluation-criteria": {
+      "body": "### Example content for Evaluation criteria\n\nThis subsection records the Stage 2 position for **Evaluation criteria** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-3-option-advantages-and-disadvantages": {
+      "body": "### Example content for Option advantages and disadvantages\n\nThis subsection records the Stage 2 position for **Option advantages and disadvantages** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-4-cost-carbon-programme-and-risk-implications": {
+      "body": "### Example content for Cost, carbon, programme and risk implications\n\nThis subsection records the Stage 2 position for **Cost, carbon, programme and risk implications** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-5-preferred-option-and-rationale": {
+      "body": "### Example content for Preferred option and rationale\n\nThis subsection records the Stage 2 position for **Preferred option and rationale** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "17-6-options-rejected-and-reasons": {
+      "body": "### Example content for Options rejected and reasons\n\nThis subsection records the Stage 2 position for **Options rejected and reasons** within the **Design Options Considered** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-1-architectural-interfaces": {
+      "body": "### Example content for Architectural interfaces\n\nThis subsection records the Stage 2 position for **Architectural interfaces** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-2-structural-mep-coordination-principles": {
+      "body": "### Example content for Structural / MEP coordination principles\n\nThis subsection records the Stage 2 position for **Structural / MEP coordination principles** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-3-fa-ade-structure-services-interfaces": {
+      "body": "### Example content for Façade / structure / services interfaces\n\nThis subsection records the Stage 2 position for **Façade / structure / services interfaces** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-4-fire-strategy-interfaces": {
+      "body": "### Example content for Fire strategy interfaces\n\nThis subsection records the Stage 2 position for **Fire strategy interfaces** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-5-landscape-and-civil-engineering-interfaces": {
+      "body": "### Example content for Landscape and civil engineering interfaces\n\nThis subsection records the Stage 2 position for **Landscape and civil engineering interfaces** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-6-plant-and-riser-spatial-allowances": {
+      "body": "### Example content for Plant and riser spatial allowances\n\nThis subsection records the Stage 2 position for **Plant and riser spatial allowances** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-7-key-coordination-drawings": {
+      "body": "### Example content for Key coordination drawings\n\nThis subsection records the Stage 2 position for **Key coordination drawings** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "18-8-unresolved-coordination-items": {
+      "body": "### Example content for Unresolved coordination items\n\nThis subsection records the Stage 2 position for **Unresolved coordination items** within the **Interdisciplinary Coordination** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-1-planning-considerations": {
+      "body": "### Example content for Planning considerations\n\nThis subsection records the Stage 2 position for **Planning considerations** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-2-building-regulations-route": {
+      "body": "### Example content for Building regulations route\n\nThis subsection records the Stage 2 position for **Building regulations route** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-3-environmental-permits-or-consents": {
+      "body": "### Example content for Environmental permits or consents\n\nThis subsection records the Stage 2 position for **Environmental permits or consents** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-4-highway-authority-engagement": {
+      "body": "### Example content for Highway authority engagement\n\nThis subsection records the Stage 2 position for **Highway authority engagement** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-5-water-authority-engagement": {
+      "body": "### Example content for Water authority engagement\n\nThis subsection records the Stage 2 position for **Water authority engagement** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-6-fire-authority-approving-body-engagement": {
+      "body": "### Example content for Fire authority / approving body engagement\n\nThis subsection records the Stage 2 position for **Fire authority / approving body engagement** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-7-third-party-approvals": {
+      "body": "### Example content for Third-party approvals\n\nThis subsection records the Stage 2 position for **Third-party approvals** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "19-8-approvals-risk-register": {
+      "body": "### Example content for Approvals risk register\n\nThis subsection records the Stage 2 position for **Approvals risk register** within the **Statutory, Planning and Approvals Strategy** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-1-engineering-cost-drivers": {
+      "body": "### Example content for Engineering cost drivers\n\nThis subsection records the Stage 2 position for **Engineering cost drivers** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-2-high-risk-cost-items": {
+      "body": "### Example content for High-risk cost items\n\nThis subsection records the Stage 2 position for **High-risk cost items** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-3-value-engineering-opportunities": {
+      "body": "### Example content for Value engineering opportunities\n\nThis subsection records the Stage 2 position for **Value engineering opportunities** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-4-programme-constraints": {
+      "body": "### Example content for Programme constraints\n\nThis subsection records the Stage 2 position for **Programme constraints** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-5-procurement-assumptions": {
+      "body": "### Example content for Procurement assumptions\n\nThis subsection records the Stage 2 position for **Procurement assumptions** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-6-long-lead-items": {
+      "body": "### Example content for Long-lead items\n\nThis subsection records the Stage 2 position for **Long-lead items** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-7-contractor-or-specialist-input-required": {
+      "body": "### Example content for Contractor or specialist input required\n\nThis subsection records the Stage 2 position for **Contractor or specialist input required** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "20-8-stage-3-cost-information-requirements": {
+      "body": "### Example content for Stage 3 cost information requirements\n\nThis subsection records the Stage 2 position for **Stage 3 cost information requirements** within the **Cost, Programme and Procurement Considerations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-1-key-engineering-risks": {
+      "body": "### Example content for Key engineering risks\n\nThis subsection records the Stage 2 position for **Key engineering risks** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-2-risk-owner": {
+      "body": "### Example content for Risk owner\n\nThis subsection records the Stage 2 position for **Risk owner** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-3-likelihood-and-impact": {
+      "body": "### Example content for Likelihood and impact\n\nThis subsection records the Stage 2 position for **Likelihood and impact** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-4-mitigation-strategy": {
+      "body": "### Example content for Mitigation strategy\n\nThis subsection records the Stage 2 position for **Mitigation strategy** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-5-residual-risk": {
+      "body": "### Example content for Residual risk\n\nThis subsection records the Stage 2 position for **Residual risk** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "21-6-action-required-at-stage-3": {
+      "body": "### Example content for Action required at Stage 3\n\nThis subsection records the Stage 2 position for **Action required at Stage 3** within the **Design Risk Register** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-1-design-assumptions": {
+      "body": "### Example content for Design assumptions\n\nThis subsection records the Stage 2 position for **Design assumptions** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-2-client-decisions-required": {
+      "body": "### Example content for Client decisions required\n\nThis subsection records the Stage 2 position for **Client decisions required** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-3-survey-information-still-required": {
+      "body": "### Example content for Survey information still required\n\nThis subsection records the Stage 2 position for **Survey information still required** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-4-specialist-studies-still-required": {
+      "body": "### Example content for Specialist studies still required\n\nThis subsection records the Stage 2 position for **Specialist studies still required** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-5-exclusions-from-the-stage-2-report": {
+      "body": "### Example content for Exclusions from the Stage 2 report\n\nThis subsection records the Stage 2 position for **Exclusions from the Stage 2 report** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-6-dependencies-on-other-consultants": {
+      "body": "### Example content for Dependencies on other consultants\n\nThis subsection records the Stage 2 position for **Dependencies on other consultants** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "22-7-change-control-items": {
+      "body": "### Example content for Change-control items\n\nThis subsection records the Stage 2 position for **Change-control items** within the **Assumptions, Exclusions and Dependencies** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-1-drawings-issued": {
+      "body": "### Example content for Drawings issued\n\nThis subsection records the Stage 2 position for **Drawings issued** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-2-sketches-and-diagrams": {
+      "body": "### Example content for Sketches and diagrams\n\nThis subsection records the Stage 2 position for **Sketches and diagrams** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-3-calculations": {
+      "body": "### Example content for Calculations\n\nThis subsection records the Stage 2 position for **Calculations** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-4-models": {
+      "body": "### Example content for Models\n\nThis subsection records the Stage 2 position for **Models** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-5-schedules": {
+      "body": "### Example content for Schedules\n\nThis subsection records the Stage 2 position for **Schedules** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-6-technical-notes": {
+      "body": "### Example content for Technical notes\n\nThis subsection records the Stage 2 position for **Technical notes** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-7-meeting-records": {
+      "body": "### Example content for Meeting records\n\nThis subsection records the Stage 2 position for **Meeting records** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-8-authority-consultation-records": {
+      "body": "### Example content for Authority consultation records\n\nThis subsection records the Stage 2 position for **Authority consultation records** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-9-cost-information-issued": {
+      "body": "### Example content for Cost information issued\n\nThis subsection records the Stage 2 position for **Cost information issued** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "23-10-stage-2-information-exchange-checklist": {
+      "body": "### Example content for Stage 2 information exchange checklist\n\nThis subsection records the Stage 2 position for **Stage 2 information exchange checklist** within the **Stage 2 Deliverables** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-1-summary-of-preferred-engineering-strategy": {
+      "body": "### Example content for Summary of preferred engineering strategy\n\nThis subsection records the Stage 2 position for **Summary of preferred engineering strategy** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-2-key-decisions-required-from-the-client": {
+      "body": "### Example content for Key decisions required from the client\n\nThis subsection records the Stage 2 position for **Key decisions required from the client** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-3-items-to-be-developed-at-stage-3": {
+      "body": "### Example content for Items to be developed at Stage 3\n\nThis subsection records the Stage 2 position for **Items to be developed at Stage 3** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-4-surveys-or-investigations-required": {
+      "body": "### Example content for Surveys or investigations required\n\nThis subsection records the Stage 2 position for **Surveys or investigations required** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-5-specialist-appointments-required": {
+      "body": "### Example content for Specialist appointments required\n\nThis subsection records the Stage 2 position for **Specialist appointments required** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-6-recommended-design-freeze-items": {
+      "body": "### Example content for Recommended design freeze items\n\nThis subsection records the Stage 2 position for **Recommended design freeze items** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    },
+    "24-7-stage-3-priorities": {
+      "body": "### Example content for Stage 3 priorities\n\nThis subsection records the Stage 2 position for **Stage 3 priorities** within the **Conclusions and Recommendations** section. Summarise the current design basis, source information reviewed, assumptions made, and decisions that need to be visible to reviewers.\n\n- Current assumption: add the agreed concept-stage position or preferred option.\n- Evidence to reference: note drawings, schedules, surveys, calculations, or stakeholder inputs.\n- Interfaces: identify related disciplines, approvals, cost, programme, and client dependencies.\n- Stage 3 action: capture coordination, calculation, review, or authority work still required.",
+      "status": "drafting",
+      "owner": "Report coordinator",
+      "updatedAt": "2026-05-19T19:12:53.037Z"
+    }
+  },
+  "sections": {}
+}

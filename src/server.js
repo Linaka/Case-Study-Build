@@ -16,6 +16,19 @@ import {
   readBdDocumentRecord,
   saveBdDocumentRecord
 } from "./lib/bd-documents.js";
+import {
+  addEngineeringReportSpreadsheet,
+  addEngineeringReportImage,
+  assertEngineeringReportSlug,
+  assertEngineeringReportPageKind,
+  findEngineeringReportSection,
+  findEngineeringReportSubsection,
+  readDefaultEngineeringReport,
+  readEngineeringReport,
+  saveEngineeringReportOrder,
+  saveEngineeringReportSectionDraft,
+  saveEngineeringReportSubsectionDraft
+} from "./lib/engineering-reports.js";
 import { toHtml } from "./lib/html.js";
 import { createJobQueue } from "./lib/job-queue.js";
 import { assertPdfUpload, importBdDocumentPdf, importProjectPdf, MAX_PDF_BYTES } from "./lib/pdf-import.js";
@@ -34,6 +47,7 @@ import { renderBdBuilder } from "./templates/bd-app.js";
 import { renderBdDocument } from "./templates/bd-document.js";
 import { renderDashboard, renderBuilder } from "./templates/app.js";
 import { renderCaseStudy } from "./templates/case-study.js";
+import { renderEngineeringOutlineReport, renderEngineeringReport } from "./templates/engineering-report.js";
 import { renderMarketingBanner } from "./templates/marketing-banner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -69,8 +83,24 @@ const CONTENT_TYPES = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
-  ".webp": "image/webp"
+  ".webp": "image/webp",
+  ".csv": "text/csv; charset=utf-8",
+  ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 };
+
+const SPREADSHEET_TYPES = new Map([
+  ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"],
+  ["application/vnd.ms-excel", ".xls"],
+  ["text/csv", ".csv"],
+  ["application/csv", ".csv"]
+]);
+const SPREADSHEET_EXTENSIONS = new Map([
+  [".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+  [".xls", "application/vnd.ms-excel"],
+  [".csv", "text/csv"]
+]);
+const MAX_SPREADSHEET_BYTES = 10 * 1024 * 1024;
 
 class HttpError extends Error {
   constructor(status, message) {
@@ -398,6 +428,143 @@ async function uploadAsset(request, slug) {
   };
 }
 
+async function uploadEngineeringReportImage(request, slug, pageKind, pageSlug) {
+  const safeSlug = assertEngineeringReportSlug(slug);
+  const safePageKind = assertEngineeringReportPageKind(pageKind);
+  const safePageSlug = assertEngineeringReportSlug(pageSlug);
+  const report = await readEngineeringReport(safeSlug);
+
+  if (safePageKind === "section") {
+    findEngineeringReportSection(report, safePageSlug);
+  } else {
+    findEngineeringReportSubsection(report, safePageSlug);
+  }
+
+  const contentType = String(request.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
+  const originalName = request.headers["x-file-name"];
+  const fileName = safeAssetFilename(originalName, contentType);
+  const file = await readBinaryRequest(request, MAX_IMAGE_BYTES, "Image file is too large. Use a file under 5 MB.");
+
+  if (!file.length) {
+    throw httpError(400, "Choose an image file before uploading.");
+  }
+
+  assertImageSignature(file, contentType);
+
+  const assetDir = path.join(ROOT, "public/assets/engineering-reports", safeSlug, safePageKind, safePageSlug);
+  const filePath = path.join(assetDir, fileName);
+  const image = {
+    path: `/assets/engineering-reports/${safeSlug}/${safePageKind}/${safePageSlug}/${fileName}`,
+    caption: "",
+    copyright: "",
+    fileName,
+    type: contentType,
+    size: file.length,
+    addedAt: new Date().toISOString()
+  };
+
+  await fs.mkdir(assetDir, { recursive: true });
+  await fs.writeFile(filePath, file);
+  await backupWrittenFile(filePath, path.join("public/assets/engineering-reports", safeSlug, safePageKind, safePageSlug, fileName));
+
+  return {
+    image,
+    images: await addEngineeringReportImage(safeSlug, safePageKind, safePageSlug, image)
+  };
+}
+
+function spreadsheetContentType(originalName, contentType) {
+  const normalized = String(contentType || "").split(";")[0].trim().toLowerCase();
+
+  if (SPREADSHEET_TYPES.has(normalized)) {
+    return normalized;
+  }
+
+  const extension = path.extname(String(originalName || "")).toLowerCase();
+  return SPREADSHEET_EXTENSIONS.get(extension) || normalized;
+}
+
+function safeSpreadsheetFilename(fileName, contentType, now = Date.now()) {
+  const parsed = path.parse(String(fileName || "engineering-report-spreadsheet"));
+  const baseName = parsed.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "engineering-report-spreadsheet";
+  const expectedExtension = SPREADSHEET_TYPES.get(contentType);
+
+  if (!expectedExtension) {
+    throw httpError(415, "Unsupported spreadsheet type. Use XLSX, XLS or CSV.");
+  }
+
+  return `${baseName}-${now}${expectedExtension}`;
+}
+
+function assertSpreadsheetSignature(file, contentType) {
+  if (contentType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+    if (file.subarray(0, 2).toString("ascii") !== "PK") {
+      throw httpError(415, "XLSX upload does not look like a valid spreadsheet file.");
+    }
+    return;
+  }
+
+  if (contentType === "application/vnd.ms-excel") {
+    const oleSignature = Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]);
+    if (!file.subarray(0, 8).equals(oleSignature)) {
+      throw httpError(415, "XLS upload does not look like a valid spreadsheet file.");
+    }
+    return;
+  }
+
+  if (contentType === "text/csv" || contentType === "application/csv") {
+    if (file.includes(0)) {
+      throw httpError(415, "CSV upload appears to contain binary data.");
+    }
+    return;
+  }
+
+  throw httpError(415, "Unsupported spreadsheet type. Use XLSX, XLS or CSV.");
+}
+
+async function uploadEngineeringReportSpreadsheet(request, slug, sectionSlug) {
+  const safeSlug = assertEngineeringReportSlug(slug);
+  const safeSectionSlug = assertEngineeringReportSlug(sectionSlug);
+  const report = await readEngineeringReport(safeSlug);
+
+  findEngineeringReportSection(report, safeSectionSlug);
+
+  const originalName = request.headers["x-file-name"];
+  const contentType = spreadsheetContentType(originalName, request.headers["content-type"]);
+  const fileName = safeSpreadsheetFilename(originalName, contentType);
+  const file = await readBinaryRequest(request, MAX_SPREADSHEET_BYTES, "Spreadsheet file is too large. Use a file under 10 MB.");
+
+  if (!file.length) {
+    throw httpError(400, "Choose a spreadsheet file before uploading.");
+  }
+
+  assertSpreadsheetSignature(file, contentType);
+
+  const assetDir = path.join(ROOT, "public/assets/engineering-reports", safeSlug, "section", safeSectionSlug, "spreadsheets");
+  const filePath = path.join(assetDir, fileName);
+  const spreadsheet = {
+    path: `/assets/engineering-reports/${safeSlug}/section/${safeSectionSlug}/spreadsheets/${fileName}`,
+    caption: String(originalName || "").replace(/[^\x20-\x7E]/g, "-").trim(),
+    fileName,
+    type: contentType,
+    size: file.length,
+    addedAt: new Date().toISOString()
+  };
+
+  await fs.mkdir(assetDir, { recursive: true });
+  await fs.writeFile(filePath, file);
+  await backupWrittenFile(filePath, path.join("public/assets/engineering-reports", safeSlug, "section", safeSectionSlug, "spreadsheets", fileName));
+
+  return {
+    spreadsheet,
+    spreadsheets: await addEngineeringReportSpreadsheet(safeSlug, safeSectionSlug, spreadsheet)
+  };
+}
+
 async function importPdf(request, type) {
   const contentType = String(request.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
   const fileName = String(request.headers["x-file-name"] || "");
@@ -550,6 +717,40 @@ async function exportProjectXlsx(slug) {
   await backupWrittenFile(outputPath, path.join("exports", path.basename(outputPath)));
 
   return file;
+}
+
+async function exportEngineeringReportPdf(slug) {
+  await readProject(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-engineering-report.pdf`);
+
+  return renderPdfWithWorker(`/engineering-reports/${slug}`, outputPath);
+}
+
+async function exportEngineeringOutlinePdf(slug) {
+  await readEngineeringReport(slug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-engineering-report.pdf`);
+
+  return renderPdfWithWorker(`/engineering-report/${slug}`, outputPath);
+}
+
+async function exportEngineeringOutlineSectionPdf(slug, sectionSlug) {
+  const report = await readEngineeringReport(slug);
+  const section = findEngineeringReportSection(report, sectionSlug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-${section.slug}.pdf`);
+
+  return renderPdfWithWorker(`/engineering-report/${slug}/sections/${section.slug}`, outputPath);
+}
+
+async function exportEngineeringOutlineSubsectionPdf(slug, subsectionSlug) {
+  const report = await readEngineeringReport(slug);
+  const subsection = findEngineeringReportSubsection(report, subsectionSlug);
+  const outputDir = path.join(ROOT, "exports");
+  const outputPath = path.join(outputDir, `${slug}-${subsection.slug}.pdf`);
+
+  return renderPdfWithWorker(`/engineering-report/${slug}/subsections/${subsection.slug}`, outputPath);
 }
 
 async function exportBdDocumentPdf(slug) {
@@ -722,6 +923,34 @@ async function handleRequest(request, response) {
       return;
     }
 
+    if (request.method === "GET" && pathname.startsWith("/api/export/engineering/compile/")) {
+      const slug = assertEngineeringReportSlug(pathname.replace("/api/export/engineering/compile/", ""));
+      sendPdf(response, `${slug}-engineering-report`, await PDF_QUEUE.add(() => exportEngineeringOutlinePdf(slug)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/engineering/section/")) {
+      const [slug, sectionSlug] = pathname.replace("/api/export/engineering/section/", "").split("/").filter(Boolean);
+      const safeSlug = assertEngineeringReportSlug(slug);
+      const safeSectionSlug = assertEngineeringReportSlug(sectionSlug);
+      sendPdf(response, `${safeSlug}-${safeSectionSlug}`, await PDF_QUEUE.add(() => exportEngineeringOutlineSectionPdf(safeSlug, safeSectionSlug)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/engineering/subsection/")) {
+      const [slug, subsectionSlug] = pathname.replace("/api/export/engineering/subsection/", "").split("/").filter(Boolean);
+      const safeSlug = assertEngineeringReportSlug(slug);
+      const safeSubsectionSlug = assertEngineeringReportSlug(subsectionSlug);
+      sendPdf(response, `${safeSlug}-${safeSubsectionSlug}`, await PDF_QUEUE.add(() => exportEngineeringOutlineSubsectionPdf(safeSlug, safeSubsectionSlug)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/export/engineering/pdf/")) {
+      const slug = assertProjectSlug(pathname.replace("/api/export/engineering/pdf/", ""));
+      sendPdf(response, `${slug}-engineering-report`, await PDF_QUEUE.add(() => exportEngineeringReportPdf(slug)));
+      return;
+    }
+
     if (request.method === "GET" && pathname.startsWith("/api/export/xlsx/")) {
       const slug = assertProjectSlug(pathname.replace("/api/export/xlsx/", ""));
       sendXlsx(response, slug, await exportProjectXlsx(slug));
@@ -749,7 +978,14 @@ async function handleRequest(request, response) {
     }
 
     if (request.method === "GET" && pathname === "/") {
-      sendHtml(response, renderDashboard(await listProjects(), await listBdDocuments(), {
+      const [projects, bdDocuments, engineeringReport] = await Promise.all([
+        listProjects(),
+        listBdDocuments(),
+        readDefaultEngineeringReport()
+      ]);
+
+      sendHtml(response, renderDashboard(projects, bdDocuments, {
+        engineeringReport,
         activeView: url.searchParams.get("view")
       }));
       return;
@@ -796,6 +1032,66 @@ async function handleRequest(request, response) {
     if (request.method === "GET" && pathname.startsWith("/projects/")) {
       const slug = assertProjectSlug(pathname.replace("/projects/", ""));
       sendHtml(response, renderCaseStudy(await readProjectForPreview(slug), { slug }));
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/engineering-report") {
+      redirect(response, "/engineering-report/stage-2-basis-of-design");
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/engineering-report/")) {
+      const parts = pathname.replace("/engineering-report/", "").split("/").filter(Boolean);
+      const slug = assertEngineeringReportSlug(parts[0]);
+      const report = await readEngineeringReport(slug);
+
+      if (parts.length === 1) {
+        sendHtml(response, renderEngineeringOutlineReport(report));
+        return;
+      }
+
+      if (parts.length === 3 && parts[1] === "sections") {
+        sendHtml(response, renderEngineeringOutlineReport(report, {
+          section: findEngineeringReportSection(report, parts[2])
+        }));
+        return;
+      }
+
+      if (parts.length === 4 && parts[1] === "sections" && parts[3] === "edit") {
+        sendHtml(response, renderEngineeringOutlineReport(report, {
+          section: findEngineeringReportSection(report, parts[2]),
+          mode: "edit"
+        }));
+        return;
+      }
+
+      if (parts.length === 3 && parts[1] === "subsections") {
+        sendHtml(response, renderEngineeringOutlineReport(report, {
+          subsection: findEngineeringReportSubsection(report, parts[2])
+        }));
+        return;
+      }
+
+      if (parts.length === 4 && parts[1] === "subsections" && parts[3] === "edit") {
+        sendHtml(response, renderEngineeringOutlineReport(report, {
+          subsection: findEngineeringReportSubsection(report, parts[2]),
+          mode: "edit"
+        }));
+        return;
+      }
+
+      throw httpError(404, "Engineering report route was not found.");
+    }
+
+    if (request.method === "GET" && pathname === "/engineering-reports") {
+      const projects = await listProjects();
+      redirect(response, `/engineering-reports/${projects[0]?.slug || "uber-sample"}`);
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/engineering-reports/")) {
+      const slug = assertProjectSlug(pathname.replace("/engineering-reports/", ""));
+      sendHtml(response, renderEngineeringReport(await readProjectForPreview(slug), { slug }));
       return;
     }
 
@@ -855,6 +1151,96 @@ async function handleRequest(request, response) {
 
       response.writeHead(405, {
         "Allow": "GET, POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/engineering-report-images/")) {
+      const [slug, pageKind, pageSlug] = pathname.replace("/api/engineering-report-images/", "").split("/").filter(Boolean);
+
+      if (request.method === "POST") {
+        sendJson(response, await uploadEngineeringReportImage(request, slug, pageKind, pageSlug));
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/engineering-report-spreadsheets/")) {
+      const [slug, sectionSlug] = pathname.replace("/api/engineering-report-spreadsheets/", "").split("/").filter(Boolean);
+
+      if (request.method === "POST") {
+        sendJson(response, await uploadEngineeringReportSpreadsheet(request, slug, sectionSlug));
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/engineering-report-sections/")) {
+      const [slug, sectionSlug] = pathname.replace("/api/engineering-report-sections/", "").split("/").filter(Boolean);
+      const safeSlug = assertEngineeringReportSlug(slug);
+      const safeSectionSlug = assertEngineeringReportSlug(sectionSlug);
+
+      if (request.method === "POST") {
+        sendJson(response, {
+          draft: await saveEngineeringReportSectionDraft(safeSlug, safeSectionSlug, await readJsonRequest(request))
+        });
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/engineering-report-subsections/")) {
+      const [slug, subsectionSlug] = pathname.replace("/api/engineering-report-subsections/", "").split("/").filter(Boolean);
+      const safeSlug = assertEngineeringReportSlug(slug);
+      const safeSubsectionSlug = assertEngineeringReportSlug(subsectionSlug);
+
+      if (request.method === "POST") {
+        sendJson(response, {
+          draft: await saveEngineeringReportSubsectionDraft(safeSlug, safeSubsectionSlug, await readJsonRequest(request))
+        });
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (pathname.startsWith("/api/engineering-report-order/")) {
+      const safeSlug = assertEngineeringReportSlug(pathname.replace("/api/engineering-report-order/", ""));
+
+      if (request.method === "POST") {
+        sendJson(response, {
+          report: await saveEngineeringReportOrder(safeSlug, await readJsonRequest(request))
+        });
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "POST",
         "Content-Type": "application/json; charset=utf-8"
       });
       response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);

@@ -217,6 +217,9 @@ async function assertDownload(origin, pathName, contentType, label) {
 
 async function assertExportRoundtrips(origin) {
   const casePdf = await assertDownload(origin, "/api/export/pdf/stress-case", "application/pdf", "stress case PDF");
+  const engineeringPdf = await assertDownload(origin, "/api/export/engineering/pdf/stress-case", "application/pdf", "stress engineering report PDF");
+  const compiledEngineeringPdf = await assertDownload(origin, "/api/export/engineering/compile/stage-2-basis-of-design", "application/pdf", "compiled engineering report PDF");
+  const engineeringSubsectionPdf = await assertDownload(origin, "/api/export/engineering/subsection/stage-2-basis-of-design/1-1-report-title", "application/pdf", "engineering subsection PDF");
   const bdPdf = await assertDownload(origin, "/api/export/bd/pdf/stress-bd", "application/pdf", "stress BD PDF");
   const caseWord = await assertDownload(origin, "/api/export/word/stress-case", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "stress case Word");
   const bdWord = await assertDownload(origin, "/api/export/bd/word/stress-bd", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "stress BD Word");
@@ -224,6 +227,9 @@ async function assertExportRoundtrips(origin) {
   const bdBanner = await assertDownload(origin, "/api/export/bd/banner/stress-bd", "image/png", "stress BD banner");
 
   assert(casePdf.subarray(0, 4).toString("ascii") === "%PDF", "Stress case PDF was not a PDF.");
+  assert(engineeringPdf.subarray(0, 4).toString("ascii") === "%PDF", "Stress engineering report PDF was not a PDF.");
+  assert(compiledEngineeringPdf.subarray(0, 4).toString("ascii") === "%PDF", "Compiled engineering report PDF was not a PDF.");
+  assert(engineeringSubsectionPdf.subarray(0, 4).toString("ascii") === "%PDF", "Engineering subsection PDF was not a PDF.");
   assert(bdPdf.subarray(0, 4).toString("ascii") === "%PDF", "Stress BD PDF was not a PDF.");
   assert(caseWord.subarray(0, 2).toString("ascii") === "PK", "Stress case Word export was not a docx zip.");
   assert(bdWord.subarray(0, 2).toString("ascii") === "PK", "Stress BD Word export was not a docx zip.");
@@ -391,11 +397,14 @@ try {
 
   await assertSemantics(page, `${origin}/?view=case-studies`, "case-study dashboard");
   await assertSemantics(page, `${origin}/?view=bd-documents`, "BD dashboard");
+  await assertSemantics(page, `${origin}/?view=engineering-reports`, "engineering report dashboard");
   await assertSemantics(page, `${origin}/builder/stress-case`, "case-study builder");
   await assertSemantics(page, `${origin}/bd-builder/stress-bd`, "BD builder");
   await assertKeyboardFlow(page, origin, projectsDir, bdDocumentsDir);
 
   await assertNoPrintOverflow(page, `${origin}/projects/stress-case`, "stress case-study PDF preview");
+  await assertNoPrintOverflow(page, `${origin}/engineering-reports/stress-case`, "stress engineering report PDF preview");
+  await assertNoPrintOverflow(page, `${origin}/engineering-report/stage-2-basis-of-design/subsections/1-1-report-title`, "engineering subsection PDF preview");
   await assertNoPrintOverflow(page, `${origin}/bd/stress-bd`, "stress BD PDF preview");
   await assertExportRoundtrips(origin);
   await captureVisualSnapshots(page, origin);

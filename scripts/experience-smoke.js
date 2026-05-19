@@ -62,6 +62,12 @@ const routes = [
     expectedText: "New BD document"
   },
   {
+    name: "dashboard engineering reports",
+    path: "/?view=engineering-reports",
+    expectedTitle: "Engineering reports",
+    expectedText: "Compile PDF"
+  },
+  {
     name: "case-study builder",
     path: "/builder/uber-sample",
     expectedText: "Export marketing banner",
@@ -77,6 +83,24 @@ const routes = [
     name: "case-study preview",
     path: "/projects/uber-sample",
     expectedText: "Save banner"
+  },
+  {
+    name: "engineering report preview",
+    path: "/engineering-report/stage-2-basis-of-design",
+    expectedTitle: "Example Stage 2 Basis of Design Engineering Report Structure compiled engineering report",
+    expectedText: "Document Control"
+  },
+  {
+    name: "engineering subsection preview",
+    path: "/engineering-report/stage-2-basis-of-design/subsections/1-1-report-title",
+    expectedTitle: "1.1 Report title engineering report subsection",
+    expectedText: "Save PDF"
+  },
+  {
+    name: "project engineering report preview",
+    path: "/engineering-reports/uber-sample",
+    expectedTitle: "Ride request portfolio case study engineering report",
+    expectedText: "Save PDF"
   },
   {
     name: "BD preview",
