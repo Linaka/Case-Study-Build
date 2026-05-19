@@ -24,6 +24,7 @@ async function readExport(fileName) {
 
 const files = {
   casePdf: await readExport("uber-sample.pdf"),
+  engineeringPdf: await readExport("stage-2-basis-of-design-engineering-report.pdf"),
   bdPdf: await readExport("enterprise-build-support-bd.pdf"),
   xlsx: await readExport("uber-sample-impact.xlsx"),
   caseBanner: await readExport("uber-sample-marketing-banner.png"),
@@ -31,6 +32,7 @@ const files = {
 };
 
 assert(files.casePdf.subarray(0, 4).toString("ascii") === "%PDF", "Case-study PDF was not a PDF.");
+assert(files.engineeringPdf.subarray(0, 4).toString("ascii") === "%PDF", "Engineering report PDF was not a PDF.");
 assert(files.bdPdf.subarray(0, 4).toString("ascii") === "%PDF", "BD PDF was not a PDF.");
 assert(files.xlsx.subarray(0, 2).toString("ascii") === "PK", "Excel export was not an XLSX zip.");
 

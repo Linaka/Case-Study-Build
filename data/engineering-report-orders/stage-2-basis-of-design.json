@@ -1,0 +1,272 @@
+{
+  "groupSlugs": [
+    "project-and-design-basis",
+    "discipline-sections",
+    "appendices",
+    "suggested-report-logic",
+    "references"
+  ],
+  "subsectionsBySectionSlug": {
+    "1-document-control": [
+      "1-1-report-title",
+      "1-2-project-name-and-number",
+      "1-3-client-end-user",
+      "1-4-design-team-members",
+      "1-5-revision-history",
+      "1-6-status-of-issue-for-example-draft-client-review-planning-support-stage-2-close-out",
+      "1-7-author-checker-and-approver",
+      "1-8-distribution-list"
+    ],
+    "2-executive-summary": [
+      "2-1-purpose-of-the-report",
+      "2-2-summary-of-the-stage-2-engineering-concept",
+      "2-3-key-design-drivers",
+      "2-4-principal-engineering-decisions-made-during-stage-2",
+      "2-5-key-risks-assumptions-and-dependencies",
+      "2-6-recommended-next-steps-for-stage-3"
+    ],
+    "3-project-overview": [
+      "3-1-project-description",
+      "3-2-site-location-and-context",
+      "3-3-project-objectives",
+      "3-4-client-requirements",
+      "3-5-stakeholder-requirements",
+      "3-6-stage-1-information-carried-forward",
+      "3-7-scope-of-this-stage-2-report",
+      "3-8-items-outside-the-current-scope"
+    ],
+    "4-basis-of-design": [
+      "4-1-design-brief-and-performance-objectives",
+      "4-2-applicable-design-standards-codes-and-guidance",
+      "4-3-planning-statutory-and-authority-requirements",
+      "4-4-environmental-and-sustainability-objectives",
+      "4-5-resilience-adaptability-and-future-flexibility-requirements",
+      "4-6-operational-and-maintenance-assumptions",
+      "4-7-design-life-assumptions",
+      "4-8-occupancy-use-and-loading-assumptions",
+      "4-9-interfaces-with-architecture-landscape-interiors-and-specialist-consultants"
+    ],
+    "5-existing-information-reviewed": [
+      "5-1-client-brief",
+      "5-2-site-surveys",
+      "5-3-topographical-information",
+      "5-4-utilities-records",
+      "5-5-ground-investigation-information",
+      "5-6-flood-risk-drainage-information",
+      "5-7-existing-building-information-where-applicable",
+      "5-8-planning-history",
+      "5-9-environmental-data",
+      "5-10-previous-feasibility-or-options-studies",
+      "5-11-assumptions-made-due-to-missing-information"
+    ],
+    "6-site-constraints-and-opportunities": [
+      "6-1-site-access-and-logistics",
+      "6-2-existing-utilities-and-diversions",
+      "6-3-ground-conditions",
+      "6-4-flooding-and-drainage-constraints",
+      "6-5-adjacent-buildings-and-infrastructure",
+      "6-6-rights-of-way-easements-or-third-party-constraints",
+      "6-7-environmental-constraints",
+      "6-8-planning-constraints",
+      "6-9-opportunities-for-efficiency-reuse-or-low-carbon-design"
+    ],
+    "7-engineering-design-principles": [
+      "7-1-safety-by-design",
+      "7-2-simplicity-and-robustness",
+      "7-3-whole-life-carbon-and-energy-performance",
+      "7-4-maintainability-and-access",
+      "7-5-flexibility-for-future-change",
+      "7-6-buildability-and-phasing",
+      "7-7-passive-design-principles",
+      "7-8-integration-with-architectural-intent"
+    ],
+    "8-civil-engineering-strategy": [
+      "8-1-existing-site-levels",
+      "8-2-proposed-levels-strategy",
+      "8-3-earthworks-assumptions",
+      "8-4-access-roads-and-external-hardstanding",
+      "8-5-external-works-design-principles",
+      "8-6-below-ground-constraints",
+      "8-7-interface-with-landscape-and-public-realm",
+      "8-8-civil-engineering-risks-and-next-stage-actions"
+    ],
+    "9-drainage-and-water-management-strategy": [
+      "9-1-existing-drainage-context",
+      "9-2-surface-water-strategy",
+      "9-3-foul-water-strategy",
+      "9-4-sustainable-drainage-principles",
+      "9-5-attenuation-assumptions",
+      "9-6-discharge-rate-assumptions",
+      "9-7-flood-risk-considerations",
+      "9-8-blue-green-infrastructure-opportunities",
+      "9-9-drainage-authority-engagement",
+      "9-10-risks-and-next-stage-actions"
+    ],
+    "10-structural-engineering-strategy": [
+      "10-1-structural-design-brief",
+      "10-2-proposed-structural-system",
+      "10-3-foundation-strategy",
+      "10-4-grid-and-stability-strategy",
+      "10-5-floor-construction-options",
+      "10-6-roof-structure-strategy",
+      "10-7-loading-assumptions",
+      "10-8-movement-joints-and-structural-zones",
+      "10-9-structural-fire-considerations",
+      "10-10-embodied-carbon-considerations",
+      "10-11-buildability-and-sequencing",
+      "10-12-structural-risks-and-next-stage-actions"
+    ],
+    "11-building-services-mep-strategy": [
+      "11-1-mep-design-brief",
+      "11-2-servicing-principles",
+      "11-3-energy-strategy",
+      "11-4-heating-and-cooling-strategy",
+      "11-5-ventilation-strategy",
+      "11-6-domestic-water-strategy",
+      "11-7-electrical-supply-strategy",
+      "11-8-lighting-principles",
+      "11-9-fire-alarm-and-life-safety-systems",
+      "11-10-ict-security-and-specialist-systems",
+      "11-11-plant-space-requirements",
+      "11-12-distribution-routes-and-riser-strategy",
+      "11-13-metering-and-controls-strategy",
+      "11-14-maintainability-and-access",
+      "11-15-mep-risks-and-next-stage-actions"
+    ],
+    "12-fa-ade-engineering-strategy": [
+      "12-1-fa-ade-performance-requirements",
+      "12-2-proposed-fa-ade-typologies",
+      "12-3-thermal-performance-assumptions",
+      "12-4-solar-control-and-overheating-considerations",
+      "12-5-natural-ventilation-interfaces",
+      "12-6-acoustic-performance-assumptions",
+      "12-7-fire-performance-principles",
+      "12-8-maintenance-and-access-strategy",
+      "12-9-embodied-carbon-and-material-considerations",
+      "12-10-interfaces-with-structure-and-mep",
+      "12-11-fa-ade-risks-and-next-stage-actions"
+    ],
+    "13-fire-engineering-strategy": [
+      "13-1-fire-safety-objectives",
+      "13-2-occupancy-and-use-assumptions",
+      "13-3-means-of-escape-principles",
+      "13-4-compartmentation-principles",
+      "13-5-firefighting-access-and-facilities",
+      "13-6-fire-detection-and-alarm-strategy",
+      "13-7-smoke-control-principles-where-applicable",
+      "13-8-fire-resistance-assumptions",
+      "13-9-interface-with-architecture-structure-and-mep",
+      "13-10-fire-engineering-risks-and-next-stage-actions"
+    ],
+    "14-sustainability-carbon-and-environmental-performance": [
+      "14-1-sustainability-brief",
+      "14-2-energy-performance-targets",
+      "14-3-operational-carbon-strategy",
+      "14-4-embodied-carbon-strategy",
+      "14-5-circular-economy-and-reuse-opportunities",
+      "14-6-climate-resilience",
+      "14-7-water-efficiency",
+      "14-8-biodiversity-and-ecology-interfaces",
+      "14-9-health-and-wellbeing-considerations",
+      "14-10-rating-system-requirements-for-example-breeam-leed-well-or-project-specific-targets",
+      "14-11-sustainability-risks-and-next-stage-actions"
+    ],
+    "15-acoustics-vibration-and-specialist-performance": [
+      "15-1-acoustic-design-criteria",
+      "15-2-external-noise-constraints",
+      "15-3-internal-acoustic-performance",
+      "15-4-plant-noise-strategy",
+      "15-5-vibration-considerations",
+      "15-6-specialist-spaces-or-sensitive-uses",
+      "15-7-risks-and-next-stage-actions"
+    ],
+    "16-utilities-and-infrastructure-strategy": [
+      "16-1-existing-utilities-summary",
+      "16-2-incoming-electrical-supply",
+      "16-3-gas-strategy-if-applicable",
+      "16-4-potable-water-supply",
+      "16-5-foul-and-surface-water-connections",
+      "16-6-telecoms-and-data-connections",
+      "16-7-district-energy-or-heat-network-opportunities",
+      "16-8-diversions-disconnections-and-temporary-supplies",
+      "16-9-utility-provider-engagement",
+      "16-10-risks-and-next-stage-actions"
+    ],
+    "17-design-options-considered": [
+      "17-1-summary-of-options-reviewed",
+      "17-2-evaluation-criteria",
+      "17-3-option-advantages-and-disadvantages",
+      "17-4-cost-carbon-programme-and-risk-implications",
+      "17-5-preferred-option-and-rationale",
+      "17-6-options-rejected-and-reasons"
+    ],
+    "18-interdisciplinary-coordination": [
+      "18-1-architectural-interfaces",
+      "18-2-structural-mep-coordination-principles",
+      "18-3-fa-ade-structure-services-interfaces",
+      "18-4-fire-strategy-interfaces",
+      "18-5-landscape-and-civil-engineering-interfaces",
+      "18-6-plant-and-riser-spatial-allowances",
+      "18-7-key-coordination-drawings",
+      "18-8-unresolved-coordination-items"
+    ],
+    "19-statutory-planning-and-approvals-strategy": [
+      "19-1-planning-considerations",
+      "19-2-building-regulations-route",
+      "19-3-environmental-permits-or-consents",
+      "19-4-highway-authority-engagement",
+      "19-5-water-authority-engagement",
+      "19-6-fire-authority-approving-body-engagement",
+      "19-7-third-party-approvals",
+      "19-8-approvals-risk-register"
+    ],
+    "20-cost-programme-and-procurement-considerations": [
+      "20-1-engineering-cost-drivers",
+      "20-2-high-risk-cost-items",
+      "20-3-value-engineering-opportunities",
+      "20-4-programme-constraints",
+      "20-5-procurement-assumptions",
+      "20-6-long-lead-items",
+      "20-7-contractor-or-specialist-input-required",
+      "20-8-stage-3-cost-information-requirements"
+    ],
+    "21-design-risk-register": [
+      "21-1-key-engineering-risks",
+      "21-2-risk-owner",
+      "21-3-likelihood-and-impact",
+      "21-4-mitigation-strategy",
+      "21-5-residual-risk",
+      "21-6-action-required-at-stage-3"
+    ],
+    "22-assumptions-exclusions-and-dependencies": [
+      "22-1-design-assumptions",
+      "22-2-client-decisions-required",
+      "22-3-survey-information-still-required",
+      "22-4-specialist-studies-still-required",
+      "22-5-exclusions-from-the-stage-2-report",
+      "22-6-dependencies-on-other-consultants",
+      "22-7-change-control-items"
+    ],
+    "23-stage-2-deliverables": [
+      "23-1-drawings-issued",
+      "23-2-sketches-and-diagrams",
+      "23-3-calculations",
+      "23-4-models",
+      "23-5-schedules",
+      "23-6-technical-notes",
+      "23-7-meeting-records",
+      "23-8-authority-consultation-records",
+      "23-9-cost-information-issued",
+      "23-10-stage-2-information-exchange-checklist"
+    ],
+    "24-conclusions-and-recommendations": [
+      "24-1-summary-of-preferred-engineering-strategy",
+      "24-2-key-decisions-required-from-the-client",
+      "24-3-items-to-be-developed-at-stage-3",
+      "24-4-surveys-or-investigations-required",
+      "24-5-specialist-appointments-required",
+      "24-6-recommended-design-freeze-items",
+      "24-7-stage-3-priorities"
+    ]
+  }
+}

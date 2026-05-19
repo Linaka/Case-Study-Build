@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Report coordinator placeholder portrait</title>
+  <desc id="desc">A neutral placeholder portrait for the engineering report support contact.</desc>
+  <rect width="160" height="160" rx="24" fill="#f2f2f2"/>
+  <circle cx="80" cy="58" r="30" fill="#d8d8d8"/>
+  <path d="M34 136c5-29 22-45 46-45s41 16 46 45" fill="#d8d8d8"/>
+  <path d="M26 136h108" stroke="#bdbdbd" stroke-width="8" stroke-linecap="round"/>
+</svg>

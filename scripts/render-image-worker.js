@@ -53,7 +53,7 @@ try {
   });
 } catch (error) {
   if (String(error.message).includes("Executable doesn't exist")) {
-    console.error("Playwright is installed, but the Chromium browser is missing. Run `npx playwright install chromium`.");
+    console.error("Playwright is installed, but the Chromium browser is missing. Run `npm run setup:local` or `npx playwright install chromium`.");
   } else {
     console.error(error.message);
   }

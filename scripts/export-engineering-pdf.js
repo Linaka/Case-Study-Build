@@ -4,9 +4,9 @@ import net from "node:net";
 import path from "node:path";
 import { spawn } from "node:child_process";
 
-const slug = process.argv[2] || process.env.PROJECT || "uber-sample";
+const slug = process.argv[2] || process.env.ENGINEERING_REPORT || "stage-2-basis-of-design";
 const outputDir = path.resolve(process.cwd(), "exports");
-const outputPath = path.join(outputDir, `${slug}.pdf`);
+const outputPath = path.join(outputDir, `${slug}-engineering-report.pdf`);
 const internalRenderToken = crypto.randomBytes(32).toString("hex");
 
 async function getFreePort() {
@@ -42,14 +42,6 @@ async function waitForServer(url, childProcess, timeoutMs = 10000) {
   throw new Error(`Timed out waiting for ${url}`);
 }
 
-async function loadPlaywright() {
-  try {
-    return await import("playwright");
-  } catch {
-    throw new Error("Playwright is not installed. Run `npm install` before exporting PDFs.");
-  }
-}
-
 const port = await getFreePort();
 const server = spawn(process.execPath, ["src/server.js"], {
   env: {
@@ -67,56 +59,37 @@ server.on("error", error => {
 
 server.stderr.on("data", chunk => process.stderr.write(chunk));
 
-let browser;
-
 try {
-  const { chromium } = await loadPlaywright();
-
   await waitForServer(`http://127.0.0.1:${port}/health`, server);
   await fs.mkdir(outputDir, { recursive: true });
 
-  browser = await chromium.launch();
-  const page = await browser.newPage({
-    viewport: {
-      width: 1440,
-      height: 1800
+  const worker = spawn(process.execPath, ["scripts/render-pdf-worker.js"], {
+    env: {
+      ...process.env,
+      PREVIEW_URL: `http://127.0.0.1:${port}/engineering-report/${slug}`,
+      OUTPUT_PATH: outputPath,
+      INTERNAL_RENDER_TOKEN: internalRenderToken
     },
-    extraHTTPHeaders: {
-      "X-Internal-Render-Token": internalRenderToken
-    }
+    stdio: ["ignore", "ignore", "pipe"]
+  });
+  const stderr = [];
+
+  worker.stderr.on("data", chunk => stderr.push(chunk));
+
+  const code = await new Promise((resolve, reject) => {
+    worker.on("error", reject);
+    worker.on("exit", resolve);
   });
 
-  const response = await page.goto(`http://127.0.0.1:${port}/projects/${slug}`, {
-    waitUntil: "networkidle"
-  });
-
-  if (!response?.ok()) {
-    throw new Error(`Preview route returned HTTP ${response?.status() || "unknown"} for project "${slug}".`);
+  if (code !== 0) {
+    throw new Error(Buffer.concat(stderr).toString("utf8").trim() || `PDF worker exited with code ${code}.`);
   }
 
-  await page.emulateMedia({ media: "print" });
-  await page.pdf({
-    path: outputPath,
-    format: "A4",
-    printBackground: true,
-    preferCSSPageSize: true
-  });
-
-  console.log(`PDF exported to ${outputPath}`);
+  console.log(`Engineering report PDF exported to ${outputPath}`);
 } catch (error) {
-  if (String(error.message).includes("Executable doesn't exist")) {
-    console.error("Playwright is installed, but the Chromium browser is missing. Run `npm run setup:local` or `npx playwright install chromium`.");
-  } else {
-    console.error(error.message);
-  }
+  console.error(error.message);
   process.exitCode = 1;
 } finally {
-  if (browser) {
-    await browser.close().catch(error => {
-      console.error(`Could not close browser cleanly: ${error.message}`);
-    });
-  }
-
   if (server.exitCode === null) {
     server.kill();
   }
