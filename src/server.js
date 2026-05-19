@@ -47,7 +47,7 @@ const TRUST_PROXY = process.env.TRUST_PROXY === "1";
 const REQUIRE_HTTPS = process.env.REQUIRE_HTTPS !== "0" && IS_PRODUCTION;
 const PDF_JOB_TIMEOUT_MS = Number(process.env.PDF_JOB_TIMEOUT_MS || 120000);
 const PDF_WORKERS = Math.max(1, Number(process.env.PDF_WORKERS || 1));
-const INTERNAL_RENDER_TOKEN = crypto.randomBytes(32).toString("hex");
+const INTERNAL_RENDER_TOKEN = process.env.INTERNAL_RENDER_TOKEN || crypto.randomBytes(32).toString("hex");
 const PDF_QUEUE = createJobQueue({ concurrency: PDF_WORKERS });
 
 const USER_STORE = await loadUserStore({

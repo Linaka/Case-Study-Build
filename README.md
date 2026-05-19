@@ -6,10 +6,18 @@ A small local app for writing structured portfolio case studies and sales-facing
 
 ```bash
 npm install
+npm run setup:local
 npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+`npm run setup:local` installs the Playwright Chromium browser that PDF and banner exports need on each machine. If PDF or banner export fails after moving to another computer, run:
+
+```bash
+npm run preflight:render
+npm run setup:local
+```
 
 The dashboard links to both content types:
 
@@ -60,6 +68,7 @@ Business development document JSON lives in `data/bd-documents`. Export a BD PDF
 npm run check
 npm test
 npm run ci
+npm run preflight:render
 npm run export:pdf
 npm run export:bd-pdf
 npm run export:banner

@@ -25,7 +25,7 @@ Use:
 
 ```bash
 npm ci
-npx playwright install chromium
+npm run setup:local
 APP_USER=admin APP_PASSWORD=change-me npm run dev
 ```
 
@@ -69,6 +69,14 @@ npm run smoke:production
 ```
 
 This starts the server with `NODE_ENV=production`, a temporary hashed user store, `BACKUP_DIR`, `TRUST_PROXY=1`, and verifies HTTPS proxy enforcement through `X-Forwarded-Proto: https`.
+
+Validate the render environment on each machine with:
+
+```bash
+npm run preflight:render
+```
+
+This launches Playwright Chromium once and catches missing browser binaries or host dependencies before a PDF or banner export is requested.
 
 Validate the main design and navigation surfaces with:
 

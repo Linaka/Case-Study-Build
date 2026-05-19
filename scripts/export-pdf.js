@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import crypto from "node:crypto";
 import net from "node:net";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -6,6 +7,7 @@ import { spawn } from "node:child_process";
 const slug = process.argv[2] || process.env.PROJECT || "uber-sample";
 const outputDir = path.resolve(process.cwd(), "exports");
 const outputPath = path.join(outputDir, `${slug}.pdf`);
+const internalRenderToken = crypto.randomBytes(32).toString("hex");
 
 async function getFreePort() {
   return new Promise((resolve, reject) => {
@@ -53,7 +55,8 @@ const server = spawn(process.execPath, ["src/server.js"], {
   env: {
     ...process.env,
     HOST: "127.0.0.1",
-    PORT: String(port)
+    PORT: String(port),
+    INTERNAL_RENDER_TOKEN: internalRenderToken
   },
   stdio: ["ignore", "pipe", "pipe"]
 });
@@ -77,6 +80,9 @@ try {
     viewport: {
       width: 1440,
       height: 1800
+    },
+    extraHTTPHeaders: {
+      "X-Internal-Render-Token": internalRenderToken
     }
   });
 
@@ -99,7 +105,7 @@ try {
   console.log(`PDF exported to ${outputPath}`);
 } catch (error) {
   if (String(error.message).includes("Executable doesn't exist")) {
-    console.error("Playwright is installed, but the Chromium browser is missing. Run `npx playwright install chromium`.");
+    console.error("Playwright is installed, but the Chromium browser is missing. Run `npm run setup:local` or `npx playwright install chromium`.");
   } else {
     console.error(error.message);
   }

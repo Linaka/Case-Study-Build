@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import crypto from "node:crypto";
 import net from "node:net";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -6,6 +7,7 @@ import { spawn } from "node:child_process";
 const slug = process.argv[2] || process.env.BD_DOCUMENT || "enterprise-build-support";
 const outputDir = path.resolve(process.cwd(), "exports");
 const outputPath = path.join(outputDir, `${slug}-bd.pdf`);
+const internalRenderToken = crypto.randomBytes(32).toString("hex");
 
 async function getFreePort() {
   return new Promise((resolve, reject) => {
@@ -45,7 +47,8 @@ const server = spawn(process.execPath, ["src/server.js"], {
   env: {
     ...process.env,
     HOST: "127.0.0.1",
-    PORT: String(port)
+    PORT: String(port),
+    INTERNAL_RENDER_TOKEN: internalRenderToken
   },
   stdio: ["ignore", "pipe", "pipe"]
 });
@@ -64,7 +67,8 @@ try {
     env: {
       ...process.env,
       PREVIEW_URL: `http://127.0.0.1:${port}/bd/${slug}`,
-      OUTPUT_PATH: outputPath
+      OUTPUT_PATH: outputPath,
+      INTERNAL_RENDER_TOKEN: internalRenderToken
     },
     stdio: ["ignore", "ignore", "pipe"]
   });
