@@ -64,8 +64,10 @@ npm run export:pdf
 npm run export:bd-pdf
 npm run export:banner
 npm run export:bd-banner
+npm run smoke:exports
+npm run smoke:quality
 npm run smoke:experience
 npm run smoke:production
 ```
 
-`npm run ci` runs syntax checks, unit tests, Markdown/Excel exports, case-study and BD PDF exports, case-study and BD banner exports, responsive experience smoke tests, and a production smoke test with hashed auth, `BACKUP_DIR`, and TLS proxy headers. GitHub Actions installs Chromium before running the same release check and uploads generated export artifacts.
+`npm run ci` runs syntax checks, unit tests, Markdown/Excel exports, case-study and BD PDF exports, case-study and BD banner exports, artifact validation, responsive experience smoke tests, keyboard/accessibility/long-copy/visual snapshot quality smoke tests, and a production smoke test with hashed auth, `BACKUP_DIR`, and TLS proxy headers. GitHub Actions installs Chromium before running the same release check and uploads generated export artifacts.

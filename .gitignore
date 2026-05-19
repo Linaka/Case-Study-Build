@@ -8,4 +8,5 @@ exports/*.md
 exports/*.png
 exports/*.xlsx
 exports/*.docx
+exports/visual-snapshots/
 !exports/.gitkeep
