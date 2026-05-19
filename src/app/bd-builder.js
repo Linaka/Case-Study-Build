@@ -1,10 +1,9 @@
-const form = document.querySelector("#project-form");
+const form = document.querySelector("#bd-document-form");
 const status = document.querySelector("#save-status");
 const heading = document.querySelector(".app-header h1");
 const previewLink = document.querySelector("[data-preview-link]");
 const jsonLink = document.querySelector("[data-json-link]");
 const pdfLink = document.querySelector("[data-pdf-link]");
-const xlsxLink = document.querySelector("[data-xlsx-link]");
 const wordLink = document.querySelector("[data-word-link]");
 const bannerLink = document.querySelector("[data-banner-link]");
 const pdfImportMeta = document.querySelector("[data-pdf-import-meta]");
@@ -17,7 +16,7 @@ const MAX_PDF_BYTES = 20 * 1024 * 1024;
 const MAX_WORD_BYTES = 10 * 1024 * 1024;
 
 if (!form || !status) {
-  throw new Error("Builder form could not be initialised.");
+  throw new Error("Business development builder form could not be initialised.");
 }
 
 const FIELD_LIMITS = fieldLimitsFromForm();
@@ -40,8 +39,12 @@ function value(name) {
   return control.value.trim();
 }
 
+function linesFromText(text) {
+  return String(text ?? "").split(/\n+/).map(item => item.trim()).filter(Boolean);
+}
+
 function lines(name) {
-  return value(name).split(/\n+/).map(item => item.trim()).filter(Boolean);
+  return linesFromText(value(name));
 }
 
 function setStatus(message, state = "idle") {
@@ -72,35 +75,31 @@ function setSaving(isSaving) {
   }
 }
 
-function syncChrome(project) {
+function syncChrome(documentData) {
   if (heading) {
-    heading.textContent = project.title || "Untitled case study";
+    heading.textContent = documentData.title || "Untitled business development document";
   }
 
-  document.title = `Edit ${project.title || "Untitled case study"}`;
+  document.title = `Edit ${documentData.title || "Untitled business development document"}`;
 
   if (previewLink) {
-    previewLink.href = `/projects/${form.dataset.slug}`;
+    previewLink.href = `/bd/${form.dataset.slug}`;
   }
 
   if (jsonLink) {
-    jsonLink.href = `/api/projects/${form.dataset.slug}`;
+    jsonLink.href = `/api/bd-documents/${form.dataset.slug}`;
   }
 
   if (pdfLink) {
-    pdfLink.href = `/api/export/pdf/${form.dataset.slug}`;
-  }
-
-  if (xlsxLink) {
-    xlsxLink.href = `/api/export/xlsx/${form.dataset.slug}`;
+    pdfLink.href = `/api/export/bd/pdf/${form.dataset.slug}`;
   }
 
   if (wordLink) {
-    wordLink.href = `/api/export/word/${form.dataset.slug}`;
+    wordLink.href = `/api/export/bd/word/${form.dataset.slug}`;
   }
 
   if (bannerLink) {
-    bannerLink.href = `/api/export/banner/${form.dataset.slug}`;
+    bannerLink.href = `/api/export/bd/banner/${form.dataset.slug}`;
   }
 }
 
@@ -121,12 +120,13 @@ function messageFromError(error) {
 
 function limitForField(fieldName) {
   return {
-    caption: FIELD_LIMITS.assetCaption,
+    bestFor: FIELD_LIMITS.bestFor,
     description: FIELD_LIMITS.itemDescription,
-    metric: FIELD_LIMITS.impactMetric,
-    path: FIELD_LIMITS.assetPath,
-    title: FIELD_LIMITS.itemTitle,
-    unit: FIELD_LIMITS.impactUnit
+    evidence: FIELD_LIMITS.evidence,
+    intervention: FIELD_LIMITS.intervention,
+    outcome: FIELD_LIMITS.outcome,
+    problem: FIELD_LIMITS.problem,
+    scope: FIELD_LIMITS.scope
   }[fieldName] || FIELD_LIMITS[fieldName] || FIELD_LIMITS.itemDescription;
 }
 
@@ -162,7 +162,7 @@ function initializeCharacterCounters(root = form) {
   root.querySelectorAll("input[maxlength], textarea[maxlength]").forEach(attachCharacterCounter);
 }
 
-function createField(labelText, fieldName, value = "", multiline = false, maxLength = limitForField(fieldName), type = "text") {
+function createField(labelText, fieldName, value = "", multiline = false, maxLength = limitForField(fieldName)) {
   const label = document.createElement("label");
   const labelTextNode = document.createElement("span");
   const control = document.createElement(multiline ? "textarea" : "input");
@@ -170,18 +170,13 @@ function createField(labelText, fieldName, value = "", multiline = false, maxLen
   label.className = multiline ? "field field--wide" : "field";
   labelTextNode.textContent = labelText;
   control.dataset.field = fieldName;
+  control.maxLength = maxLength;
   control.value = value;
 
   if (multiline) {
-    control.maxLength = maxLength;
     control.rows = 3;
   } else {
-    control.type = type;
-    if (type === "number") {
-      control.step = "any";
-    } else {
-      control.maxLength = maxLength;
-    }
+    control.type = "text";
   }
 
   label.append(labelTextNode, control);
@@ -189,7 +184,7 @@ function createField(labelText, fieldName, value = "", multiline = false, maxLen
   return label;
 }
 
-function createVisibilitySelect(value = "public") {
+function createVisibilitySelect(value = "private") {
   const label = document.createElement("label");
   const labelTextNode = document.createElement("span");
   const select = document.createElement("select");
@@ -247,11 +242,11 @@ function createAssetLoader(path = "") {
 function createListItem(listName) {
   const item = document.createElement("article");
   const header = document.createElement("header");
-  const heading = document.createElement("h4");
+  const headingText = document.createElement("h4");
   const removeButton = document.createElement("button");
   const grid = document.createElement("div");
 
-  item.className = "list-item";
+  item.className = listName === "proofSections" ? "list-item bd-proof-editor" : "list-item";
   item.dataset.listItem = "";
   header.className = "list-item__header";
   removeButton.className = "icon-button";
@@ -260,34 +255,50 @@ function createListItem(listName) {
   removeButton.textContent = "Remove";
   grid.className = "field-grid field-grid--item";
 
-  if (listName === "assets") {
-    heading.textContent = "Asset";
-    removeButton.setAttribute("aria-label", "Remove asset");
+  if (listName === "offerPillars") {
+    headingText.textContent = "Pillar";
+    removeButton.setAttribute("aria-label", "Remove offer pillar");
     grid.append(
-      createField("Image path", "path"),
-      createVisibilitySelect(),
-      createField("Caption", "caption", "", true, FIELD_LIMITS.assetCaption)
+      createField("Title", "title", "", false, FIELD_LIMITS.offerTitle),
+      createField("Description", "description", "", true, FIELD_LIMITS.offerDescription),
+      createField("Deliverables", "deliverables", "", true, FIELD_LIMITS.deliverables)
+    );
+  } else if (listName === "proofSections") {
+    headingText.textContent = "Proof";
+    removeButton.setAttribute("aria-label", "Remove proof section");
+    grid.append(
+      createField("Headline", "headline", "", false, FIELD_LIMITS.headline),
+      createField("Client context", "clientContext", "", false, FIELD_LIMITS.clientContext),
+      createField("Project slug", "projectSlug", "", false, FIELD_LIMITS.projectSlug),
+      createVisibilitySelect("private"),
+      createField("Asset path", "assetPath", "", false, FIELD_LIMITS.assetPath),
+      createField("Problem", "problem", "", true, FIELD_LIMITS.problem),
+      createField("Intervention", "intervention", "", true, FIELD_LIMITS.intervention),
+      createField("Outcome", "outcome", "", true, FIELD_LIMITS.outcome),
+      createField("Evidence", "evidence", "", true, FIELD_LIMITS.evidence)
+    );
+  } else if (listName === "engagementModels") {
+    headingText.textContent = "Model";
+    removeButton.setAttribute("aria-label", "Remove engagement model");
+    grid.append(
+      createField("Title", "title", "", false, FIELD_LIMITS.engagementTitle),
+      createField("Timeline", "timeline", "", false, FIELD_LIMITS.engagementTimeline),
+      createField("Best for", "bestFor", "", true, FIELD_LIMITS.bestFor),
+      createField("Scope", "scope", "", true, FIELD_LIMITS.scope)
     );
   } else {
-    const titleField = listName === "impact" ? "metric" : "title";
-    const titleLabel = listName === "impact" ? "Metric" : "Title";
-
-    heading.textContent = "Item";
+    headingText.textContent = "Item";
     removeButton.setAttribute("aria-label", "Remove item");
     grid.append(
-      createField(titleLabel, titleField),
-      ...(listName === "impact" ? [
-        createField("Value", "value", "", false, FIELD_LIMITS.itemDescription, "number"),
-        createField("Unit", "unit", "", false, FIELD_LIMITS.impactUnit)
-      ] : []),
+      createField("Title", "title", "", false, FIELD_LIMITS.itemTitle),
       createField("Description", "description", "", true, FIELD_LIMITS.itemDescription)
     );
   }
 
-  header.append(heading, removeButton);
+  header.append(headingText, removeButton);
   item.append(header);
 
-  if (listName === "assets") {
+  if (listName === "proofSections") {
     item.append(createAssetLoader());
   }
 
@@ -297,14 +308,17 @@ function createListItem(listName) {
 
 function updateListLabels(listEditor) {
   const listName = listEditor.dataset.list;
+  const label = {
+    offerPillars: "Pillar",
+    proofSections: "Proof",
+    engagementModels: "Model"
+  }[listName] || "Item";
 
   listEditor.querySelectorAll("[data-list-item]").forEach((item, index) => {
-    const heading = item.querySelector("h4");
-    if (!heading) {
-      return;
+    const headingText = item.querySelector("h4");
+    if (headingText) {
+      headingText.textContent = `${label} ${index + 1}`;
     }
-
-    heading.textContent = `${listName === "assets" ? "Asset" : "Item"} ${index + 1}`;
   });
 
   const itemCount = listEditor.querySelectorAll("[data-list-item]").length;
@@ -394,8 +408,8 @@ function setAssetPreview(container, path) {
   preview.append(image);
 }
 
-function setAssetPath(item, path) {
-  const pathField = item.querySelector('[data-field="path"]');
+function setImagePath(item, path) {
+  const pathField = item.querySelector('[data-field="assetPath"]') || item.querySelector('[data-field="path"]');
 
   if (pathField) {
     pathField.value = path;
@@ -410,7 +424,7 @@ function setControlValue(control, nextValue) {
     return false;
   }
 
-  const value = String(nextValue).trim();
+  const value = Array.isArray(nextValue) ? nextValue.join("\n").trim() : String(nextValue).trim();
 
   if (!value) {
     return false;
@@ -446,15 +460,14 @@ function replaceListItems(listName, entries) {
   entries.forEach(entry => {
     const item = createListItem(listName);
 
-    if (listName === "impact") {
-      setItemFieldValue(item, "metric", entry.metric);
-      setItemFieldValue(item, "value", entry.value);
-      setItemFieldValue(item, "unit", entry.unit);
-    } else {
-      setItemFieldValue(item, "title", entry.title);
+    Object.entries(entry || {}).forEach(([fieldName, value]) => {
+      setItemFieldValue(item, fieldName, value);
+    });
+
+    if (listName === "proofSections" && entry?.assetPath) {
+      setAssetPreview(item, entry.assetPath);
     }
 
-    setItemFieldValue(item, "description", entry.description);
     items.append(item);
   });
 
@@ -489,37 +502,34 @@ function applyImportedAssets(assets) {
   return changed;
 }
 
-function applyImportedProject(project) {
+function applyImportedDocument(documentData) {
   let changed = 0;
 
   [
     "title",
     "subtitle",
     "year",
-    "sector",
-    "clientType",
-    "role",
-    "context",
-    "challenge",
     "audience",
-    "approach",
-    "reflection",
+    "positioning",
+    "executivePromise",
+    "processSummary",
+    "nextSteps",
+    "primaryCta",
+    "secondaryCta",
     "confidentialityNotes"
   ].forEach(field => {
-    changed += setNamedValue(field, project?.[field]) ? 1 : 0;
+    changed += setNamedValue(field, documentData?.[field]) ? 1 : 0;
   });
 
-  if (Array.isArray(project?.collaborators) && project.collaborators.length) {
-    changed += setNamedValue("collaborators", project.collaborators.join("\n")) ? 1 : 0;
-  }
-
-  changed += replaceListItems("keyDecisions", project?.keyDecisions || []);
-  changed += replaceListItems("outputs", project?.outputs || []);
-  changed += replaceListItems("impact", project?.impact || []);
-  changed += applyImportedAssets(project?.assets || []);
+  changed += replaceListItems("buyerProblems", documentData?.buyerProblems || []);
+  changed += replaceListItems("offerPillars", documentData?.offerPillars || []);
+  changed += replaceListItems("process", documentData?.process || []);
+  changed += replaceListItems("proofSections", documentData?.proofSections || []);
+  changed += replaceListItems("engagementModels", documentData?.engagementModels || []);
+  changed += applyImportedAssets(documentData?.assets || []);
 
   if (changed) {
-    syncChrome(readProject());
+    syncChrome(readDocument());
   }
 
   return changed;
@@ -579,9 +589,9 @@ async function uploadImage(item, file) {
   }
 
   const uploaded = await response.json();
-  setAssetPath(item, uploaded.path);
-  setAssetMeta(item, `Loaded ${dimensions.width}x${dimensions.height} px ${ratioLabel}. Save JSON to keep this image in the case study.`, "success");
-  setStatus("Image loaded. Save JSON to keep it in the case study.", "success");
+  setImagePath(item, uploaded.path);
+  setAssetMeta(item, `Loaded ${dimensions.width}x${dimensions.height} px ${ratioLabel}. Save JSON to keep this image in the document.`, "success");
+  setStatus("Image loaded. Save JSON to keep it in the document.", "success");
 }
 
 function validatePdfFile(file) {
@@ -601,7 +611,7 @@ async function importPdf(file) {
   setPdfImportMeta(`Importing ${file.name || "PDF"}...`, "pending");
   setStatus("Importing PDF content...", "pending");
 
-  const response = await fetch("/api/import/pdf", {
+  const response = await fetch("/api/import/bd/pdf", {
     method: "POST",
     headers: {
       "Content-Type": file.type || "application/pdf",
@@ -615,11 +625,11 @@ async function importPdf(file) {
   }
 
   const imported = await response.json();
-  const changed = applyImportedProject(imported.project);
+  const changed = applyImportedDocument(imported.document);
   const pageText = imported.pageCount === 1 ? "1 page" : `${imported.pageCount || "unknown"} pages`;
 
   if (!changed) {
-    throw new Error("No mappable case-study content was found in that PDF.");
+    throw new Error("No mappable business development content was found in that PDF.");
   }
 
   setPdfImportMeta(`Imported ${pageText}. Review the draft, then save JSON.`, "success");
@@ -643,7 +653,7 @@ async function importWord(file) {
   setWordImportMeta(`Importing ${file.name || "Word document"}...`, "pending");
   setStatus("Importing Word content...", "pending");
 
-  const response = await fetch("/api/import/word", {
+  const response = await fetch("/api/import/bd/word", {
     method: "POST",
     headers: {
       "Content-Type": file.type || "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -657,36 +667,74 @@ async function importWord(file) {
   }
 
   const imported = await response.json();
-  const changed = applyImportedProject(imported.project);
+  const changed = applyImportedDocument(imported.document);
 
   if (!changed) {
-    throw new Error("No mappable case-study content was found in that Word document.");
+    throw new Error("No mappable business development content was found in that Word document.");
   }
 
   setWordImportMeta("Imported Word content. Review the draft, then save JSON.", "success");
   setStatus("Word content imported. Review the draft, then save JSON.", "success");
 }
 
-function collectStructuredList(listName) {
+function collectTitleDescriptionList(listName) {
   return Array.from(form.querySelectorAll(`[data-list="${listName}"] [data-list-item]`))
     .map(item => {
-      if (listName === "impact") {
-        const impact = {
-          metric: fieldValue(item, "metric"),
-          value: fieldValue(item, "value"),
-          unit: fieldValue(item, "unit"),
-          description: fieldValue(item, "description")
-        };
-
-        return impact.metric || impact.value || impact.unit || impact.description ? impact : null;
-      }
-
       const entry = {
         title: fieldValue(item, "title"),
         description: fieldValue(item, "description")
       };
 
       return entry.title || entry.description ? entry : null;
+    })
+    .filter(Boolean);
+}
+
+function collectOfferPillars() {
+  return Array.from(form.querySelectorAll('[data-list="offerPillars"] [data-list-item]'))
+    .map(item => {
+      const entry = {
+        title: fieldValue(item, "title"),
+        description: fieldValue(item, "description"),
+        deliverables: linesFromText(fieldValue(item, "deliverables"))
+      };
+
+      return entry.title || entry.description || entry.deliverables.length ? entry : null;
+    })
+    .filter(Boolean);
+}
+
+function collectProofSections() {
+  return Array.from(form.querySelectorAll('[data-list="proofSections"] [data-list-item]'))
+    .map(item => {
+      const entry = {
+        headline: fieldValue(item, "headline"),
+        clientContext: fieldValue(item, "clientContext"),
+        problem: fieldValue(item, "problem"),
+        intervention: fieldValue(item, "intervention"),
+        outcome: fieldValue(item, "outcome"),
+        evidence: fieldValue(item, "evidence"),
+        projectSlug: fieldValue(item, "projectSlug"),
+        assetPath: fieldValue(item, "assetPath"),
+        visibility: fieldValue(item, "visibility") || "private"
+      };
+
+      return entry.headline || entry.problem || entry.intervention || entry.outcome || entry.evidence || entry.assetPath ? entry : null;
+    })
+    .filter(Boolean);
+}
+
+function collectEngagementModels() {
+  return Array.from(form.querySelectorAll('[data-list="engagementModels"] [data-list-item]'))
+    .map(item => {
+      const entry = {
+        title: fieldValue(item, "title"),
+        bestFor: fieldValue(item, "bestFor"),
+        scope: fieldValue(item, "scope"),
+        timeline: fieldValue(item, "timeline")
+      };
+
+      return entry.title || entry.bestFor || entry.scope || entry.timeline ? entry : null;
     })
     .filter(Boolean);
 }
@@ -706,59 +754,59 @@ function collectAssets() {
     .filter(Boolean);
 }
 
-function readProject() {
+function readDocument() {
   return {
     title: value("title"),
     subtitle: value("subtitle"),
     year: value("year"),
-    sector: value("sector"),
-    clientType: value("clientType"),
-    role: value("role"),
-    collaborators: lines("collaborators"),
-    context: value("context"),
-    challenge: value("challenge"),
     audience: value("audience"),
-    approach: value("approach"),
-    keyDecisions: collectStructuredList("keyDecisions"),
-    outputs: collectStructuredList("outputs"),
-    impact: collectStructuredList("impact"),
-    reflection: value("reflection"),
+    positioning: value("positioning"),
+    executivePromise: value("executivePromise"),
+    buyerProblems: collectTitleDescriptionList("buyerProblems"),
+    offerPillars: collectOfferPillars(),
+    processSummary: value("processSummary"),
+    process: collectTitleDescriptionList("process"),
+    proofSections: collectProofSections(),
+    engagementModels: collectEngagementModels(),
+    nextSteps: value("nextSteps"),
+    primaryCta: value("primaryCta"),
+    secondaryCta: value("secondaryCta"),
     confidentialityNotes: value("confidentialityNotes"),
     assets: collectAssets()
   };
 }
 
-async function saveProject() {
-  const project = readProject();
+async function saveDocument() {
+  const documentData = readDocument();
   const revision = form.dataset.revision || "new";
 
   setStatus("Saving...", "pending");
   setSaving(true);
 
   try {
-    const response = await fetch(`/api/projects/${form.dataset.slug}`, {
+    const response = await fetch(`/api/bd-documents/${form.dataset.slug}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "If-Match": revision
       },
-      body: JSON.stringify(project)
+      body: JSON.stringify(documentData)
     });
 
     if (!response.ok) {
       throw new Error(await readErrorMessage(response));
     }
 
-    const savedProject = await response.json();
+    const savedDocument = await response.json();
     const nextRevision = response.headers.get("etag")?.replace(/^"|"$/g, "");
 
     if (nextRevision) {
       form.dataset.revision = nextRevision;
     }
 
-    syncChrome(savedProject);
+    syncChrome(savedDocument);
     setStatus("Saved. Preview is ready.", "success");
-    return savedProject;
+    return savedDocument;
   } catch (error) {
     setStatus(messageFromError(error), "error");
     throw error;
@@ -771,9 +819,9 @@ form.addEventListener("submit", async event => {
   event.preventDefault();
 
   try {
-    await saveProject();
+    await saveDocument();
   } catch {
-    // saveProject has already rendered the actionable error message.
+    // saveDocument has already rendered the actionable error message.
   }
 });
 
@@ -857,7 +905,7 @@ document.addEventListener("change", async event => {
 });
 
 form.addEventListener("input", event => {
-  const pathInput = event.target.closest('[data-asset-slot] [data-field="path"]');
+  const pathInput = event.target.closest('[data-field="path"], [data-field="assetPath"]');
 
   if (pathInput) {
     setAssetPreview(pathInput.closest("[data-list-item]"), pathInput.value.trim());
@@ -873,7 +921,7 @@ if (previewLink) {
     event.preventDefault();
 
     try {
-      await saveProject();
+      await saveDocument();
       window.location.assign(previewLink.href);
     } catch {
       // Stay on the form so the user can fix validation or network errors.
@@ -886,23 +934,9 @@ if (pdfLink) {
     event.preventDefault();
 
     try {
-      await saveProject();
+      await saveDocument();
       setStatus("Preparing PDF download...", "pending");
       window.location.assign(pdfLink.href);
-    } catch {
-      // Stay on the form so the user can fix validation or network errors.
-    }
-  });
-}
-
-if (xlsxLink) {
-  xlsxLink.addEventListener("click", async event => {
-    event.preventDefault();
-
-    try {
-      await saveProject();
-      setStatus("Preparing Excel download...", "pending");
-      window.location.assign(xlsxLink.href);
     } catch {
       // Stay on the form so the user can fix validation or network errors.
     }
@@ -914,7 +948,7 @@ if (wordLink) {
     event.preventDefault();
 
     try {
-      await saveProject();
+      await saveDocument();
       setStatus("Preparing Word download...", "pending");
       window.location.assign(wordLink.href);
     } catch {

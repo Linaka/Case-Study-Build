@@ -1,8 +1,14 @@
 import fs from "node:fs/promises";
+import crypto from "node:crypto";
 import path from "node:path";
 
-const PROJECTS_DIR = path.resolve(process.cwd(), "data/projects");
+import { backupExistingFile } from "./backups.js";
+import { PROJECT_FIELD_LIMITS, TEXT_LIMITS } from "./limits.js";
+
+const PROJECTS_DIR = path.resolve(process.env.PROJECTS_DIR || path.join(process.cwd(), "data/projects"));
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+const VISIBILITY_VALUES = new Set(["public", "private", "hidden"]);
+const ASSET_SLOTS = new Set(["", "cover", "decisions", "outputs"]);
 
 const TEXT_FIELDS = [
   "title",
@@ -41,6 +47,84 @@ function asArray(value) {
   return [];
 }
 
+function projectPath(slug) {
+  return path.join(PROJECTS_DIR, `${assertProjectSlug(slug)}.json`);
+}
+
+function revisionFor(text) {
+  return crypto.createHash("sha256").update(text).digest("hex");
+}
+
+function assertLength(label, value, maxLength) {
+  if (value.length > maxLength) {
+    throw projectError(`${label} must be ${maxLength} characters or fewer.`, 422);
+  }
+}
+
+function normalizeStoryItems(value, titleKey = "title") {
+  return asArray(value)
+    .map(item => {
+      if (typeof item === "string") {
+        return {
+          [titleKey]: asText(item),
+          description: ""
+        };
+      }
+
+      if (!item || typeof item !== "object") {
+        return null;
+      }
+
+      return {
+        [titleKey]: asText(item[titleKey] || item.title || item.metric),
+        description: asText(item.description || item.body || item.summary)
+      };
+    })
+    .filter(item => item && (item[titleKey] || item.description));
+}
+
+function normalizeImpactValue(value) {
+  const rawValue = asText(value);
+
+  if (!rawValue) {
+    return null;
+  }
+
+  const numericValue = Number(rawValue.replace(/,/g, ""));
+
+  if (!Number.isFinite(numericValue)) {
+    throw projectError("Impact value must be a number.", 422);
+  }
+
+  return numericValue;
+}
+
+function normalizeImpactItems(value) {
+  return asArray(value)
+    .map(item => {
+      if (typeof item === "string") {
+        return {
+          metric: asText(item),
+          value: null,
+          unit: "",
+          description: ""
+        };
+      }
+
+      if (!item || typeof item !== "object") {
+        return null;
+      }
+
+      return {
+        metric: asText(item.metric || item.title),
+        value: normalizeImpactValue(item.value),
+        unit: asText(item.unit),
+        description: asText(item.description || item.body || item.summary)
+      };
+    })
+    .filter(item => item && (item.metric || item.value !== null || item.unit || item.description));
+}
+
 function normalizeAssets(value) {
   return asArray(value)
     .filter(asset => asset && typeof asset === "object")
@@ -51,6 +135,78 @@ function normalizeAssets(value) {
       slot: asText(asset.slot)
     }))
     .filter(asset => asset.path || asset.caption);
+}
+
+export function validateProject(project) {
+  if (!project || typeof project !== "object") {
+    throw projectError("Project data must be an object.", 422);
+  }
+
+  if (!project.title) {
+    throw projectError("Title is required.", 422);
+  }
+
+  TEXT_FIELDS.forEach(field => {
+    assertLength(field, project[field], PROJECT_FIELD_LIMITS[field]);
+  });
+
+  if (project.year && !/^\d{4}([-/]\d{2,4})?$/.test(project.year)) {
+    throw projectError("Year must use YYYY or YYYY-YYYY format.", 422);
+  }
+
+  if (project.collaborators.length > TEXT_LIMITS.listItems) {
+    throw projectError(`Collaborators can include at most ${TEXT_LIMITS.listItems} people or teams.`, 422);
+  }
+
+  project.collaborators.forEach(collaborator => {
+    assertLength("Collaborator", collaborator, TEXT_LIMITS.short);
+  });
+
+  ["keyDecisions", "outputs", "impact"].forEach(field => {
+    if (project[field].length > TEXT_LIMITS.listItems) {
+      throw projectError(`${field} can include at most ${TEXT_LIMITS.listItems} items.`, 422);
+    }
+  });
+
+  [...project.keyDecisions, ...project.outputs].forEach(item => {
+    assertLength("Item title", item.title, PROJECT_FIELD_LIMITS.titleListTitle);
+    assertLength("Item description", item.description, PROJECT_FIELD_LIMITS.titleListDescription);
+  });
+
+  project.impact.forEach(item => {
+    assertLength("Impact metric", item.metric, PROJECT_FIELD_LIMITS.impactMetric);
+    assertLength("Impact unit", item.unit, PROJECT_FIELD_LIMITS.impactUnit);
+    assertLength("Impact description", item.description, PROJECT_FIELD_LIMITS.titleListDescription);
+  });
+
+  if (project.assets.length > TEXT_LIMITS.assets) {
+    throw projectError(`Assets can include at most ${TEXT_LIMITS.assets} images.`, 422);
+  }
+
+  project.assets.forEach(asset => {
+    assertLength("Asset path", asset.path, TEXT_LIMITS.path);
+    assertLength("Asset caption", asset.caption, PROJECT_FIELD_LIMITS.assetCaption);
+
+    if (!VISIBILITY_VALUES.has(asset.visibility)) {
+      throw projectError("Asset visibility must be public, private or hidden.", 422);
+    }
+
+    if (!ASSET_SLOTS.has(asset.slot)) {
+      throw projectError("Asset slot must be cover, decisions or outputs.", 422);
+    }
+
+    if (asset.path) {
+      if (!asset.path.startsWith("/assets/")) {
+        throw projectError("Asset paths must point to local /assets/ files.", 422);
+      }
+
+      if (asset.path.includes("..") || asset.path.includes("\\")) {
+        throw projectError("Asset path cannot contain directory traversal.", 422);
+      }
+    }
+  });
+
+  return project;
 }
 
 export function assertProjectSlug(slug) {
@@ -80,12 +236,12 @@ export function normalizeProject(project) {
   });
 
   normalized.collaborators = asArray(project?.collaborators).map(asText).filter(Boolean);
-  normalized.keyDecisions = asArray(project?.keyDecisions);
-  normalized.outputs = asArray(project?.outputs);
-  normalized.impact = asArray(project?.impact);
+  normalized.keyDecisions = normalizeStoryItems(project?.keyDecisions, "title");
+  normalized.outputs = normalizeStoryItems(project?.outputs, "title");
+  normalized.impact = normalizeImpactItems(project?.impact);
   normalized.assets = normalizeAssets(project?.assets);
 
-  return normalized;
+  return validateProject(normalized);
 }
 
 export function blankProject(overrides = {}) {
@@ -147,24 +303,61 @@ export async function listProjects() {
 }
 
 export async function readProject(slug) {
+  return (await readProjectRecord(slug)).project;
+}
+
+export async function readProjectRecord(slug) {
   const safeSlug = assertProjectSlug(slug);
-  const filePath = path.join(PROJECTS_DIR, `${safeSlug}.json`);
-  const file = await fs.readFile(filePath, "utf8");
+  const file = await fs.readFile(projectPath(safeSlug), "utf8");
+  let parsed;
 
   try {
-    return normalizeProject(JSON.parse(file));
+    parsed = JSON.parse(file);
   } catch {
     throw projectError(`Project JSON for "${safeSlug}" must be valid JSON.`);
   }
+
+  return {
+    project: normalizeProject(parsed),
+    revision: revisionFor(file)
+  };
 }
 
-export async function saveProject(slug, project) {
+export async function saveProjectRecord(slug, project, expectedRevision) {
   const safeSlug = assertProjectSlug(slug);
   const normalized = normalizeProject(project);
-  const filePath = path.join(PROJECTS_DIR, `${safeSlug}.json`);
+  const filePath = projectPath(safeSlug);
+
+  if (expectedRevision && expectedRevision !== "*") {
+    let currentRevision = "new";
+
+    try {
+      currentRevision = revisionFor(await fs.readFile(filePath, "utf8"));
+    } catch (error) {
+      if (error.code !== "ENOENT") {
+        throw error;
+      }
+    }
+
+    if (currentRevision !== expectedRevision) {
+      throw projectError("Project changed on disk. Reload before saving again.", 409);
+    }
+  }
 
   await fs.mkdir(PROJECTS_DIR, { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(normalized, null, 2)}\n`, "utf8");
+  const contents = `${JSON.stringify(normalized, null, 2)}\n`;
+  const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
 
-  return normalized;
+  await backupExistingFile(filePath, path.join("data/projects", `${safeSlug}.json`));
+  await fs.writeFile(tempPath, contents, "utf8");
+  await fs.rename(tempPath, filePath);
+
+  return {
+    project: normalized,
+    revision: revisionFor(contents)
+  };
+}
+
+export async function saveProject(slug, project, expectedRevision) {
+  return (await saveProjectRecord(slug, project, expectedRevision)).project;
 }

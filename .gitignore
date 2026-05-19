@@ -1,5 +1,12 @@
 node_modules/
 .DS_Store
+backups/
+.backups/
+config/users.json
 exports/*.pdf
 exports/*.md
+exports/*.png
+exports/*.xlsx
+exports/*.docx
+exports/visual-snapshots/
 !exports/.gitkeep

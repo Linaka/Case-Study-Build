@@ -1,0 +1,137 @@
+{
+  "title": "Enterprise product build support",
+  "subtitle": "Strategy-through-build help for teams that need to turn ambiguous product opportunities into reliable, shippable digital services.",
+  "year": "2026",
+  "audience": "Enterprise product, innovation and operations leads",
+  "positioning": "We partner with enterprise teams when a product opportunity is commercially important, technically tangled and too urgent to leave as a slide-deck idea. The work spans discovery, product strategy, UX direction, prototyping and implementation support so decisions stay connected from first brief to launch.",
+  "executivePromise": "A focused senior team that can clarify the opportunity, shape the right product, and help move it into production without losing the commercial intent along the way.",
+  "processSummary": "The engagement is designed to reduce uncertainty in sequence: understand the operating reality, define the product bet, prototype the critical workflows, then support build decisions with the same strategic logic.",
+  "nextSteps": "A useful first conversation is a 45-minute working session around one current product opportunity. We will map the business goal, the user or operational friction, the decision risks, and the fastest route to a credible next artifact.",
+  "primaryCta": "Book a product opportunity review",
+  "secondaryCta": "Share an active brief or roadmap challenge",
+  "confidentialityNotes": "Proof sections are anonymized by default. Client names, financial metrics and production assets should only be included where permission exists.",
+  "buyerProblems": [
+    {
+      "title": "High-stakes ambiguity",
+      "description": "The business sees the opportunity, but the team needs a clearer product shape before committing budget, technology or delivery capacity."
+    },
+    {
+      "title": "Strategy-to-build drift",
+      "description": "Early product intent gets diluted as work moves between research, design, engineering and stakeholder review."
+    },
+    {
+      "title": "Proof without exposure",
+      "description": "Teams need credible evidence of impact while still respecting enterprise confidentiality, sensitive operations and incomplete permission."
+    }
+  ],
+  "offerPillars": [
+    {
+      "title": "Product strategy",
+      "description": "Frame the opportunity, sharpen the user and business problem, prioritize the highest-value workflows, and define what should be proved next.",
+      "deliverables": [
+        "Opportunity framing",
+        "Product principles",
+        "Workflow priorities"
+      ]
+    },
+    {
+      "title": "Design direction",
+      "description": "Translate the strategy into screens, flows, interaction patterns and narrative artifacts that stakeholders can understand and teams can act on.",
+      "deliverables": [
+        "UX flows",
+        "Prototype direction",
+        "Decision rationale"
+      ]
+    },
+    {
+      "title": "Build support",
+      "description": "Support implementation with frontend prototypes, delivery-ready specifications and product judgment as constraints surface.",
+      "deliverables": [
+        "Frontend prototypes",
+        "Implementation guidance",
+        "Launch support"
+      ]
+    }
+  ],
+  "process": [
+    {
+      "title": "Diagnose",
+      "description": "Clarify the business goal, operating constraints, user needs and decision risks."
+    },
+    {
+      "title": "Shape",
+      "description": "Define the product bet, critical workflows, proof points and delivery boundaries."
+    },
+    {
+      "title": "Prototype",
+      "description": "Create tangible artifacts that make tradeoffs visible and accelerate stakeholder alignment."
+    },
+    {
+      "title": "Support build",
+      "description": "Carry product intent into implementation with practical design, frontend and launch support."
+    }
+  ],
+  "proofSections": [
+    {
+      "headline": "Reduced a complex mobility journey into a clear decision system",
+      "clientContext": "Enterprise mobility product team",
+      "problem": "The team needed to explain a familiar ride request journey without hiding the operational complexity behind pricing, pickup quality, reliability and trust.",
+      "intervention": "Reframed the work as a sequence of product and communication decisions, then built a structured case-study system with reusable visual assets and export paths.",
+      "outcome": "Created a single source of truth that can produce consistent HTML, Markdown and A4 PDF outputs.",
+      "evidence": "Reusable JSON source, designed PDF export and disciplined asset visibility controls.",
+      "projectSlug": "uber-sample",
+      "assetPath": "/assets/uber/decision-grid.svg",
+      "visibility": "private"
+    },
+    {
+      "headline": "Turned delivery uncertainty into an actionable prototype path",
+      "clientContext": "Anonymized enterprise service team",
+      "problem": "Stakeholders had different expectations for what the first release needed to prove, which slowed decisions around scope and investment.",
+      "intervention": "Defined a lean proof path around the riskiest workflows, paired with prototype screens and a delivery narrative that made tradeoffs explicit.",
+      "outcome": "The team gained a clearer release boundary and a shared artifact for evaluating technical and commercial feasibility.",
+      "evidence": "Anonymized workflow map, prototype sequence and stakeholder decision notes.",
+      "projectSlug": "",
+      "assetPath": "/assets/uber/route-frame.svg",
+      "visibility": "private"
+    },
+    {
+      "headline": "Made confidential work commercially usable without over-disclosure",
+      "clientContext": "Anonymized product portfolio",
+      "problem": "The strongest proof was sensitive, making it hard to reuse in outreach, partner conversations or executive updates.",
+      "intervention": "Separated evidence into public, private and hidden layers, then wrote proof sections around before/after states rather than confidential implementation details.",
+      "outcome": "The material became safe to adapt for business development while retaining enough specificity to feel credible.",
+      "evidence": "Anonymized outcomes, visibility labels and reusable proof-section structure.",
+      "projectSlug": "",
+      "assetPath": "/assets/uber/output-suite.svg",
+      "visibility": "private"
+    }
+  ],
+  "engagementModels": [
+    {
+      "title": "Opportunity sprint",
+      "bestFor": "A high-value idea that needs product clarity before investment.",
+      "scope": "Discovery synthesis, product framing, proof path and executive-ready recommendation.",
+      "timeline": "2-3 weeks"
+    },
+    {
+      "title": "Prototype-to-build",
+      "bestFor": "A product direction that needs tangible UX and implementation support.",
+      "scope": "UX flows, prototype direction, frontend support and delivery-ready product decisions.",
+      "timeline": "4-8 weeks"
+    },
+    {
+      "title": "Embedded product partner",
+      "bestFor": "A team with ongoing strategic product, design and build decisions.",
+      "scope": "Recurring senior support across roadmap shaping, design direction and launch execution.",
+      "timeline": "Monthly"
+    }
+  ],
+  "assets": [
+    {
+      "path": "/assets/uber/output-suite.svg",
+      "caption": "A structured output system that keeps product strategy connected to delivery artifacts.",
+      "visibility": "public",
+      "slot": "cover"
+    }
+  ]
+}

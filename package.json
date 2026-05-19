@@ -5,10 +5,25 @@
   "type": "module",
   "scripts": {
     "dev": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/app/builder.js && node --check src/app/bd-builder.js && node --check src/lib/auth.js && node --check src/lib/backups.js && node --check src/lib/bd-documents.js && node --check src/lib/job-queue.js && node --check src/lib/limits.js && node --check src/lib/word-documents.js && node --check src/lib/pdf-import.js && node --check src/lib/xlsx.js && node --check src/templates/app.js && node --check src/templates/case-study.js && node --check src/templates/bd-app.js && node --check src/templates/bd-document.js && node --check src/templates/marketing-banner.js && node --check scripts/create-user.js && node --check scripts/export-md.js && node --check scripts/export-xlsx.js && node --check scripts/export-pdf.js && node --check scripts/export-bd-pdf.js && node --check scripts/export-banner.js && node --check scripts/export-bd-banner.js && node --check scripts/export-artifact-smoke.js && node --check scripts/experience-smoke.js && node --check scripts/production-smoke.js && node --check scripts/quality-smoke.js && node --check scripts/render-pdf-worker.js && node --check scripts/render-image-worker.js",
+    "test": "node --test",
+    "ci": "npm run check && npm test && npm run export:md && npm run export:xlsx && npm run export:pdf && npm run export:bd-pdf && npm run export:banner && npm run export:bd-banner && npm run smoke:exports && npm run smoke:experience && npm run smoke:quality && npm run smoke:production",
     "export:md": "node scripts/export-md.js",
-    "export:pdf": "node scripts/export-pdf.js"
+    "export:pdf": "node scripts/export-pdf.js",
+    "export:xlsx": "node scripts/export-xlsx.js",
+    "export:bd-pdf": "node scripts/export-bd-pdf.js",
+    "export:banner": "node scripts/export-banner.js",
+    "export:bd-banner": "node scripts/export-bd-banner.js",
+    "smoke:exports": "node scripts/export-artifact-smoke.js",
+    "smoke:experience": "node scripts/experience-smoke.js",
+    "smoke:quality": "node scripts/quality-smoke.js",
+    "smoke:production": "node scripts/production-smoke.js",
+    "user:create": "node scripts/create-user.js"
   },
   "devDependencies": {
     "playwright": "^1.53.0"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
   }
 }

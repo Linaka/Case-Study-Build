@@ -22,6 +22,25 @@ function itemDescription(item) {
   return text(item?.description || item?.body || item?.summary);
 }
 
+function itemValue(item) {
+  if (typeof item === "string" || item?.value === null || item?.value === undefined || item?.value === "") {
+    return "";
+  }
+
+  const value = Number(item.value);
+
+  if (!Number.isFinite(value)) {
+    return "";
+  }
+
+  const unit = text(item.unit);
+  const formatted = new Intl.NumberFormat("en", {
+    maximumFractionDigits: 2
+  }).format(value);
+
+  return ["%", "x", "X"].includes(unit) ? `${formatted}${unit}` : unit ? `${formatted} ${unit}` : formatted;
+}
+
 function section(title, value) {
   if (!text(value)) {
     return "";
@@ -33,8 +52,11 @@ function section(title, value) {
 function listSection(title, items) {
   const rows = asArray(items).map((item, index) => {
     const heading = itemTitle(item, `${title} ${index + 1}`);
+    const value = itemValue(item);
     const description = itemDescription(item);
-    return description ? `- **${heading}:** ${description}` : `- ${heading}`;
+    const label = value ? `${heading} (${value})` : heading;
+
+    return description ? `- **${label}:** ${description}` : `- ${label}`;
   });
 
   if (!rows.length) {
