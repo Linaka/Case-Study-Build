@@ -103,15 +103,16 @@ const SPREADSHEET_EXTENSIONS = new Map([
 const MAX_SPREADSHEET_BYTES = 10 * 1024 * 1024;
 
 class HttpError extends Error {
-  constructor(status, message) {
+  constructor(status, message, options = {}) {
     super(message);
     this.name = "HttpError";
     this.status = status;
+    this.expose = options.expose ?? status < 500;
   }
 }
 
-function httpError(status, message) {
-  return new HttpError(status, message);
+function httpError(status, message, options = {}) {
+  return new HttpError(status, message, options);
 }
 
 function securityHeaders() {
@@ -296,6 +297,10 @@ function errorStatus(error) {
 }
 
 function publicErrorMessage(error, status) {
+  if (error instanceof HttpError && error.expose) {
+    return error.message || "Request failed.";
+  }
+
   if (status >= 500) {
     return "Something went wrong.";
   }
@@ -305,6 +310,37 @@ function publicErrorMessage(error, status) {
   }
 
   return error.message || "Request failed.";
+}
+
+function renderWorkerHttpError(kind, detail) {
+  const lowerDetail = String(detail || "").toLowerCase();
+  const label = kind === "image" ? "Image" : "PDF";
+
+  if (lowerDetail.includes("playwright is not installed")) {
+    return httpError(
+      503,
+      `${label} export needs Playwright on this machine. Run npm install, then npm run setup:local, and try again.`,
+      { expose: true }
+    );
+  }
+
+  if (lowerDetail.includes("chromium browser is missing") || lowerDetail.includes("executable doesn't exist")) {
+    return httpError(
+      503,
+      `${label} export needs Playwright Chromium on this machine. Run npm run setup:local, then npm run preflight:render, and try again.`,
+      { expose: true }
+    );
+  }
+
+  if (lowerDetail.includes("host system is missing dependencies")) {
+    return httpError(
+      503,
+      `${label} export needs missing browser system dependencies. On Linux, run npx playwright install --with-deps chromium, then try again.`,
+      { expose: true }
+    );
+  }
+
+  return httpError(500, detail || `${label} worker failed.`);
 }
 
 function fail(request, response, status, message) {
@@ -639,7 +675,7 @@ async function renderPdfWithWorker(previewPath, outputPath) {
       }
 
       const detail = Buffer.concat(stderr).toString("utf8").trim();
-      reject(httpError(500, detail || "PDF worker failed."));
+      reject(renderWorkerHttpError("pdf", detail));
     });
   });
 
@@ -682,7 +718,7 @@ async function renderImageWithWorker(previewPath, outputPath, options = {}) {
       }
 
       const detail = Buffer.concat(stderr).toString("utf8").trim();
-      reject(httpError(500, detail || "Image worker failed."));
+      reject(renderWorkerHttpError("image", detail));
     });
   });
 

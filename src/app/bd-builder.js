@@ -1,3 +1,5 @@
+import { downloadFromLink } from "./export-downloads.js";
+
 const form = document.querySelector("#bd-document-form");
 const status = document.querySelector("#save-status");
 const heading = document.querySelector(".app-header h1");
@@ -935,8 +937,7 @@ if (pdfLink) {
 
     try {
       await saveDocument();
-      setStatus("Preparing PDF download...", "pending");
-      window.location.assign(pdfLink.href);
+      await downloadFromLink(pdfLink, { setStatus, kind: "PDF" });
     } catch {
       // Stay on the form so the user can fix validation or network errors.
     }
@@ -949,8 +950,20 @@ if (wordLink) {
 
     try {
       await saveDocument();
-      setStatus("Preparing Word download...", "pending");
-      window.location.assign(wordLink.href);
+      await downloadFromLink(wordLink, { setStatus, kind: "Word" });
+    } catch {
+      // Stay on the form so the user can fix validation or network errors.
+    }
+  });
+}
+
+if (bannerLink) {
+  bannerLink.addEventListener("click", async event => {
+    event.preventDefault();
+
+    try {
+      await saveDocument();
+      await downloadFromLink(bannerLink, { setStatus, kind: "banner" });
     } catch {
       // Stay on the form so the user can fix validation or network errors.
     }

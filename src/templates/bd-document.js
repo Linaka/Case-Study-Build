@@ -127,6 +127,7 @@ export function renderBdDocument(document, options = {}) {
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/bd-builder/${slug}">Close preview</a>
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/bd/word/${slug}" download>Save Word</a>
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/bd/banner/${slug}" download>Save banner</a>
+    <span class="preview-toolbar__status" data-download-status role="status" aria-live="polite"></span>
     <a class="preview-toolbar__link" href="/api/export/bd/pdf/${slug}" download>Save PDF</a>
   </nav>` : "";
 
@@ -229,6 +230,7 @@ export function renderBdDocument(document, options = {}) {
     title: document.title,
     body,
     bodyClass: "case-study-body bd-document-body",
-    styles: ["/pdf/theme.css"]
+    styles: ["/pdf/theme.css"],
+    scripts: slug ? ["/app/export-downloads-init.js"] : []
   });
 }

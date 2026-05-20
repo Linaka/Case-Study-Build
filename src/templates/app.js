@@ -530,7 +530,9 @@ export function renderDashboard(projects, bdDocuments = [], options = {}) {
     body,
     bodyClass: "app-body",
     styles: ["/app/app.css"],
-    scripts: activeView === "engineering-reports" ? ["/app/engineering-report.js"] : []
+    scripts: activeView === "engineering-reports"
+      ? ["/app/export-downloads-init.js", "/app/engineering-report.js"]
+      : ["/app/export-downloads-init.js"]
   });
 }
 
