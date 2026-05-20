@@ -1138,7 +1138,7 @@ function outlineToolbar(report, options) {
         accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv"
         multiple>
     </label>` : ""}
-    <span class="preview-toolbar__status" data-report-image-status role="status" aria-live="polite"></span>` : ""}
+    <span class="preview-toolbar__status" data-report-image-status role="status" aria-live="polite"></span>` : html`<span class="preview-toolbar__status" data-download-status role="status" aria-live="polite"></span>`}
     <a class="preview-toolbar__link" href="${selectedPart}" download>Save PDF</a>
   </nav>`;
 }
@@ -1265,7 +1265,9 @@ export function renderEngineeringOutlineReport(report, options = {}) {
     body,
     bodyClass: "case-study-body engineering-report-body",
     styles: ["/pdf/theme.css"],
-    scripts: options.section || editMode ? ["/app/engineering-report.js"] : []
+    scripts: options.section || editMode
+      ? ["/app/export-downloads-init.js", "/app/engineering-report.js"]
+      : ["/app/export-downloads-init.js"]
   });
 }
 
@@ -1293,6 +1295,7 @@ export function renderEngineeringReport(project, options = {}) {
   const previewToolbar = slug ? html`<nav class="preview-toolbar" aria-label="Engineering report controls">
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/?view=engineering-reports">Close preview</a>
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/builder/${slug}">Edit source</a>
+    <span class="preview-toolbar__status" data-download-status role="status" aria-live="polite"></span>
     <a class="preview-toolbar__link" href="/api/export/engineering/pdf/${slug}" download>Save PDF</a>
   </nav>` : "";
 
@@ -1388,6 +1391,7 @@ export function renderEngineeringReport(project, options = {}) {
     title: reportTitle,
     body,
     bodyClass: "case-study-body engineering-report-body",
-    styles: ["/pdf/theme.css"]
+    styles: ["/pdf/theme.css"],
+    scripts: slug ? ["/app/export-downloads-init.js"] : []
   });
 }

@@ -165,6 +165,7 @@ export function renderCaseStudy(project, options = {}) {
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/xlsx/${slug}" download>Excel data</a>
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/word/${slug}" download>Save Word</a>
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/api/export/banner/${slug}" download>Save banner</a>
+    <span class="preview-toolbar__status" data-download-status role="status" aria-live="polite"></span>
     <a class="preview-toolbar__link" href="/api/export/pdf/${slug}" download>Save PDF</a>
   </nav>` : "";
 
@@ -270,6 +271,7 @@ export function renderCaseStudy(project, options = {}) {
     title: project.title,
     body,
     bodyClass: "case-study-body",
-    styles: ["/pdf/theme.css"]
+    styles: ["/pdf/theme.css"],
+    scripts: slug ? ["/app/export-downloads-init.js"] : []
   });
 }
