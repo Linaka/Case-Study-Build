@@ -279,6 +279,9 @@ export async function listProjects() {
       continue;
     }
 
+    const filePath = projectPath(slug);
+    const stats = await fs.stat(filePath).catch(() => null);
+
     try {
       const project = await readProject(slug);
       projects.push({
@@ -286,7 +289,8 @@ export async function listProjects() {
         title: project.title || slug,
         subtitle: project.subtitle,
         year: project.year,
-        sector: project.sector
+        sector: project.sector,
+        updatedAt: stats?.mtime.toISOString() || ""
       });
     } catch {
       projects.push({
@@ -294,12 +298,18 @@ export async function listProjects() {
         title: slug,
         subtitle: "Could not read project JSON.",
         year: "",
-        sector: ""
+        sector: "",
+        updatedAt: stats?.mtime.toISOString() || ""
       });
     }
   }
 
-  return projects;
+  return projects.sort((left, right) => {
+    const leftTime = Date.parse(left.updatedAt || "") || 0;
+    const rightTime = Date.parse(right.updatedAt || "") || 0;
+
+    return rightTime - leftTime;
+  });
 }
 
 export async function readProject(slug) {

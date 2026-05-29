@@ -798,6 +798,51 @@ function statusOptions(selectedStatus) {
   return SUBSECTION_STATUSES.map(([value, label]) => html`<option value="${value}"${selectedStatus === value ? " selected" : ""}>${label}</option>`);
 }
 
+function latestContributionRequest(page) {
+  const requests = asArray(page?.contributionRequests);
+
+  return requests[requests.length - 1] || null;
+}
+
+function contributionRequestStatusMarker(page, pageKind) {
+  const request = latestContributionRequest(page);
+
+  if (!request) {
+    return "";
+  }
+
+  const received = Boolean(request.response?.body || request.submittedAt);
+  const state = received ? "received" : "pending";
+  const label = received ? "Response received" : "Response pending";
+  const detail = received
+    ? `From ${request.response?.contributorName || request.recipientName || request.recipientEmail}`
+    : `Waiting for ${request.recipientName || request.recipientEmail}`;
+
+  return html`<div class="contribution-marker contribution-marker--${state}" data-contribution-marker data-contribution-page-kind="${pageKind}" data-contribution-page-slug="${page.slug}">
+    <span>${label}</span>
+    <strong>${detail}</strong>
+  </div>`;
+}
+
+function contributionRequestPanel(report, pageKind, page) {
+  const label = [
+    pageKind === "section" ? "Section" : "Subsection",
+    page.number,
+    pageKind === "section" ? sectionContentsTitle(page) : page.title
+  ].filter(Boolean).join(" ");
+
+  return html`<section class="contribution-request" data-contribution-request>
+    <header class="contribution-request__header">
+      <span>Request information</span>
+      <h3>${label}</h3>
+    </header>
+    <div class="contribution-request__actions">
+      <button type="button" data-information-request-button data-target-kind="${pageKind}" data-target-path="${page.slug}" data-target-label="${label}">Request information</button>
+      <span class="contribution-request__status" data-information-request-marker role="status" aria-live="polite"></span>
+    </div>
+  </section>`;
+}
+
 function sectionLabel(section) {
   return section.number ? `${section.number}. ${sectionContentsTitle(section)}` : section.title;
 }
@@ -999,7 +1044,8 @@ function outlineSectionPage(report, section, options = {}) {
       number: continuedNumber(section.number || options.number || "", index),
       eyebrow: section.groupTitle,
       title: continuedTitle(sectionLabel(section), index),
-      children: html`${hasBody ? html`<div class="outline-section-layout outline-section-layout--single">
+      children: html`${index === 0 ? contributionRequestStatusMarker(section, "section") : ""}
+      ${hasBody ? html`<div class="outline-section-layout outline-section-layout--single">
         <div class="editorial-column">${renderMarkdownBlocks(bodyBlocks)}
         ${isLastBodyPage && integratedImageChunk.length ? reportImageGallery(integratedImageChunk, { editable }) : ""}</div>
       </div>` : ""}
@@ -1054,7 +1100,8 @@ function outlineSubsectionPage(subsection, options = {}) {
       number: continuedNumber(subsection.number, index),
       eyebrow: subsection.groupTitle,
       title: continuedTitle(subsection.title, index),
-      children: hasBody
+      children: html`${index === 0 ? contributionRequestStatusMarker(subsection, "subsection") : ""}
+      ${hasBody
         ? html`<div class="outline-section-layout outline-section-layout--single">
           <div class="editorial-column">${renderMarkdownBlocks(bodyBlocks)}
           ${isLastBodyPage && integratedImageChunk.length ? reportImageGallery(integratedImageChunk, { editable }) : ""}</div>
@@ -1063,7 +1110,7 @@ function outlineSubsectionPage(subsection, options = {}) {
           <p class="lead">This subsection is ready for focused authorship and export.</p>
         </div>
         ${isLastBodyPage && integratedImageChunk.length ? reportImageGallery(integratedImageChunk, { editable }) : ""}
-        ${editable && !imageItems.length ? reportImageGallery([], { editable }) : ""}`
+        ${editable && !imageItems.length ? reportImageGallery([], { editable }) : ""}`}`
     });
   });
 
@@ -1112,6 +1159,7 @@ function outlineToolbar(report, options) {
 
   return html`<nav class="preview-toolbar" aria-label="Engineering report controls">
     <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/?view=engineering-reports">${editMode ? "Close edit" : "Close preview"}</a>
+    <a class="preview-toolbar__link preview-toolbar__link--subtle" href="/requests">Requests</a>
     ${options.section || options.subsection ? html`<a class="preview-toolbar__link preview-toolbar__link--subtle" href="${outlinePath(report)}">Full report</a>` : ""}
     ${options.section && !editMode ? html`<a class="preview-toolbar__link preview-toolbar__link--subtle" href="${outlineSectionEditPath(report, options.section)}">Edit section</a>` : ""}
     ${options.section && editMode ? html`<a class="preview-toolbar__link preview-toolbar__link--subtle" href="${outlinePath(report, "sections", options.section.slug)}">Preview section</a>` : ""}
@@ -1146,7 +1194,7 @@ function outlineToolbar(report, options) {
 function outlineSubsectionEditor(report, subsection) {
   const draft = subsectionDraft(subsection);
 
-  return html`<section class="subsection-editor" data-subsection-editor data-report-slug="${report.slug}" data-subsection-slug="${subsection.slug}">
+  return html`<section class="subsection-editor" data-subsection-editor data-information-subject-type="engineering-report" data-report-slug="${report.slug}" data-subsection-slug="${subsection.slug}">
     <div class="subsection-editor__inner">
       <header class="subsection-editor__header">
         <div>
@@ -1185,6 +1233,7 @@ function outlineSubsectionEditor(report, subsection) {
           <button type="submit" data-subsection-save-button>Save subsection</button>
         </div>
       </form>
+      ${contributionRequestPanel(report, "subsection", subsection)}
     </div>
   </section>`;
 }
@@ -1192,7 +1241,7 @@ function outlineSubsectionEditor(report, subsection) {
 function outlineSectionEditor(report, section) {
   const draft = sectionDraft(section);
 
-  return html`<section class="subsection-editor" data-section-editor data-report-slug="${report.slug}" data-section-slug="${section.slug}">
+  return html`<section class="subsection-editor" data-section-editor data-information-subject-type="engineering-report" data-report-slug="${report.slug}" data-section-slug="${section.slug}">
     <div class="subsection-editor__inner">
       <header class="subsection-editor__header">
         <div>
@@ -1223,6 +1272,7 @@ function outlineSectionEditor(report, section) {
           <button type="submit" data-section-save-button>Save section</button>
         </div>
       </form>
+      ${contributionRequestPanel(report, "section", section)}
     </div>
   </section>`;
 }
@@ -1266,7 +1316,7 @@ export function renderEngineeringOutlineReport(report, options = {}) {
     bodyClass: "case-study-body engineering-report-body",
     styles: ["/pdf/theme.css"],
     scripts: options.section || editMode
-      ? ["/app/export-downloads-init.js", "/app/engineering-report.js"]
+      ? ["/app/export-downloads-init.js", "/app/engineering-report.js", "/app/information-requests.js"]
       : ["/app/export-downloads-init.js"]
   });
 }

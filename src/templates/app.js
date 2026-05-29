@@ -6,6 +6,10 @@ function text(value) {
   return String(value ?? "");
 }
 
+function requestButton(label, enabled = true) {
+  return enabled ? html`<button class="information-request-button" type="button" data-information-request-button aria-label="Request information for ${label}">Request information</button>` : "";
+}
+
 function renderProjectCard(project) {
   return html`<article class="project-card">
     <div>
@@ -88,21 +92,21 @@ function reportSectionLabel(section) {
 
 function field(label, name, value, type = "text", maxLength = PROJECT_FIELD_LIMITS[name]) {
   return html`<label class="field">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label)}</span>
     <input name="${name}" type="${type}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
 
 function textarea(label, name, value, rows = 5, maxLength = PROJECT_FIELD_LIMITS[name]) {
   return html`<label class="field field--wide">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label)}</span>
     <textarea name="${name}" rows="${rows}" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
 
-function itemField(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListTitle) {
+function itemField(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListTitle, requestable = true) {
   return html`<label class="field">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label, requestable)}</span>
     <input type="text" data-field="${fieldName}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
@@ -114,9 +118,9 @@ function itemNumberField(label, fieldName, value) {
   </label>`;
 }
 
-function itemTextarea(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListDescription) {
+function itemTextarea(label, fieldName, value, maxLength = PROJECT_FIELD_LIMITS.titleListDescription, requestable = true) {
   return html`<label class="field field--wide">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label, requestable)}</span>
     <textarea data-field="${fieldName}" rows="3" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
@@ -167,9 +171,9 @@ function imagePlacement({ title, description, slot, item }) {
     </header>
     ${imageLoader(item?.path)}
     <div class="field-grid field-grid--item">
-      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath)}
+      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath, false)}
       ${visibilitySelect(item?.visibility)}
-      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption)}
+      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption, false)}
     </div>
   </section>`;
 }
@@ -241,9 +245,9 @@ function renderAssetItem(item, index) {
     </header>
     ${imageLoader(imagePath)}
     <div class="field-grid field-grid--item">
-      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath)}
+      ${itemField("Image path", "path", item?.path, PROJECT_FIELD_LIMITS.assetPath, false)}
       ${visibilitySelect(item?.visibility)}
-      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption)}
+      ${itemTextarea("Caption", "caption", item?.caption, PROJECT_FIELD_LIMITS.assetCaption, false)}
     </div>
   </article>`;
 }
@@ -286,6 +290,226 @@ function dashboardTab({ activeView, count, href, label, value }) {
   </a>`;
 }
 
+function landingChoiceCard(choice) {
+  return html`<a class="landing-choice-card" href="${choice.href}">
+    <span class="landing-choice-card__kicker">${choice.kicker}</span>
+    <span class="landing-choice-card__visual" aria-hidden="true">
+      <img src="${choice.asset}" alt="">
+    </span>
+    <span class="landing-choice-card__copy">
+      <span class="landing-choice-card__title">${choice.title}</span>
+      <span class="landing-choice-card__description">${choice.description}</span>
+    </span>
+    <span class="landing-choice-card__meta">
+      ${choice.tags.map(tag => html`<span>${tag}</span>`)}
+    </span>
+    <span class="landing-choice-card__cta">${choice.cta}</span>
+  </a>`;
+}
+
+function renderLandingChoices(engineeringReport) {
+  const choices = [
+    {
+      kicker: "Client proof",
+      title: "Case study",
+      description: "Shape a proof story with context, decisions, outputs and impact.",
+      href: "/builder/new-case-study",
+      cta: "New case study",
+      asset: "/assets/uber/route-frame.svg",
+      tags: ["Evidence", "Portfolio"]
+    },
+    {
+      kicker: "Commercial",
+      title: "Business development document",
+      description: "Package the offer, buyer problems, proof points and next steps.",
+      href: "/bd-builder/new-business-development-document?template=business-development-document",
+      cta: "New BD document",
+      asset: "/assets/uber/output-suite.svg",
+      tags: ["Sales", "Proposal"]
+    },
+    {
+      kicker: "Technical",
+      title: "Engineering report",
+      description: "Start a technical source draft for assumptions, design basis and evidence.",
+      href: "/builder/new-engineering-report?template=engineering-report",
+      cta: "New engineering report",
+      asset: "/assets/uber/decision-grid.svg",
+      tags: ["Basis", "Review"]
+    },
+    {
+      kicker: "Operations",
+      title: "Monthly report",
+      description: "Capture the month in progress, decisions, risks and priorities.",
+      href: "/builder/new-monthly-report?template=monthly-report",
+      cta: "New monthly report",
+      asset: "/assets/uber/output-suite.svg",
+      tags: ["Status", "Cadence"]
+    }
+  ];
+
+  return html`<section class="landing-section" aria-labelledby="landing-create-heading">
+    <div class="landing-section__header">
+      <div>
+        <p class="eyebrow">Create</p>
+        <h2 id="landing-create-heading">Choose a document type</h2>
+      </div>
+    </div>
+    <div class="landing-choice-grid">
+      ${choices.map(landingChoiceCard)}
+    </div>
+  </section>`;
+}
+
+function fileTimestamp(value) {
+  const timestamp = Date.parse(value || "");
+
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function formatUpdatedAt(value) {
+  const timestamp = fileTimestamp(value);
+
+  if (!timestamp) {
+    return "Saved file";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  }).format(new Date(timestamp));
+}
+
+function recentFileDate(file) {
+  if (!file.updatedAt) {
+    return html`<span>Saved file</span>`;
+  }
+
+  return html`<time datetime="${file.updatedAt}">${formatUpdatedAt(file.updatedAt)}</time>`;
+}
+
+function recentFiles(projects, bdDocuments, engineeringReport) {
+  return [
+    ...projects.map(project => ({
+      type: "Case study",
+      title: project.title || project.slug,
+      subtitle: project.subtitle || project.sector || "Case-study draft",
+      href: `/builder/${project.slug}`,
+      updatedAt: project.updatedAt
+    })),
+    ...bdDocuments.map(document => ({
+      type: "Business development",
+      title: document.title || document.slug,
+      subtitle: document.subtitle || document.audience || "Business development draft",
+      href: `/bd-builder/${document.slug}`,
+      updatedAt: document.updatedAt
+    })),
+    ...(engineeringReport ? [{
+      type: "Engineering report",
+      title: engineeringReport.title,
+      subtitle: `${engineeringReport.sectionCount} sections and ${engineeringReport.subsectionCount} subsections`,
+      href: `/engineering-report/${engineeringReport.slug}`,
+      updatedAt: engineeringReport.updatedAt
+    }] : [])
+  ]
+    .sort((left, right) => fileTimestamp(right.updatedAt) - fileTimestamp(left.updatedAt))
+    .slice(0, 6);
+}
+
+function recentFileRow(file) {
+  return html`<a class="recent-file-row" href="${file.href}">
+    <span class="recent-file-row__copy">
+      <span class="recent-file-row__type">${file.type}</span>
+      <span class="recent-file-row__title">${file.title}</span>
+      <span class="recent-file-row__subtitle">${file.subtitle}</span>
+    </span>
+    <span class="recent-file-row__meta">
+      ${recentFileDate(file)}
+      <span>Open</span>
+    </span>
+  </a>`;
+}
+
+function renderRecentFiles(projects, bdDocuments, engineeringReport) {
+  const files = recentFiles(projects, bdDocuments, engineeringReport);
+
+  return html`<section class="landing-section" aria-labelledby="landing-recent-heading">
+    <div class="landing-section__header">
+      <div>
+        <p class="eyebrow">Resume</p>
+        <h2 id="landing-recent-heading">Recent saved files</h2>
+      </div>
+      <a class="button button--subtle" href="/?view=case-studies">Browse files</a>
+    </div>
+    <div class="recent-file-list">
+      ${files.length
+        ? files.map(recentFileRow)
+        : html`<p class="empty-state">No saved files yet.</p>`}
+    </div>
+  </section>`;
+}
+
+function importButton(kind, format, label, accept) {
+  return html`<label class="button button--subtle file-button">
+    ${label}
+    <input type="file" data-dashboard-import data-import-kind="${kind}" data-import-format="${format}" accept="${accept}">
+  </label>`;
+}
+
+function importPanel({ title, description, kind }) {
+  return html`<article class="landing-import-panel">
+    <div>
+      <h3>${title}</h3>
+      <p>${description}</p>
+    </div>
+    <div class="button-row">
+      ${importButton(kind, "pdf", "Import PDF", "application/pdf,.pdf")}
+      ${importButton(kind, "word", "Import Word", ".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document")}
+    </div>
+  </article>`;
+}
+
+function renderLandingImport() {
+  return html`<section class="landing-section" aria-labelledby="landing-import-heading">
+    <div class="landing-section__header">
+      <div>
+        <p class="eyebrow">Import</p>
+        <h2 id="landing-import-heading">Import new files</h2>
+      </div>
+    </div>
+    <div class="landing-import-grid">
+      ${importPanel({
+        title: "Case-study source",
+        description: "Bring in a PDF or Word proof story and save it as an editable draft.",
+        kind: "project"
+      })}
+      ${importPanel({
+        title: "Business development source",
+        description: "Turn proposal or offer source material into a business development draft.",
+        kind: "bd"
+      })}
+    </div>
+    <p class="landing-import-status" data-dashboard-import-status role="status" aria-live="polite">Ready to import PDF or Word sources.</p>
+  </section>`;
+}
+
+function renderLandingDashboard(projects, bdDocuments, engineeringReport) {
+  return html`<main class="app-shell app-shell--landing">
+    <header class="app-header landing-header">
+      <div>
+        <p class="eyebrow">Portfolio system</p>
+        <h1>Start the right document</h1>
+        <p class="landing-header__copy">Create a focused draft, return to recent work, or convert source files into structured documents.</p>
+      </div>
+    </header>
+    ${renderLandingChoices(engineeringReport)}
+    <div class="landing-workspace-grid">
+      ${renderRecentFiles(projects, bdDocuments, engineeringReport)}
+      ${renderLandingImport()}
+    </div>
+  </main>`;
+}
+
 function renderCaseStudyDashboard(projects) {
   return html`<section class="dashboard-section" id="case-studies" aria-labelledby="case-studies-heading">
     <div class="dashboard-section__header">
@@ -310,7 +534,7 @@ function renderBdDashboard(bdDocuments) {
         <p class="eyebrow">Sales documents</p>
         <h2 id="bd-documents-heading">Business development PDFs</h2>
       </div>
-      <a class="button button--primary" href="/bd-builder/new-business-development-doc">New BD document</a>
+      <a class="button button--primary" href="/bd-builder/new-business-development-document?template=business-development-document">New BD document</a>
     </div>
     <div class="project-list">
       ${bdDocuments.length
@@ -466,7 +690,11 @@ function dashboardActiveView(value) {
     return value;
   }
 
-  return "case-studies";
+  if (value === "case-studies") {
+    return value;
+  }
+
+  return null;
 }
 
 function renderActiveDashboard(activeView, projects, bdDocuments, engineeringReport) {
@@ -486,18 +714,22 @@ function dashboardTitle(activeView) {
     "bd-documents": "Business development documents",
     "case-studies": "Case studies",
     "engineering-reports": "Engineering reports"
-  }[activeView];
+  }[activeView] || "Document collaboration";
 }
 
 export function renderDashboard(projects, bdDocuments = [], options = {}) {
   const activeView = dashboardActiveView(options.activeView);
   const engineeringReport = options.engineeringReport;
-  const body = html`<main class="app-shell">
+  const body = activeView ? html`<main class="app-shell">
     <header class="app-header">
       <div>
         <p class="eyebrow">Portfolio system</p>
         <h1>Document Collaboration</h1>
       </div>
+      <nav class="button-row" aria-label="Dashboard shortcuts">
+        <a class="button button--subtle" href="/">Start</a>
+        <a class="button button--subtle" href="/requests">Requests</a>
+      </nav>
     </header>
     <nav class="dashboard-tabs" aria-label="Dashboard views">
       ${dashboardTab({
@@ -523,7 +755,7 @@ export function renderDashboard(projects, bdDocuments = [], options = {}) {
       })}
     </nav>
     ${renderActiveDashboard(activeView, projects, bdDocuments, engineeringReport)}
-  </main>`;
+  </main>` : renderLandingDashboard(projects, bdDocuments, engineeringReport);
 
   return renderDocument({
     title: dashboardTitle(activeView),
@@ -532,7 +764,9 @@ export function renderDashboard(projects, bdDocuments = [], options = {}) {
     styles: ["/app/app.css"],
     scripts: activeView === "engineering-reports"
       ? ["/app/export-downloads-init.js", "/app/engineering-report.js"]
-      : ["/app/export-downloads-init.js"]
+      : activeView
+        ? ["/app/export-downloads-init.js"]
+        : ["/app/export-downloads-init.js", "/app/dashboard.js"]
   });
 }
 
@@ -548,12 +782,13 @@ export function renderBuilder(project, slug, options = {}) {
       </div>
       <nav class="button-row" aria-label="Project links">
         <a class="button button--subtle" href="/">Projects</a>
+        <a class="button button--subtle" href="/requests">Requests</a>
         <a class="button button--subtle" href="/projects/${slug}" data-preview-link="true">Preview</a>
         ${actionMenu(slug)}
       </nav>
     </header>
 
-    <form class="builder-form" id="project-form" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(PROJECT_CLIENT_FIELD_LIMITS)}">
+    <form class="builder-form" id="project-form" data-information-subject-type="project" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(PROJECT_CLIENT_FIELD_LIMITS)}">
       ${formCard("Metadata", html`<div class="field-grid">
           ${field("Title", "title", project.title)}
           ${textarea("Subtitle", "subtitle", project.subtitle, 3)}
@@ -627,6 +862,6 @@ export function renderBuilder(project, slug, options = {}) {
     body,
     bodyClass: "app-body",
     styles: ["/app/app.css"],
-    scripts: ["/app/builder.js"]
+    scripts: ["/app/builder.js", "/app/information-requests.js"]
   });
 }

@@ -21,6 +21,10 @@ const subsectionBodyTextarea = subsectionEditorForm?.querySelector("textarea[nam
 const subsectionSaveStatus = document.querySelector("[data-subsection-save-status]");
 const subsectionSaveButton = document.querySelector("[data-subsection-save-button]");
 const subsectionFormatButtons = document.querySelectorAll("[data-subsection-format]");
+const contributionRequestForm = document.querySelector("[data-contribution-request-form]");
+const contributionRequestStatus = document.querySelector("[data-contribution-request-status]");
+const contributionRequestResult = document.querySelector("[data-contribution-request-result]");
+const contributionRequestButton = document.querySelector("[data-contribution-request-button]");
 const ACCEPTED_IMAGE_TYPES = new Set(["image/svg+xml", "image/png", "image/jpeg", "image/webp"]);
 const ACCEPTED_SPREADSHEET_TYPES = new Set([
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -74,6 +78,15 @@ function setReportOrderStatus(message, state = "idle") {
   reportOrderStatus.dataset.state = state;
 }
 
+function setContributionRequestStatus(message, state = "idle") {
+  if (!contributionRequestStatus) {
+    return;
+  }
+
+  contributionRequestStatus.textContent = message;
+  contributionRequestStatus.dataset.state = state;
+}
+
 function messageFromError(error) {
   return error instanceof Error ? error.message : "Something went wrong.";
 }
@@ -95,6 +108,69 @@ async function readErrorMessage(response) {
   }
 
   return (await response.text()) || `Request failed with HTTP ${response.status}.`;
+}
+
+function appendContributionLink(parent, href, label) {
+  const link = document.createElement("a");
+
+  link.href = href;
+  link.textContent = label;
+  link.className = "contribution-request__link";
+  parent.append(link);
+}
+
+function contributionMarkerDetail(request, state) {
+  if (state === "received") {
+    return `From ${request.response?.contributorName || request.recipientName || request.recipientEmail}`;
+  }
+
+  return `Waiting for ${request.recipientName || request.recipientEmail}`;
+}
+
+function syncContributionMarker(request) {
+  const pageKind = request.pageKind;
+  const pageSlug = request.pageSlug;
+  const state = request.response?.body || request.submittedAt ? "received" : "pending";
+  const markerSelector = `[data-contribution-marker][data-contribution-page-kind="${pageKind}"][data-contribution-page-slug="${pageSlug}"]`;
+  let marker = document.querySelector(markerSelector);
+
+  if (!marker) {
+    const firstPageContent = document.querySelector(".case-study-shell .case-page .page-content");
+    const heading = firstPageContent?.querySelector("h2");
+
+    if (!firstPageContent || !heading) {
+      return;
+    }
+
+    marker = document.createElement("div");
+    marker.dataset.contributionMarker = "";
+    marker.dataset.contributionPageKind = pageKind;
+    marker.dataset.contributionPageSlug = pageSlug;
+    marker.append(document.createElement("span"), document.createElement("strong"));
+    heading.after(marker);
+  }
+
+  marker.className = `contribution-marker contribution-marker--${state}`;
+  marker.querySelector("span").textContent = state === "received" ? "Response received" : "Response pending";
+  marker.querySelector("strong").textContent = contributionMarkerDetail(request, state);
+}
+
+function renderContributionRequestResult(data) {
+  if (!contributionRequestResult) {
+    return;
+  }
+
+  const actions = document.createElement("div");
+  const responseMeta = document.createElement("p");
+
+  actions.className = "contribution-request__result-actions";
+  appendContributionLink(actions, data.mailtoHref, "Open email draft");
+  responseMeta.textContent = "The report marker is now pending a reply.";
+  responseMeta.className = "contribution-request__result-url";
+
+  contributionRequestResult.replaceChildren(actions, responseMeta);
+  contributionRequestResult.hidden = false;
+  syncContributionMarker(data.request);
 }
 
 function validateImageFile(file) {
@@ -532,6 +608,52 @@ async function saveSectionDraft(form) {
   }
 
   return response.json();
+}
+
+async function prepareContributionRequest(form) {
+  const fields = new FormData(form);
+  const response = await fetch("/api/engineering-report-contribution-requests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      reportSlug: fields.get("reportSlug"),
+      pageKind: fields.get("pageKind"),
+      pageSlug: fields.get("pageSlug"),
+      recipientEmail: fields.get("recipientEmail"),
+      recipientName: fields.get("recipientName"),
+      message: fields.get("message")
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response));
+  }
+
+  return response.json();
+}
+
+if (contributionRequestForm) {
+  contributionRequestForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    try {
+      if (contributionRequestButton) {
+        contributionRequestButton.disabled = true;
+      }
+
+      setContributionRequestStatus("Preparing...", "pending");
+      renderContributionRequestResult(await prepareContributionRequest(contributionRequestForm));
+      setContributionRequestStatus("Request ready.", "success");
+    } catch (error) {
+      setContributionRequestStatus(messageFromError(error), "error");
+    } finally {
+      if (contributionRequestButton) {
+        contributionRequestButton.disabled = false;
+      }
+    }
+  });
 }
 
 function markDraftChanged(textarea) {

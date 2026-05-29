@@ -17,6 +17,32 @@ import {
   saveBdDocumentRecord
 } from "./lib/bd-documents.js";
 import {
+  assertContributionRequestToken,
+  createContributionRequest,
+  extractContributionReplyPayload,
+  listContributionRequestsForReport,
+  markContributionRequestSubmitted,
+  readContributionRequest
+} from "./lib/contribution-requests.js";
+import {
+  assertInformationRequestToken,
+  createInformationRequest,
+  listInformationRequests,
+  readInformationRequest,
+  receiveInformationRequestResponse,
+  recordInformationRequestDelivery,
+  resolveInformationRequestTarget
+} from "./lib/information-requests.js";
+import {
+  completeMicrosoftAuth,
+  createMicrosoftAuthUrl,
+  disconnectMicrosoft,
+  listMicrosoftChannels,
+  listMicrosoftTeams,
+  microsoftStatus,
+  sendInformationRequestViaMicrosoft
+} from "./lib/microsoft-graph.js";
+import {
   addEngineeringReportSpreadsheet,
   addEngineeringReportImage,
   assertEngineeringReportSlug,
@@ -47,7 +73,9 @@ import { renderBdBuilder } from "./templates/bd-app.js";
 import { renderBdDocument } from "./templates/bd-document.js";
 import { renderDashboard, renderBuilder } from "./templates/app.js";
 import { renderCaseStudy } from "./templates/case-study.js";
+import { renderContributionRequestPage } from "./templates/contribution-request.js";
 import { renderEngineeringOutlineReport, renderEngineeringReport } from "./templates/engineering-report.js";
+import { renderInformationRequestsPage } from "./templates/information-requests.js";
 import { renderMarketingBanner } from "./templates/marketing-banner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -252,6 +280,18 @@ function requiredRoleFor(request, pathname) {
     return null;
   }
 
+  if (request.method === "GET" && pathname === "/pdf/theme.css") {
+    return null;
+  }
+
+  if ((request.method === "GET" || request.method === "POST") && /^\/contribute\/[a-f0-9]{48}$/.test(pathname)) {
+    return null;
+  }
+
+  if (request.method === "POST" && pathname === "/api/engineering-report-contribution-replies") {
+    return null;
+  }
+
   if (request.method === "POST") {
     return "editor";
   }
@@ -418,6 +458,58 @@ async function readJsonRequest(request) {
   } catch {
     throw httpError(400, "Request body must be valid JSON.");
   }
+}
+
+async function readFormRequest(request) {
+  const contentType = request.headers["content-type"] || "";
+
+  if (!contentType.includes("application/x-www-form-urlencoded")) {
+    throw httpError(415, "Expected a form request body.");
+  }
+
+  const chunks = [];
+  let total = 0;
+
+  for await (const chunk of request) {
+    total += chunk.length;
+    if (total > 1_000_000) {
+      throw httpError(413, "Request body is too large.");
+    }
+    chunks.push(chunk);
+  }
+
+  return Object.fromEntries(new URLSearchParams(Buffer.concat(chunks).toString("utf8")));
+}
+
+async function readTextRequest(request) {
+  const chunks = [];
+  let total = 0;
+
+  for await (const chunk of request) {
+    total += chunk.length;
+    if (total > 1_000_000) {
+      throw httpError(413, "Request body is too large.");
+    }
+    chunks.push(chunk);
+  }
+
+  return Buffer.concat(chunks).toString("utf8");
+}
+
+async function readContributionReplyRequest(request) {
+  const contentType = String(request.headers["content-type"] || "").toLowerCase();
+
+  if (contentType.includes("application/json")) {
+    return readJsonRequest(request);
+  }
+
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    return readFormRequest(request);
+  }
+
+  return {
+    body: await readTextRequest(request)
+  };
 }
 
 async function readBinaryRequest(request, maxBytes, tooLargeMessage = "Request body is too large.") {
@@ -825,13 +917,63 @@ async function importBdDocumentWord(request) {
   };
 }
 
-async function readProjectForBuilder(slug) {
+function projectTemplate(template, slug) {
+  const key = String(template || "");
+
+  if (key === "monthly-report" || slug.includes("monthly-report")) {
+    return blankProject({
+      title: "Untitled monthly report",
+      subtitle: "Monthly progress, decisions, risks and next priorities.",
+      sector: "Monthly reporting",
+      clientType: "Internal stakeholders",
+      role: "Report owner",
+      context: "Reporting period",
+      challenge: "Key risks and blockers",
+      audience: "Project sponsors and delivery leads",
+      approach: "Progress this month",
+      reflection: "Next month"
+    });
+  }
+
+  if (key === "engineering-report" || slug.includes("engineering-report")) {
+    return blankProject({
+      title: "Untitled engineering report",
+      subtitle: "Technical basis, assumptions, decisions and supporting evidence.",
+      sector: "Engineering",
+      clientType: "Technical reviewers",
+      role: "Report owner",
+      context: "Project background",
+      challenge: "Design basis and constraints",
+      audience: "Technical and delivery stakeholders",
+      approach: "Technical approach",
+      reflection: "Open issues and next steps"
+    });
+  }
+
+  return blankProject();
+}
+
+function bdDocumentTemplate(template, slug) {
+  const key = String(template || "");
+
+  if (key === "business-development-document" || slug.includes("business-development")) {
+    return blankBdDocument({
+      title: "Untitled business development document",
+      subtitle: "",
+      audience: "Enterprise product, innovation and operations leads"
+    });
+  }
+
+  return blankBdDocument();
+}
+
+async function readProjectForBuilder(slug, template = "") {
   try {
     return await readProjectRecord(slug);
   } catch (error) {
     if (error.code === "ENOENT") {
       return {
-        project: blankProject(),
+        project: projectTemplate(template, slug),
         revision: "new"
       };
     }
@@ -853,13 +995,13 @@ async function readProjectForPreview(slug) {
   }
 }
 
-async function readBdDocumentForBuilder(slug) {
+async function readBdDocumentForBuilder(slug, template = "") {
   try {
     return await readBdDocumentRecord(slug);
   } catch (error) {
     if (error.code === "ENOENT") {
       return {
-        document: blankBdDocument(),
+        document: bdDocumentTemplate(template, slug),
         revision: "new"
       };
     }
@@ -879,6 +1021,274 @@ async function readBdDocumentForPreview(slug) {
     }
     throw error;
   }
+}
+
+function requestOrigin(request) {
+  const configuredOrigin = String(process.env.PUBLIC_BASE_URL || process.env.APP_PUBLIC_URL || "").trim().replace(/\/+$/, "");
+
+  if (configuredOrigin) {
+    return configuredOrigin;
+  }
+
+  const forwardedHost = TRUST_PROXY ? request.headers["x-forwarded-host"] : "";
+  const host = String(forwardedHost || request.headers.host || `${HOST}:${PORT}`).split(",")[0].trim();
+  const protocol = isSecureRequest(request) ? "https" : "http";
+
+  return `${protocol}://${host}`;
+}
+
+function contributionResponseUrl(request, token) {
+  return `${requestOrigin(request)}/contribute/${assertInformationRequestToken(token)}`;
+}
+
+function attachContributionRequests(report, requests) {
+  const requestsByPageKey = new Map();
+
+  requests.forEach(contributionRequest => {
+    const key = `${contributionRequest.pageKind}:${contributionRequest.pageSlug}`;
+    const existing = requestsByPageKey.get(key) || [];
+
+    existing.push(contributionRequest);
+    requestsByPageKey.set(key, existing);
+  });
+
+  report.sections.forEach(section => {
+    section.contributionRequests = requestsByPageKey.get(`section:${section.slug}`) || [];
+    section.subsections.forEach(subsection => {
+      subsection.contributionRequests = requestsByPageKey.get(`subsection:${subsection.slug}`) || [];
+    });
+  });
+
+  return report;
+}
+
+async function readEngineeringReportForRender(slug) {
+  const safeSlug = assertEngineeringReportSlug(slug);
+  const [report, contributionRequests] = await Promise.all([
+    readEngineeringReport(safeSlug),
+    listContributionRequestsForReport(safeSlug)
+  ]);
+
+  return attachContributionRequests(report, contributionRequests);
+}
+
+function engineeringReportTarget(report, pageKind, pageSlug) {
+  return pageKind === "section"
+    ? findEngineeringReportSection(report, pageSlug)
+    : findEngineeringReportSubsection(report, pageSlug);
+}
+
+function engineeringReportPageTitle(pageKind, target) {
+  const label = pageKind === "section" ? "Section" : "Subsection";
+  const number = String(target.number || "").trim();
+  const title = String(target.title || "").trim();
+
+  return [label, number, title].filter(Boolean).join(" ");
+}
+
+function contributionMailtoHref(contributionRequest, responseUrl) {
+  const subject = `Input requested: ${contributionRequest.pageTitle}`;
+  const greeting = contributionRequest.recipientName ? `Hi ${contributionRequest.recipientName},` : "Hi,";
+  const message = contributionRequest.message || `Could you add or update the text for ${contributionRequest.pageTitle}?`;
+  const body = [
+    greeting,
+    "",
+    message,
+    "",
+    "Please reply above this line. Your reply text will be added to the document automatically.",
+    "",
+    `Contribution request: ${contributionRequest.token}`,
+    "",
+    "Thanks"
+  ].join("\n");
+
+  return `mailto:${encodeURIComponent(contributionRequest.recipientEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+async function createEngineeringContributionRequest(payload, user, request) {
+  const safeSlug = assertEngineeringReportSlug(payload?.reportSlug);
+  const safePageKind = assertEngineeringReportPageKind(payload?.pageKind);
+  const safePageSlug = assertEngineeringReportSlug(payload?.pageSlug);
+  const report = await readEngineeringReport(safeSlug);
+  const target = engineeringReportTarget(report, safePageKind, safePageSlug);
+  const contributionRequest = await createContributionRequest({
+    reportSlug: safeSlug,
+    pageKind: safePageKind,
+    pageSlug: safePageSlug,
+    pageTitle: engineeringReportPageTitle(safePageKind, target),
+    reportTitle: report.title,
+    recipientEmail: payload?.recipientEmail,
+    recipientName: payload?.recipientName,
+    message: payload?.message,
+    createdBy: user?.username || ""
+  });
+  const responseUrl = contributionResponseUrl(request, contributionRequest.token);
+
+  return {
+    request: contributionRequest,
+    responseUrl,
+    mailtoHref: contributionMailtoHref(contributionRequest, responseUrl)
+  };
+}
+
+async function contributionRequestModel(token) {
+  const contributionRequest = await readContributionRequest(token);
+  const report = await readEngineeringReportForRender(contributionRequest.reportSlug);
+  const target = engineeringReportTarget(report, contributionRequest.pageKind, contributionRequest.pageSlug);
+
+  return {
+    request: contributionRequest,
+    report,
+    target
+  };
+}
+
+async function informationRequestModel(token) {
+  const informationRequest = await readInformationRequest(token);
+  let resolvedTarget = { currentBody: "" };
+
+  try {
+    resolvedTarget = await resolveInformationRequestTarget({
+      subjectType: informationRequest.subject.type,
+      subjectSlug: informationRequest.subject.slug,
+      targetKind: informationRequest.target.kind,
+      targetPath: informationRequest.target.path
+    });
+  } catch {
+    // The target may have been renamed or deleted after the request was sent.
+  }
+
+  return {
+    request: informationRequest,
+    report: {
+      title: informationRequest.subject.title
+    },
+    target: {
+      currentBody: resolvedTarget.currentBody
+    }
+  };
+}
+
+async function applyContributionResponse(token, response) {
+  const model = await contributionRequestModel(token);
+  const body = String(response.body ?? "").replace(/\r\n?/g, "\n").trim();
+  const contributorName = String(response.contributorName ?? "").trim();
+
+  if (!body) {
+    throw httpError(422, "Contribution reply body cannot be empty.");
+  }
+
+  if (model.request.pageKind === "section") {
+    await saveEngineeringReportSectionDraft(model.request.reportSlug, model.request.pageSlug, { body });
+  } else {
+    await saveEngineeringReportSubsectionDraft(model.request.reportSlug, model.request.pageSlug, {
+      body,
+      owner: contributorName || model.target.draft?.owner || model.request.recipientName,
+      status: "review"
+    });
+  }
+
+  await markContributionRequestSubmitted(token, {
+    contributorName,
+    body
+  });
+
+  return contributionRequestModel(token);
+}
+
+async function saveContributionResponse(token, form) {
+  return applyContributionResponse(token, {
+    contributorName: form.contributorName,
+    body: form.body
+  });
+}
+
+async function saveInformationResponse(token, form) {
+  const request = await receiveInformationRequestResponse(token, {
+    contributorName: form.contributorName,
+    body: form.body
+  });
+
+  return informationRequestModel(request.token);
+}
+
+async function saveContributionEmailReply(request) {
+  const payload = extractContributionReplyPayload(await readContributionReplyRequest(request));
+  const model = await applyContributionResponse(payload.token, payload);
+
+  return {
+    ok: true,
+    request: model.request,
+    pageKind: model.request.pageKind,
+    pageSlug: model.request.pageSlug
+  };
+}
+
+function normalizeInformationRecipients(value) {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(/[,\n]+/)
+      .map(item => item.trim())
+      .filter(Boolean)
+      .map(item => ({
+        email: item,
+        userPrincipalName: item
+      }));
+  }
+
+  return [];
+}
+
+async function createInformationRequestFromPayload(payload, user, request) {
+  const resolved = await resolveInformationRequestTarget({
+    subjectType: payload?.subjectType,
+    subjectSlug: payload?.subjectSlug,
+    targetKind: payload?.targetKind,
+    targetPath: payload?.targetPath
+  });
+  const informationRequest = await createInformationRequest({
+    subject: resolved.subject,
+    target: resolved.target,
+    channel: payload?.channel,
+    recipients: normalizeInformationRecipients(payload?.recipients),
+    message: payload?.message,
+    provider: payload?.provider || {},
+    createdBy: user?.username || ""
+  });
+  const responseUrl = contributionResponseUrl(request, informationRequest.token);
+  let delivery;
+
+  try {
+    delivery = await sendInformationRequestViaMicrosoft(informationRequest, responseUrl, user?.username || "local");
+  } catch (error) {
+    delivery = {
+      state: "failed",
+      sentAt: "",
+      error: error?.message || "Microsoft sending failed.",
+      provider: {}
+    };
+  }
+
+  const deliveredRequest = await recordInformationRequestDelivery(informationRequest.token, delivery);
+
+  return {
+    request: deliveredRequest,
+    responseUrl
+  };
+}
+
+function informationRequestFilters(url) {
+  return {
+    subjectType: url.searchParams.get("subjectType") || "",
+    subjectSlug: url.searchParams.get("subjectSlug") || "",
+    channel: url.searchParams.get("channel") || "",
+    deliveryState: url.searchParams.get("deliveryState") || "",
+    responseState: url.searchParams.get("responseState") || ""
+  };
 }
 
 async function handleRequest(request, response) {
@@ -920,6 +1330,126 @@ async function handleRequest(request, response) {
 
     if (pathname === "/pdf/theme.css") {
       await serveStatic(response, path.join(ROOT, "src/pdf"), "theme.css");
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/auth/microsoft/start") {
+      redirect(response, await createMicrosoftAuthUrl(user?.username || "local", requestOrigin(request)));
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/auth/microsoft/callback") {
+      await completeMicrosoftAuth({
+        code: url.searchParams.get("code"),
+        state: url.searchParams.get("state"),
+        origin: requestOrigin(request)
+      });
+      redirect(response, "/requests");
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/auth/microsoft/disconnect") {
+      await disconnectMicrosoft(user?.username || "local");
+      redirect(response, "/requests");
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/api/microsoft/status") {
+      sendJson(response, await microsoftStatus(user?.username || "local"));
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/api/microsoft/teams") {
+      sendJson(response, await listMicrosoftTeams(user?.username || "local"));
+      return;
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/microsoft/teams/") && pathname.endsWith("/channels")) {
+      const teamId = decodeURIComponent(pathname.replace("/api/microsoft/teams/", "").replace(/\/channels$/, ""));
+      sendJson(response, await listMicrosoftChannels(user?.username || "local", teamId));
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/requests") {
+      const filters = informationRequestFilters(url);
+      sendHtml(response, renderInformationRequestsPage({
+        requests: await listInformationRequests(filters),
+        filters,
+        microsoft: await microsoftStatus(user?.username || "local")
+      }));
+      return;
+    }
+
+    if (pathname.startsWith("/contribute/")) {
+      const token = assertInformationRequestToken(pathname.replace("/contribute/", ""));
+
+      if (request.method === "GET") {
+        let model;
+
+        try {
+          model = await informationRequestModel(token);
+        } catch (error) {
+          if (error.code !== "ENOENT" && error.status !== 404) {
+            throw error;
+          }
+
+          model = await contributionRequestModel(assertContributionRequestToken(token));
+        }
+
+        sendHtml(response, renderContributionRequestPage(model));
+        return;
+      }
+
+      if (request.method === "POST") {
+        let model;
+        const form = await readFormRequest(request);
+
+        try {
+          model = await saveInformationResponse(token, form);
+        } catch (error) {
+          if (error.code !== "ENOENT" && error.status !== 404) {
+            throw error;
+          }
+
+          model = await saveContributionResponse(assertContributionRequestToken(token), form);
+        }
+
+        sendHtml(response, renderContributionRequestPage(model, {
+          submitted: true
+        }));
+        return;
+      }
+
+      response.writeHead(405, {
+        "Allow": "GET, POST",
+        "Content-Type": "application/json; charset=utf-8"
+      });
+      response.end(`${JSON.stringify({ error: "Method not allowed." })}\n`);
+      return;
+    }
+
+    if (request.method === "GET" && pathname === "/api/information-requests") {
+      sendJson(response, await listInformationRequests(informationRequestFilters(url)));
+      return;
+    }
+
+    if (request.method === "GET" && /^\/api\/information-requests\/[a-f0-9]{48}$/.test(pathname)) {
+      sendJson(response, await readInformationRequest(pathname.replace("/api/information-requests/", "")));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/information-requests") {
+      sendJson(response, await createInformationRequestFromPayload(await readJsonRequest(request), user, request));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/engineering-report-contribution-requests") {
+      sendJson(response, await createEngineeringContributionRequest(await readJsonRequest(request), user, request));
+      return;
+    }
+
+    if (request.method === "POST" && pathname === "/api/engineering-report-contribution-replies") {
+      sendJson(response, await saveContributionEmailReply(request));
       return;
     }
 
@@ -1035,7 +1565,7 @@ async function handleRequest(request, response) {
 
     if (request.method === "GET" && pathname.startsWith("/builder/")) {
       const slug = assertProjectSlug(pathname.replace("/builder/", ""));
-      const record = await readProjectForBuilder(slug);
+      const record = await readProjectForBuilder(slug, url.searchParams.get("template"));
       sendHtml(response, renderBuilder(record.project, slug, { revision: record.revision }));
       return;
     }
@@ -1048,7 +1578,7 @@ async function handleRequest(request, response) {
 
     if (request.method === "GET" && pathname.startsWith("/bd-builder/")) {
       const slug = assertBdDocumentSlug(pathname.replace("/bd-builder/", ""));
-      const record = await readBdDocumentForBuilder(slug);
+      const record = await readBdDocumentForBuilder(slug, url.searchParams.get("template"));
       sendHtml(response, renderBdBuilder(record.document, slug, { revision: record.revision }));
       return;
     }
@@ -1079,7 +1609,7 @@ async function handleRequest(request, response) {
     if (request.method === "GET" && pathname.startsWith("/engineering-report/")) {
       const parts = pathname.replace("/engineering-report/", "").split("/").filter(Boolean);
       const slug = assertEngineeringReportSlug(parts[0]);
-      const report = await readEngineeringReport(slug);
+      const report = await readEngineeringReportForRender(slug);
 
       if (parts.length === 1) {
         sendHtml(response, renderEngineeringOutlineReport(report));

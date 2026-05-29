@@ -6,6 +6,7 @@ import test from "node:test";
 
 import { toHtml } from "../src/lib/html.js";
 import { parseEngineeringReportOutline } from "../src/lib/engineering-reports.js";
+import { renderContributionRequestPage } from "../src/templates/contribution-request.js";
 import { renderEngineeringOutlineReport, renderEngineeringReport } from "../src/templates/engineering-report.js";
 
 const PROJECT = {
@@ -157,6 +158,8 @@ Appendix A — Stage 2 drawings
   assert.match(sectionEditMarkup, /data-section-format="bold"/);
   assert.match(sectionEditMarkup, /data-section-format="italic"/);
   assert.match(sectionEditMarkup, /Save section/);
+  assert.match(sectionEditMarkup, /data-information-request-button/);
+  assert.match(sectionEditMarkup, /Request information/);
   assert.match(sectionEditMarkup, /data-page-kind="section"/);
   assert.match(subsectionMarkup, /<title>1.1 Report title engineering report subsection<\/title>/);
   assert.match(subsectionMarkup, /href="\/api\/export\/engineering\/subsection\/stage-2-basis-of-design\/1-1-report-title"/);
@@ -175,7 +178,96 @@ Appendix A — Stage 2 drawings
   assert.match(subsectionEditMarkup, /data-subsection-format="bold"/);
   assert.match(subsectionEditMarkup, /data-subsection-format="italic"/);
   assert.match(subsectionEditMarkup, /Save subsection/);
+  assert.match(subsectionEditMarkup, /data-information-request-button/);
+  assert.match(subsectionEditMarkup, /Request information/);
   assert.match(subsectionEditMarkup, /data-page-kind="subsection"/);
+});
+
+test("engineering contribution response page renders tokenized draft form", () => {
+  const report = parseEngineeringReportOutline(`# Stage 2 Basis of Design
+
+## 1. Document Control
+
+1.1 Report title
+`, { slug: "stage-2-basis-of-design" });
+  report.subsections[0].draft = {
+    body: "Existing draft text.",
+    status: "drafting",
+    owner: "Engineering lead",
+    updatedAt: "2026-05-19T12:00:00.000Z"
+  };
+  const request = {
+    token: "a".repeat(48),
+    reportSlug: report.slug,
+    pageKind: "subsection",
+    pageSlug: report.subsections[0].slug,
+    pageTitle: "Subsection 1.1 Report title",
+    reportTitle: report.title,
+    recipientEmail: "sam@example.com",
+    recipientName: "Sam",
+    message: "Please update this text.",
+    createdBy: "editor",
+    createdAt: "2026-05-19T12:00:00.000Z",
+    submittedAt: "",
+    response: null
+  };
+  const markup = toHtml(renderContributionRequestPage({
+    request,
+    report,
+    target: report.subsections[0]
+  }));
+
+  assert.match(markup, /<title>Subsection 1\.1 Report title contribution<\/title>/);
+  assert.match(markup, /Please update this text\./);
+  assert.match(markup, /action="\/contribute\/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/);
+  assert.match(markup, /Existing draft text\./);
+  assert.match(markup, /Submit response/);
+});
+
+test("engineering report pages show pending and received contribution markers", () => {
+  const report = parseEngineeringReportOutline(`# Stage 2 Basis of Design
+
+## 1. Document Control
+
+1.1 Report title
+`, { slug: "stage-2-basis-of-design" });
+  const baseRequest = {
+    token: "c".repeat(48),
+    reportSlug: report.slug,
+    pageKind: "subsection",
+    pageSlug: report.subsections[0].slug,
+    pageTitle: "Subsection 1.1 Report title",
+    reportTitle: report.title,
+    recipientEmail: "sam@example.com",
+    recipientName: "Sam",
+    message: "Please reply with the final text.",
+    createdBy: "editor",
+    createdAt: "2026-05-19T12:00:00.000Z",
+    submittedAt: "",
+    response: null
+  };
+
+  report.subsections[0].contributionRequests = [baseRequest];
+  const pendingMarkup = toHtml(renderEngineeringOutlineReport(report, { subsection: report.subsections[0] }));
+
+  assert.match(pendingMarkup, /contribution-marker contribution-marker--pending/);
+  assert.match(pendingMarkup, /Response pending/);
+  assert.match(pendingMarkup, /Waiting for Sam/);
+
+  report.subsections[0].contributionRequests = [{
+    ...baseRequest,
+    submittedAt: "2026-05-20T12:00:00.000Z",
+    response: {
+      contributorName: "Sam",
+      body: "Final text.",
+      submittedAt: "2026-05-20T12:00:00.000Z"
+    }
+  }];
+  const receivedMarkup = toHtml(renderEngineeringOutlineReport(report, { subsection: report.subsections[0] }));
+
+  assert.match(receivedMarkup, /contribution-marker contribution-marker--received/);
+  assert.match(receivedMarkup, /Response received/);
+  assert.match(receivedMarkup, /From Sam/);
 });
 
 test("engineering outline sections continue long text at paragraph headings", () => {

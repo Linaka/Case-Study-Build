@@ -6,30 +6,34 @@ function text(value) {
   return String(value ?? "");
 }
 
+function requestButton(label, enabled = true) {
+  return enabled ? html`<button class="information-request-button" type="button" data-information-request-button aria-label="Request information for ${label}">Request information</button>` : "";
+}
+
 function field(label, name, value, type = "text", maxLength = BD_FIELD_LIMITS[name]) {
   return html`<label class="field">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label)}</span>
     <input name="${name}" type="${type}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
 
 function textarea(label, name, value, rows = 5, maxLength = BD_FIELD_LIMITS[name]) {
   return html`<label class="field field--wide">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label)}</span>
     <textarea name="${name}" rows="${rows}" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
 
-function itemField(label, fieldName, value, maxLength = BD_FIELD_LIMITS.titleListTitle) {
+function itemField(label, fieldName, value, maxLength = BD_FIELD_LIMITS.titleListTitle, requestable = true) {
   return html`<label class="field">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label, requestable)}</span>
     <input type="text" data-field="${fieldName}" value="${text(value)}" maxlength="${maxLength}">
   </label>`;
 }
 
-function itemTextarea(label, fieldName, value, rows = 3, maxLength = BD_FIELD_LIMITS.titleListDescription) {
+function itemTextarea(label, fieldName, value, rows = 3, maxLength = BD_FIELD_LIMITS.titleListDescription, requestable = true) {
   return html`<label class="field field--wide">
-    <span>${label}</span>
+    <span class="field__label-row"><span class="field__label-text">${label}</span>${requestButton(label, requestable)}</span>
     <textarea data-field="${fieldName}" rows="${rows}" maxlength="${maxLength}">${text(value)}</textarea>
   </label>`;
 }
@@ -80,9 +84,9 @@ function imagePlacement({ title, description, slot, item }) {
     </header>
     ${imageLoader(item?.path)}
     <div class="field-grid field-grid--item">
-      ${itemField("Image path", "path", item?.path, BD_FIELD_LIMITS.assetPath)}
+      ${itemField("Image path", "path", item?.path, BD_FIELD_LIMITS.assetPath, false)}
       ${visibilitySelect(item?.visibility, "public")}
-      ${itemTextarea("Caption", "caption", item?.caption, 3, BD_FIELD_LIMITS.assetCaption)}
+      ${itemTextarea("Caption", "caption", item?.caption, 3, BD_FIELD_LIMITS.assetCaption, false)}
     </div>
   </section>`;
 }
@@ -181,9 +185,9 @@ function renderProofSection(item, index) {
     <div class="field-grid field-grid--item">
       ${itemField("Headline", "headline", item?.headline, BD_FIELD_LIMITS.proofHeadline)}
       ${itemField("Client context", "clientContext", item?.clientContext, BD_FIELD_LIMITS.proofClientContext)}
-      ${itemField("Project slug", "projectSlug", item?.projectSlug, BD_FIELD_LIMITS.proofProjectSlug)}
+      ${itemField("Project slug", "projectSlug", item?.projectSlug, BD_FIELD_LIMITS.proofProjectSlug, false)}
       ${visibilitySelect(item?.visibility, "private")}
-      ${itemField("Asset path", "assetPath", item?.assetPath, BD_FIELD_LIMITS.proofAssetPath)}
+      ${itemField("Asset path", "assetPath", item?.assetPath, BD_FIELD_LIMITS.proofAssetPath, false)}
       ${itemTextarea("Problem", "problem", item?.problem, 3, BD_FIELD_LIMITS.proofProblem)}
       ${itemTextarea("Intervention", "intervention", item?.intervention, 3, BD_FIELD_LIMITS.proofIntervention)}
       ${itemTextarea("Outcome", "outcome", item?.outcome, 3, BD_FIELD_LIMITS.proofOutcome)}
@@ -217,12 +221,13 @@ export function renderBdBuilder(document, slug, options = {}) {
       </div>
       <nav class="button-row" aria-label="Business development document links">
         <a class="button button--subtle" href="/">Projects</a>
+        <a class="button button--subtle" href="/requests">Requests</a>
         <a class="button button--subtle" href="/bd/${slug}" data-preview-link="true">Preview</a>
         ${actionMenu(slug)}
       </nav>
     </header>
 
-    <form class="builder-form" id="bd-document-form" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(BD_CLIENT_FIELD_LIMITS)}">
+    <form class="builder-form" id="bd-document-form" data-information-subject-type="bd-document" data-slug="${slug}" data-revision="${options.revision || "new"}" data-field-limits="${safeJson(BD_CLIENT_FIELD_LIMITS)}">
       ${formCard("Positioning", html`<div class="field-grid">
           ${field("Title", "title", document.title)}
           ${textarea("Subtitle", "subtitle", document.subtitle, 3)}
@@ -296,6 +301,6 @@ export function renderBdBuilder(document, slug, options = {}) {
     body,
     bodyClass: "app-body",
     styles: ["/app/app.css"],
-    scripts: ["/app/bd-builder.js"]
+    scripts: ["/app/bd-builder.js", "/app/information-requests.js"]
   });
 }

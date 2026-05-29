@@ -77,8 +77,31 @@ const ENGINEERING_REPORT = {
   ]
 };
 
-test("dashboard defaults to case-study view with local creation action", () => {
-  const markup = toHtml(renderDashboard(PROJECTS, BD_DOCUMENTS));
+test("dashboard landing presents creation choices, recent files and imports", () => {
+  const markup = toHtml(renderDashboard(PROJECTS, BD_DOCUMENTS, {
+    engineeringReport: ENGINEERING_REPORT
+  }));
+
+  assert.match(markup, /<title>Document collaboration<\/title>/);
+  assert.match(markup, /Start the right document/);
+  assert.match(markup, />New case study</);
+  assert.match(markup, />New BD document</);
+  assert.match(markup, />New engineering report</);
+  assert.match(markup, />New monthly report</);
+  assert.match(markup, /href="\/builder\/new-monthly-report\?template=monthly-report"/);
+  assert.match(markup, /Recent saved files/);
+  assert.match(markup, /Sample case study/);
+  assert.match(markup, /Sample BD document/);
+  assert.match(markup, /Import new files/);
+  assert.match(markup, /data-dashboard-import/);
+  assert.match(markup, /data-import-kind="project"/);
+  assert.match(markup, /data-import-kind="bd"/);
+  assert.match(markup, /data-dashboard-import-status/);
+  assert.match(markup, /src="\/app\/dashboard.js"/);
+});
+
+test("dashboard case-study view keeps local creation action", () => {
+  const markup = toHtml(renderDashboard(PROJECTS, BD_DOCUMENTS, { activeView: "case-studies" }));
 
   assert.match(markup, /<title>Case studies<\/title>/);
   assert.match(markup, /href="\/\?view=case-studies" aria-current="page"/);
@@ -98,7 +121,7 @@ test("dashboard BD view uses its own creation action", () => {
   assert.match(markup, /href="\/\?view=case-studies" aria-current="false"/);
   assert.match(markup, /href="\/\?view=bd-documents" aria-current="page"/);
   assert.match(markup, /href="\/\?view=engineering-reports" aria-current="false"/);
-  assert.match(markup, /href="\/bd-builder\/new-business-development-doc"/);
+  assert.match(markup, /href="\/bd-builder\/new-business-development-document\?template=business-development-document"/);
   assert.match(markup, />New BD document</);
   assert.doesNotMatch(markup, /New project/);
   assert.doesNotMatch(markup, /href="\/builder\/new-case-study"/);
