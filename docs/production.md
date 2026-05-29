@@ -13,6 +13,8 @@ This app is designed first as a local-first portfolio and business development d
 - Basic security headers are set on app, API and asset responses.
 - Production requires hashed user accounts from `AUTH_USERS_FILE` or `AUTH_USERS`.
 - User roles are enforced: `viewer` can read/export, `editor` can save/upload, `admin` has full access.
+- Information request response forms use high-entropy bearer tokens and bypass Basic Auth only for `/contribute/{token}` and the inbound `/api/engineering-report-contribution-replies` legacy email webhook.
+- Microsoft Graph sending stores delegated MSAL token caches encrypted at rest with `MICROSOFT_TOKEN_SECRET`.
 - Production requires HTTPS at the edge via `TRUST_PROXY=1` and `X-Forwarded-Proto: https`.
 - Production requires `BACKUP_DIR`; JSON saves, uploads and PDF exports are copied into timestamped backups.
 - PDF and banner exports are serialized through a queue and rendered by separate worker processes.
@@ -50,6 +52,12 @@ PORT=3000 \
 TRUST_PROXY=1 \
 AUTH_USERS_FILE=/secure/path/users.json \
 BACKUP_DIR=/secure/path/case-study-backups \
+PUBLIC_BASE_URL=https://your-domain.example \
+MICROSOFT_CLIENT_ID=your-app-client-id \
+MICROSOFT_CLIENT_SECRET=your-app-client-secret \
+MICROSOFT_TENANT_ID=your-tenant-id \
+MICROSOFT_REDIRECT_URI=https://your-domain.example/auth/microsoft/callback \
+MICROSOFT_TOKEN_SECRET=replace-with-a-long-random-secret \
 npm run dev
 ```
 
@@ -59,6 +67,12 @@ The reverse proxy must terminate TLS and forward:
 X-Forwarded-Proto: https
 Host: your-domain.example
 ```
+
+`PUBLIC_BASE_URL` is optional when the proxy forwards the public `Host` header correctly, but setting it keeps contribution and information request links stable.
+
+Microsoft Graph app registration permissions should cover delegated editor sign-in, email sending, Teams chat sending and Teams channel sending: `offline_access`, `User.Read`, `Mail.Send`, `Chat.Create`, `ChatMessage.Send`, `ChannelMessage.Send`, `Team.ReadBasic.All` and `Channel.ReadBasic.All`. Without the Microsoft environment variables, `/api/information-requests` still records requests but marks delivery as failed with setup guidance.
+
+To ingest reply emails automatically, configure your inbound email provider to POST JSON, form data, or plain text to `/api/engineering-report-contribution-replies`. The payload must include the generated contribution token in `token`, the subject, or the message body, and the reply text in a common body field such as `TextBody`, `stripped-text`, `body-plain`, `text` or `body`.
 
 Set `REQUIRE_HTTPS=0` only for isolated local production smoke tests.
 
@@ -97,7 +111,7 @@ These assert generated export file types and `1600x900` banner dimensions, exerc
 
 ## Storage and Restore
 
-Live JSON remains in `data/projects`, `data/bd-documents` and `data/engineering-report-images`. Uploaded project assets remain in `public/assets/projects`; uploaded report page images remain in `public/assets/engineering-reports`. With `BACKUP_DIR` configured, each save/upload/export creates a timestamped copy under the same relative path, for example:
+Live JSON remains in `data/projects`, `data/bd-documents`, `data/engineering-report-images`, `data/engineering-report-subsections`, `data/engineering-report-orders`, `data/engineering-report-contribution-requests` and `data/information-requests`. Microsoft token caches are stored under `data/microsoft-tokens` unless `MICROSOFT_TOKEN_DIR` is set. Uploaded project assets remain in `public/assets/projects`; uploaded report page images remain in `public/assets/engineering-reports`. With `BACKUP_DIR` configured, each save/upload/export creates a timestamped copy under the same relative path, for example:
 
 ```text
 BACKUP_DIR/2026-05-18T19-00-00-000Z/data/bd-documents/enterprise-build-support.json
@@ -110,5 +124,6 @@ Restore by copying the desired backup file back into the matching live path.
 
 - No database-backed audit trail.
 - No multi-user merge UI for conflicting edits.
+- Teams channel replies are not ingested automatically; recipients should use the secure response form link.
 - PDF and banner exports intentionally remain queued and process-isolated on the same host for this deployment model.
 - Uploaded assets intentionally remain on local disk with `BACKUP_DIR` snapshots for this deployment model.

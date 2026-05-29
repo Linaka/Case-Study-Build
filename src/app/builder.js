@@ -166,10 +166,14 @@ function initializeCharacterCounters(root = form) {
 
 function createField(labelText, fieldName, value = "", multiline = false, maxLength = limitForField(fieldName), type = "text") {
   const label = document.createElement("label");
+  const labelRow = document.createElement("span");
   const labelTextNode = document.createElement("span");
+  const requestable = fieldName !== "path" && type !== "number";
   const control = document.createElement(multiline ? "textarea" : "input");
 
   label.className = multiline ? "field field--wide" : "field";
+  labelRow.className = "field__label-row";
+  labelTextNode.className = "field__label-text";
   labelTextNode.textContent = labelText;
   control.dataset.field = fieldName;
   control.value = value;
@@ -186,7 +190,18 @@ function createField(labelText, fieldName, value = "", multiline = false, maxLen
     }
   }
 
-  label.append(labelTextNode, control);
+  labelRow.append(labelTextNode);
+  if (requestable) {
+    const requestButton = document.createElement("button");
+
+    requestButton.className = "information-request-button";
+    requestButton.type = "button";
+    requestButton.dataset.informationRequestButton = "";
+    requestButton.setAttribute("aria-label", `Request information for ${labelText}`);
+    requestButton.textContent = "Request information";
+    labelRow.append(requestButton);
+  }
+  label.append(labelRow, control);
   attachCharacterCounter(control);
   return label;
 }

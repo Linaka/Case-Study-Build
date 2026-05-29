@@ -277,15 +277,19 @@ export async function listBdDocuments() {
 
   for (const file of files.filter(file => file.endsWith(".json")).sort()) {
     const slug = file.replace(/\.json$/, "");
+    let stats = null;
 
     try {
+      const filePath = bdDocumentPath(slug);
+      stats = await fs.stat(filePath).catch(() => null);
       const document = await readBdDocument(slug);
       documents.push({
         slug,
         title: document.title || slug,
         subtitle: document.subtitle,
         year: document.year,
-        audience: document.audience
+        audience: document.audience,
+        updatedAt: stats?.mtime.toISOString() || ""
       });
     } catch {
       documents.push({
@@ -293,12 +297,18 @@ export async function listBdDocuments() {
         title: slug,
         subtitle: "Could not read business development JSON.",
         year: "",
-        audience: ""
+        audience: "",
+        updatedAt: stats?.mtime.toISOString() || ""
       });
     }
   }
 
-  return documents;
+  return documents.sort((left, right) => {
+    const leftTime = Date.parse(left.updatedAt || "") || 0;
+    const rightTime = Date.parse(right.updatedAt || "") || 0;
+
+    return rightTime - leftTime;
+  });
 }
 
 export async function readBdDocument(slug) {

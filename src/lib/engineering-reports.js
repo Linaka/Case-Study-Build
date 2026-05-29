@@ -617,7 +617,11 @@ export function parseEngineeringReportOutline(markdown, options = {}) {
 
 export async function readEngineeringReport(slug = DEFAULT_REPORT_SLUG) {
   const safeSlug = assertEngineeringReportSlug(slug);
-  const markdown = await fs.readFile(reportPath(safeSlug), "utf8");
+  const filePath = reportPath(safeSlug);
+  const [markdown, stats] = await Promise.all([
+    fs.readFile(filePath, "utf8"),
+    fs.stat(filePath)
+  ]);
   const [imageManifest, spreadsheetManifest, subsectionManifest, orderManifest] = await Promise.all([
     readImageManifest(safeSlug),
     readSpreadsheetManifest(safeSlug),
@@ -630,6 +634,8 @@ export async function readEngineeringReport(slug = DEFAULT_REPORT_SLUG) {
   attachSpreadsheets(report, spreadsheetManifest);
   attachSubsectionDrafts(report, subsectionManifest);
   applyOrder(report, orderManifest);
+
+  report.updatedAt = stats.mtime.toISOString();
 
   return report;
 }
