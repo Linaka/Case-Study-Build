@@ -4,33 +4,18 @@ import path from "node:path";
 
 import { backupExistingFile } from "./backups.js";
 import {
-  assertBdDocumentSlug,
-  readBdDocument,
-  readBdDocumentRecord,
-  saveBdDocumentRecord
-} from "./bd-documents.js";
-import {
-  assertEngineeringReportPageKind,
-  assertEngineeringReportSlug,
-  findEngineeringReportSection,
-  findEngineeringReportSubsection,
-  readEngineeringReport,
-  saveEngineeringReportSectionDraft,
-  saveEngineeringReportSubsectionDraft
-} from "./engineering-reports.js";
-import {
-  assertProjectSlug,
-  readProject,
-  readProjectRecord,
-  saveProjectRecord
-} from "./projects.js";
+  INFORMATION_SUBJECT_TYPES,
+  INFORMATION_TARGET_KINDS,
+  applyInformationResponse,
+  assertInformationSubjectSlug,
+  assertInformationTargetPath,
+  resolveInformationTarget
+} from "./information-request-adapters.js";
 
 const INFORMATION_REQUESTS_DIR = path.resolve(
   process.env.INFORMATION_REQUESTS_DIR || path.join(process.cwd(), "data/information-requests")
 );
 const TOKEN_PATTERN = /^[a-f0-9]{48}$/;
-const SUBJECT_TYPES = new Set(["project", "bd-document", "engineering-report"]);
-const TARGET_KINDS = new Set(["field", "list-item", "section", "subsection"]);
 const CHANNELS = new Set(["email", "teams-chat", "teams-channel"]);
 const DELIVERY_STATES = new Set(["pending", "sent", "failed"]);
 const RESPONSE_STATES = new Set(["pending", "received", "applied", "apply-failed"]);
@@ -38,50 +23,8 @@ const MAX_EMAIL_LENGTH = 320;
 const MAX_NAME_LENGTH = 120;
 const MAX_MESSAGE_LENGTH = 2000;
 const MAX_TITLE_LENGTH = 240;
-const MAX_PATH_LENGTH = 240;
 const MAX_RESPONSE_BODY_LENGTH = 60_000;
 const MAX_DELIVERY_ERROR_LENGTH = 1200;
-
-const PROJECT_TEXT_FIELDS = new Set([
-  "title",
-  "subtitle",
-  "year",
-  "sector",
-  "clientType",
-  "role",
-  "collaborators",
-  "context",
-  "challenge",
-  "audience",
-  "approach",
-  "reflection",
-  "confidentialityNotes"
-]);
-const PROJECT_LIST_FIELDS = new Map([
-  ["keyDecisions", new Set(["title", "description"])],
-  ["outputs", new Set(["title", "description"])],
-  ["impact", new Set(["metric", "unit", "description"])]
-]);
-const BD_TEXT_FIELDS = new Set([
-  "title",
-  "subtitle",
-  "year",
-  "audience",
-  "positioning",
-  "executivePromise",
-  "processSummary",
-  "nextSteps",
-  "primaryCta",
-  "secondaryCta",
-  "confidentialityNotes"
-]);
-const BD_LIST_FIELDS = new Map([
-  ["buyerProblems", new Set(["title", "description"])],
-  ["offerPillars", new Set(["title", "description", "deliverables"])],
-  ["process", new Set(["title", "description"])],
-  ["proofSections", new Set(["headline", "clientContext", "problem", "intervention", "outcome", "evidence"])],
-  ["engagementModels", new Set(["title", "bestFor", "scope", "timeline"])]
-]);
 
 function asText(value) {
   return String(value ?? "").trim();
@@ -166,12 +109,8 @@ function normalizeSubject(subject) {
     throw requestError("Request subject must be an object.", 422);
   }
 
-  const type = normalizeEnum("Request subject type", subject.type, SUBJECT_TYPES);
-  const slug = type === "bd-document"
-    ? assertBdDocumentSlug(subject.slug)
-    : type === "engineering-report"
-      ? assertEngineeringReportSlug(subject.slug)
-      : assertProjectSlug(subject.slug);
+  const type = normalizeEnum("Request subject type", subject.type, INFORMATION_SUBJECT_TYPES);
+  const slug = assertInformationSubjectSlug(type, subject.slug);
 
   return {
     type,
@@ -180,15 +119,13 @@ function normalizeSubject(subject) {
   };
 }
 
-function normalizeTarget(target) {
+function normalizeTarget(target, subjectType) {
   if (!target || typeof target !== "object") {
     throw requestError("Request target must be an object.", 422);
   }
 
-  const kind = normalizeEnum("Request target kind", target.kind, TARGET_KINDS);
-  const pathValue = kind === "section" || kind === "subsection"
-    ? assertEngineeringReportSlug(target.path || target.slug)
-    : boundedText("Request target path", target.path, MAX_PATH_LENGTH);
+  const kind = normalizeEnum("Request target kind", target.kind, INFORMATION_TARGET_KINDS);
+  const pathValue = assertInformationTargetPath(subjectType, kind, target.path || target.slug);
 
   if (!pathValue) {
     throw requestError("Request target path is required.", 422);
@@ -266,6 +203,7 @@ function normalizeResponse(response) {
 function normalizeInformationRequest(request) {
   const channel = normalizeEnum("Request channel", request?.channel, CHANNELS);
   const recipients = normalizeRecipients(request?.recipients);
+  const subject = normalizeSubject(request?.subject);
 
   if (channel !== "teams-channel" && recipients.length === 0) {
     throw requestError("Email and Teams chat requests need at least one recipient.", 422);
@@ -273,8 +211,8 @@ function normalizeInformationRequest(request) {
 
   return {
     token: assertInformationRequestToken(request?.token),
-    subject: normalizeSubject(request?.subject),
-    target: normalizeTarget(request?.target),
+    subject,
+    target: normalizeTarget(request?.target, subject.type),
     channel,
     recipients,
     message: boundedText("Message", request?.message, MAX_MESSAGE_LENGTH),
@@ -301,159 +239,6 @@ async function writeInformationRequest(request) {
   return normalized;
 }
 
-function parseTargetPath(pathValue) {
-  const parts = asText(pathValue).split(".").filter(Boolean);
-
-  if (parts.some(part => ["__proto__", "prototype", "constructor"].includes(part))) {
-    throw requestError("Request target path is invalid.", 422);
-  }
-
-  return parts;
-}
-
-function listTargetValue(document, pathValue, listFields, textFields) {
-  const parts = parseTargetPath(pathValue);
-
-  if (parts.length === 1) {
-    if (!textFields.has(parts[0])) {
-      throw requestError("Request target field is not supported.", 422);
-    }
-
-    const value = document[parts[0]];
-
-    return Array.isArray(value) ? value.join("\n") : asText(value);
-  }
-
-  if (parts.length !== 3) {
-    throw requestError("Request target path is invalid.", 422);
-  }
-
-  const [listName, indexValue, fieldName] = parts;
-  const fields = listFields.get(listName);
-  const index = Number(indexValue);
-
-  if (!fields?.has(fieldName) || !Number.isInteger(index) || index < 0 || !Array.isArray(document[listName]) || !document[listName][index]) {
-    throw requestError("Request target list item is not supported.", 422);
-  }
-
-  const value = document[listName][index][fieldName];
-
-  return Array.isArray(value) ? value.join("\n") : asText(value);
-}
-
-function setTargetValue(document, pathValue, body, listFields, textFields) {
-  const parts = parseTargetPath(pathValue);
-
-  if (parts.length === 1) {
-    if (!textFields.has(parts[0])) {
-      throw requestError("Request target field is not supported.", 422);
-    }
-
-    document[parts[0]] = body;
-    return;
-  }
-
-  if (parts.length !== 3) {
-    throw requestError("Request target path is invalid.", 422);
-  }
-
-  const [listName, indexValue, fieldName] = parts;
-  const fields = listFields.get(listName);
-  const index = Number(indexValue);
-
-  if (!fields?.has(fieldName) || !Number.isInteger(index) || index < 0 || !Array.isArray(document[listName]) || !document[listName][index]) {
-    throw requestError("Request target list item is not supported.", 422);
-  }
-
-  document[listName][index][fieldName] = fieldName === "deliverables"
-    ? body.split(/\n+/).map(item => item.trim()).filter(Boolean)
-    : body;
-}
-
-function fieldLabelFromPath(pathValue) {
-  const parts = parseTargetPath(pathValue);
-
-  if (parts.length === 1) {
-    return parts[0].replace(/([A-Z])/g, " $1").replace(/^./, match => match.toUpperCase());
-  }
-
-  if (parts.length === 3) {
-    return `${parts[0]} item ${Number(parts[1]) + 1} ${parts[2]}`;
-  }
-
-  return pathValue;
-}
-
-async function projectTarget(subjectSlug, targetPath) {
-  const project = await readProject(subjectSlug);
-
-  return {
-    title: project.title || subjectSlug,
-    label: fieldLabelFromPath(targetPath),
-    currentBody: listTargetValue(project, targetPath, PROJECT_LIST_FIELDS, PROJECT_TEXT_FIELDS)
-  };
-}
-
-async function bdTarget(subjectSlug, targetPath) {
-  const document = await readBdDocument(subjectSlug);
-
-  return {
-    title: document.title || subjectSlug,
-    label: fieldLabelFromPath(targetPath),
-    currentBody: listTargetValue(document, targetPath, BD_LIST_FIELDS, BD_TEXT_FIELDS)
-  };
-}
-
-async function engineeringTarget(subjectSlug, kind, targetPath) {
-  const report = await readEngineeringReport(subjectSlug);
-  const target = kind === "section"
-    ? findEngineeringReportSection(report, targetPath)
-    : findEngineeringReportSubsection(report, targetPath);
-  const label = [
-    kind === "section" ? "Section" : "Subsection",
-    target.number,
-    target.title
-  ].filter(Boolean).join(" ");
-
-  return {
-    title: report.title || subjectSlug,
-    label,
-    currentBody: asText(target.draft?.body)
-  };
-}
-
-async function applyProjectResponse(request, body) {
-  const record = await readProjectRecord(request.subject.slug);
-
-  setTargetValue(record.project, request.target.path, body, PROJECT_LIST_FIELDS, PROJECT_TEXT_FIELDS);
-  await saveProjectRecord(request.subject.slug, record.project, "*");
-}
-
-async function applyBdResponse(request, body) {
-  const record = await readBdDocumentRecord(request.subject.slug);
-
-  setTargetValue(record.document, request.target.path, body, BD_LIST_FIELDS, BD_TEXT_FIELDS);
-  await saveBdDocumentRecord(request.subject.slug, record.document, "*");
-}
-
-async function applyEngineeringResponse(request, body, contributorName) {
-  if (request.target.kind === "section") {
-    await saveEngineeringReportSectionDraft(request.subject.slug, request.target.path, { body });
-    return;
-  }
-
-  if (request.target.kind === "subsection") {
-    await saveEngineeringReportSubsectionDraft(request.subject.slug, request.target.path, {
-      body,
-      owner: contributorName || request.recipients[0]?.name || request.recipients[0]?.email,
-      status: "review"
-    });
-    return;
-  }
-
-  throw requestError("Engineering report requests must target a section or subsection.", 422);
-}
-
 export function assertInformationRequestToken(token) {
   const normalized = asText(token);
 
@@ -465,21 +250,16 @@ export function assertInformationRequestToken(token) {
 }
 
 export async function resolveInformationRequestTarget({ subjectType, subjectSlug, targetKind, targetPath }) {
-  const safeSubjectType = normalizeEnum("Request subject type", subjectType, SUBJECT_TYPES);
-  const safeTargetKind = normalizeEnum("Request target kind", targetKind, TARGET_KINDS);
-  const safeSubjectSlug = safeSubjectType === "bd-document"
-    ? assertBdDocumentSlug(subjectSlug)
-    : safeSubjectType === "engineering-report"
-      ? assertEngineeringReportSlug(subjectSlug)
-      : assertProjectSlug(subjectSlug);
-  const safeTargetPath = safeTargetKind === "section" || safeTargetKind === "subsection"
-    ? assertEngineeringReportSlug(targetPath)
-    : boundedText("Request target path", targetPath, MAX_PATH_LENGTH);
-  const resolved = safeSubjectType === "project"
-    ? await projectTarget(safeSubjectSlug, safeTargetPath)
-    : safeSubjectType === "bd-document"
-      ? await bdTarget(safeSubjectSlug, safeTargetPath)
-      : await engineeringTarget(safeSubjectSlug, assertEngineeringReportPageKind(safeTargetKind), safeTargetPath);
+  const safeSubjectType = normalizeEnum("Request subject type", subjectType, INFORMATION_SUBJECT_TYPES);
+  const safeTargetKind = normalizeEnum("Request target kind", targetKind, INFORMATION_TARGET_KINDS);
+  const safeSubjectSlug = assertInformationSubjectSlug(safeSubjectType, subjectSlug);
+  const safeTargetPath = assertInformationTargetPath(safeSubjectType, safeTargetKind, targetPath);
+  const resolved = await resolveInformationTarget({
+    subjectType: safeSubjectType,
+    subjectSlug: safeSubjectSlug,
+    targetKind: safeTargetKind,
+    targetPath: safeTargetPath
+  });
 
   return {
     subject: {
@@ -611,14 +391,7 @@ export async function receiveInformationRequestResponse(token, response) {
   }
 
   try {
-    if (request.subject.type === "project") {
-      await applyProjectResponse(request, body);
-    } else if (request.subject.type === "bd-document") {
-      await applyBdResponse(request, body);
-    } else {
-      await applyEngineeringResponse(request, body, contributorName);
-    }
-
+    await applyInformationResponse(request, body, contributorName);
     appliedAt = new Date().toISOString();
   } catch (error) {
     applyError = boundedText("Apply error", error?.message || "Response could not be applied.", MAX_DELIVERY_ERROR_LENGTH);

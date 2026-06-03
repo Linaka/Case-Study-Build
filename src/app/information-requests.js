@@ -59,7 +59,10 @@ function labelForButton(button) {
     return button.dataset.targetLabel;
   }
 
-  return button.closest(".field")?.querySelector(".field__label-text, span")?.textContent?.trim() || "this field";
+  const field = button.closest(".field");
+  const explicitLabel = field?.querySelector(".field__label-text")?.textContent?.trim();
+
+  return explicitLabel || field?.querySelector("span")?.textContent?.trim() || "this field";
 }
 
 function requestContext(button) {
