@@ -1,0 +1,12 @@
+:root {
+  --ink: #000000;
+  --canvas: #ffffff;
+  --canvas-soft: #efefef;
+  --canvas-softer: #f6f6f6;
+  --hairline: #d8d8d8;
+  --body: #5e5e5e;
+  --mute: #afafaf;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --font: "BH Brandon", "Myriad Pro", Arial, Helvetica, sans-serif;
+}

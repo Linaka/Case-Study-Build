@@ -1,22 +1,18 @@
 import path from "node:path";
-import { createRequire } from "node:module";
 
 import { BD_FIELD_LIMITS, PROJECT_FIELD_LIMITS } from "./limits.js";
+import {
+  MAX_PDF_BYTES,
+  assertPdfUpload,
+  cleanPdfText,
+  extractPdfText,
+  usablePdfTitle
+} from "./pdf-text.js";
 
-const require = createRequire(import.meta.url);
-const parsePdf = require("pdf-parse/lib/pdf-parse.js");
+export { MAX_PDF_BYTES, assertPdfUpload, extractPdfText };
 
-export const MAX_PDF_BYTES = 20 * 1024 * 1024;
-
-const PDF_CONTENT_TYPES = new Set(["application/pdf", "application/x-pdf", "application/octet-stream"]);
 const STATUS_WORDS = new Set(["public", "private", "hidden"]);
 const STATUS_FRAGMENTS = new Set(["pu", "blic", "pri", "priv", "vat", "ate", "e"]);
-
-function pdfImportError(message, status = 400) {
-  const error = new Error(message);
-  error.status = status;
-  return error;
-}
 
 function asText(value) {
   return String(value ?? "").trim();
@@ -41,12 +37,7 @@ function joinLines(lines) {
 }
 
 function cleanText(text) {
-  return asText(text)
-    .replace(/\u0000/g, "")
-    .replace(/\r/g, "\n")
-    .replace(/[ \t]+/g, " ")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  return cleanPdfText(text);
 }
 
 function cleanLines(text) {
@@ -184,16 +175,6 @@ function titleFromFileName(fileName, fallback = "Imported PDF") {
   const title = baseName.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
 
   return title || fallback;
-}
-
-function usablePdfTitle(title) {
-  const text = asText(title);
-
-  if (!text || /^about:blank$/i.test(text)) {
-    return "";
-  }
-
-  return text;
 }
 
 function coverLinesBefore(lines, firstSectionLabel) {
@@ -564,33 +545,6 @@ export function projectDraftFromPdfText(text, options = {}) {
 
 export function bdDocumentDraftFromPdfText(text, options = {}) {
   return parseBdDraft(text, options);
-}
-
-export function assertPdfUpload(file, contentType) {
-  const normalizedType = String(contentType || "").split(";")[0].trim().toLowerCase();
-
-  if (normalizedType && !PDF_CONTENT_TYPES.has(normalizedType)) {
-    throw pdfImportError("Unsupported file type. Use a PDF file.", 415);
-  }
-
-  if (!file.subarray(0, 5).equals(Buffer.from("%PDF-"))) {
-    throw pdfImportError("PDF import does not look like a valid PDF file.", 415);
-  }
-}
-
-export async function extractPdfText(file) {
-  const parsed = await parsePdf(file);
-  const text = cleanText(parsed.text || "");
-
-  if (!text) {
-    throw pdfImportError("PDF text could not be read. Use a text-based PDF rather than a scanned image.", 422);
-  }
-
-  return {
-    text,
-    pageCount: Number(parsed.numpages || 0),
-    title: usablePdfTitle(parsed.info?.Title)
-  };
 }
 
 export async function importProjectPdf(file, options = {}) {

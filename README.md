@@ -12,6 +12,17 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+### Windows without admin rights
+
+On Windows, use the portable launchers from the project folder:
+
+```text
+Install-Windows.cmd
+Run-Windows.cmd
+```
+
+`Run-Windows.cmd` also performs the first-time setup if needed. It installs portable Node.js, npm dependencies and Playwright Chromium inside `.runtime` and `node_modules`, so it does not need admin rights or a machine-wide Node install. See `docs/windows-portable.md` for options and troubleshooting.
+
 `npm run setup:local` installs the Playwright Chromium browser that PDF and banner exports need on each machine. If PDF or banner export fails after moving to another computer, run:
 
 ```bash
